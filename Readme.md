@@ -1,0 +1,1 @@
+Programa encargado de gestionar multiples departamentos de una empresa
