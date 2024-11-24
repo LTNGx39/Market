@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
@@ -14,6 +15,8 @@ public class TitleBar extends javax.swing.JPanel {
 
     private CornerButton back, close;
     private JLabel title;
+
+    private boolean inMenu = true;
     
     public TitleBar(Frame frame) {
 
@@ -25,11 +28,27 @@ public class TitleBar extends javax.swing.JPanel {
         setLayout(new GridBagLayout());
 
         // Configuracion de componentes
-        back = new CornerButton(Palette.GRAY);
-        back.setCorner(Corner.left);
+        back = new CornerButton(this, Palette.GRAY);
+        back.setCorner(CustomShape.left);
+        back.setEnabled(false);
+        back.addActionListener(new ActionListener() {
 
-        close = new CornerButton(Palette.RED);
-        close.setCorner(Corner.right);
+            int i = 0;
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                getLeftButton().setIsMouseOver(false);
+                getLeftButton().setEnabled(false);
+                setTitle("Market");
+                inMenu = true;
+
+            }
+
+        });
+
+        close = new CornerButton(this, Palette.RED);
+        close.setCorner(CustomShape.right);
         close.addActionListener(new ActionListener() {
             
             @Override
@@ -95,15 +114,30 @@ public class TitleBar extends javax.swing.JPanel {
         title.setText(text);
     }
 
+    public boolean getInMenu() {
+        return inMenu;
+    }
+
+    public void setInMenu(boolean inMenu) {
+        this.inMenu = inMenu;
+    }
+
+    public CornerButton getLeftButton() {
+        return back;
+    }
+
 }
 
 class CornerButton extends javax.swing.JButton {
 
-    boolean isMouseOver;
-    Shape corner;
+    private TitleBar titleBar;
 
-    public CornerButton(Color baseColor) {
+    private boolean isMouseOver;
+    private Shape corner;
 
+    public CornerButton(TitleBar titleBar, Color baseColor) {
+
+        this.titleBar = titleBar;
         setPreferredSize(new Dimension(48, 32));
         setContentAreaFilled(false);
         setBorderPainted(false);
@@ -128,6 +162,10 @@ class CornerButton extends javax.swing.JButton {
 
     }
 
+    public void setIsMouseOver(boolean value) {
+        isMouseOver = value;
+    }
+
     public void setCorner(Shape corner) {
         this.corner = corner;
     }
@@ -146,13 +184,24 @@ class CornerButton extends javax.swing.JButton {
         }
         g2.fill(corner);
 
+        g2.translate(24, 16);
+        g2.setColor(Palette.WHITE);
+
+        if (corner == CustomShape.left) {
+            if (!titleBar.getInMenu()) {
+                g2.fill(CustomShape.back);
+            }
+        } else {
+            g2.fill(CustomShape.cross);
+        }
+
     }
 
 }
 
-class Corner {
+class CustomShape {
 
-    public static Shape left, right;
+    public static Shape left, right, back, cross;
 
     static {
 
@@ -167,6 +216,34 @@ class Corner {
         rightA.add(new Area(new Rectangle2D.Double(0, 0, 24, 32)));
         rightA.add(new Area(new Rectangle2D.Double(0, 16, 48,16)));
         right = rightA;
+
+        // Back
+        Area backA = new Area(new Rectangle2D.Double(2, 6, 8, 2));
+        Area backA1 = new Area(new Rectangle2D.Double(0, 0, 2, 7));
+        Area backA2 = new Area(new Rectangle2D.Double(0, 7, 2, 7));
+
+        AffineTransform backT = new AffineTransform();
+        backT.rotate(Math.toRadians(45), 0, 7);
+        backA1.transform(backT);
+        backT.rotate(Math.toRadians(-90), 0, 7);
+        backA2.transform(backT);
+        
+        backA.add(backA1);
+        backA.add(backA2);
+        backT.rotate(Math.toRadians(45), 0, 7);
+        backT.translate(-5, -7);
+        backA.transform(backT);
+        back = backA;
+
+        // Cross
+        Area crossA = new Area(new Rectangle(0, 5, 12, 2));
+        crossA.add(new Area(new Rectangle(5, 0, 2, 12)));
+
+        AffineTransform crossT = new AffineTransform();
+        crossT.translate(-6, -6);
+        crossT.rotate(Math.toRadians(45), 6, 6);
+        crossA.transform(crossT);
+        cross = crossA;
 
     }
 

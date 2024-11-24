@@ -25,6 +25,12 @@ public class Frame extends javax.swing.JFrame {
 
     }
 
+    public TitleBar getTitleBar() {
+
+        return titleBar;
+
+    }
+
     public int getUsableWidth() {
         
         return getWidth() - 2;

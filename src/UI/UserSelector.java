@@ -2,6 +2,8 @@ package UI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
@@ -24,9 +26,9 @@ public class UserSelector extends javax.swing.JPanel {
         sellText = new TextLabel("Ventas", CustomFont.interMedium, 18.0F);
         memberText = new TextLabel("Membresias", CustomFont.interMedium, 18.0F);
 
-        admin = new UserButton("src/Media/Image/pink.png");
-        sell = new UserButton("src/Media/Image/blue.png");
-        member = new UserButton("src/Media/Image/yellow.png");
+        admin = new UserButton(frame, "src/Media/Image/pink.png", adminText);
+        sell = new UserButton(frame, "src/Media/Image/blue.png", sellText);
+        member = new UserButton(frame, "src/Media/Image/yellow.png", memberText);
 
         // Agregar los componentes
         GridBagConstraints gbc = new GridBagConstraints();
@@ -69,11 +71,15 @@ public class UserSelector extends javax.swing.JPanel {
 
 class UserButton extends javax.swing.JButton {
 
-    boolean isMouseOver;
+    private Frame frame;
+    private String name;
+    private boolean isMouseOver;
 
-    public UserButton(String imagePath) {
+    public UserButton(Frame frame, String imagePath, TextLabel label) {
 
         super(new ImageIcon(imagePath));
+        this.frame = frame;
+        name = label.getText();
         setPreferredSize(new Dimension(140, 140));
         setContentAreaFilled(false);
         setBorderPainted(false);
@@ -94,6 +100,23 @@ class UserButton extends javax.swing.JButton {
 
         });
 
+        addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                frame.getTitleBar().setTitle(getName());
+                frame.getTitleBar().getLeftButton().setEnabled(true);
+                frame.getTitleBar().setInMenu(false);
+
+            }
+            
+        });
+
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override
