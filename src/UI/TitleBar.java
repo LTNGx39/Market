@@ -2,6 +2,8 @@ package UI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Area;
@@ -10,7 +12,7 @@ import java.awt.geom.RoundRectangle2D;
 
 public class TitleBar extends javax.swing.JPanel {
 
-    private CustomButton back, close;
+    private CornerButton back, close;
     private JLabel title;
     
     public TitleBar(Frame frame) {
@@ -23,10 +25,22 @@ public class TitleBar extends javax.swing.JPanel {
         setLayout(new GridBagLayout());
 
         // Configuracion de componentes
-        back = new CustomButton(Palette.GRAY);
+        back = new CornerButton(Palette.GRAY);
         back.setCorner(Corner.left);
-        close = new CustomButton(Palette.RED);
+
+        close = new CornerButton(Palette.RED);
         close.setCorner(Corner.right);
+        close.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                frame.dispose();
+                System.exit(0);
+
+            }
+
+        });
 
         title = new JLabel("Market") {
             {
@@ -83,15 +97,13 @@ public class TitleBar extends javax.swing.JPanel {
 
 }
 
-class CustomButton extends javax.swing.JButton {
+class CornerButton extends javax.swing.JButton {
 
     boolean isMouseOver;
     Shape corner;
 
-    public CustomButton(Color baseColor) {
+    public CornerButton(Color baseColor) {
 
-        super();
-    
         setPreferredSize(new Dimension(48, 32));
         setContentAreaFilled(false);
         setBorderPainted(false);
