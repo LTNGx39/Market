@@ -24,9 +24,9 @@ public class UserSelector extends javax.swing.JPanel {
         sellText = new TextLabel("Ventas", CustomFont.interMedium, 18.0F);
         memberText = new TextLabel("Membresias", CustomFont.interMedium, 18.0F);
 
-        admin = new UserButton("src/Media/Image/bochi.png");
-        sell = new UserButton("src/Media/Image/miku.png");
-        member = new UserButton("src/Media/Image/cat.png");
+        admin = new UserButton("src/Media/Image/pink.png");
+        sell = new UserButton("src/Media/Image/blue.png");
+        member = new UserButton("src/Media/Image/yellow.png");
 
         // Agregar los componentes
         GridBagConstraints gbc = new GridBagConstraints();
@@ -79,7 +79,6 @@ class UserButton extends javax.swing.JButton {
         setBorderPainted(false);
         setFocusPainted(false);
         setOpaque(false);
-        // setForeground(getBackground());
 
         addMouseListener(new MouseAdapter() {
             
@@ -104,7 +103,7 @@ class UserButton extends javax.swing.JButton {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
-        g2.setColor(Palette.GRAY);
+        g2.setColor(Palette.WHITE);
         if (isMouseOver) {
             g2.fill(new Ellipse2D.Double(0, 0, getWidth(), getHeight()));
         }
