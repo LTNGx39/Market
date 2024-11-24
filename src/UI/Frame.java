@@ -6,6 +6,9 @@ import java.awt.geom.RoundRectangle2D;
 
 public class Frame extends javax.swing.JFrame {
 
+    private TitleBar titleBar;
+    private UserSelector userSelector;
+
     public Frame(int width, int height) {
 
         setSize(width + 2, height + 2);
@@ -13,6 +16,24 @@ public class Frame extends javax.swing.JFrame {
         setUndecorated(true);
         setContentPane(new CustomPane(this));
         setBackground(Palette.ALPHA_0);
+
+        titleBar = new TitleBar(this);
+        userSelector = new UserSelector(this);
+        
+        add(titleBar);
+        add(userSelector);
+
+    }
+
+    public int getUsableWidth() {
+        
+        return getWidth() - 2;
+
+    }
+
+    public int getUsableHeight() {
+        
+        return getHeight() - 2;
 
     }
 
@@ -25,6 +46,8 @@ class CustomPane extends javax.swing.JPanel {
     public CustomPane(Frame frame) {
 
         this.frame = frame;
+        setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
     }
 
