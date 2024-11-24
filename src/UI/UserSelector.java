@@ -22,9 +22,9 @@ public class UserSelector extends javax.swing.JPanel {
         // Configuracion de componentes
         title = new TextLabel("Elija un perfil", CustomFont.interSemiBold, 32.0F);
         title.setPreferredSize(new Dimension(300, 40));
-        adminText = new TextLabel("Administracion", CustomFont.interMedium, 18.0F);
-        sellText = new TextLabel("Ventas", CustomFont.interMedium, 18.0F);
-        memberText = new TextLabel("Membresias", CustomFont.interMedium, 18.0F);
+        adminText = new TextLabel("Administracion", CustomFont.interSemiBold, 18.0F);
+        sellText = new TextLabel("Ventas", CustomFont.interSemiBold, 18.0F);
+        memberText = new TextLabel("Membresias", CustomFont.interSemiBold, 18.0F);
 
         admin = new UserButton(frame, "src/Media/Image/pink.png", adminText);
         sell = new UserButton(frame, "src/Media/Image/blue.png", sellText);
