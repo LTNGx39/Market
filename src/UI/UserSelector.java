@@ -30,6 +30,40 @@ public class UserSelector extends javax.swing.JPanel {
         sell = new UserButton(frame, "src/Media/Image/blue.png", sellText);
         member = new UserButton(frame, "src/Media/Image/yellow.png", memberText);
 
+        // Listeners
+        admin.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                frame.getCard().show(frame.getPanelChanger(), "administracion");
+
+            }
+
+        });
+
+        sell.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                frame.getCard().show(frame.getPanelChanger(), "ventas");
+
+            }
+
+        });
+
+        member.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                frame.getCard().show(frame.getPanelChanger(), "membresias");
+
+            }
+
+        });
+
         // Agregar los componentes
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;

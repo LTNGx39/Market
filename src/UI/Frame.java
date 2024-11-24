@@ -7,7 +7,12 @@ import java.awt.geom.RoundRectangle2D;
 public class Frame extends javax.swing.JFrame {
 
     private TitleBar titleBar;
+    private CardLayout card;
+    private JPanel panelChanger;
     private UserSelector userSelector;
+    private Admin admin;
+    private Sales sales;
+    private Members members;
 
     public Frame(int width, int height) {
 
@@ -19,28 +24,46 @@ public class Frame extends javax.swing.JFrame {
 
         titleBar = new TitleBar(this);
         userSelector = new UserSelector(this);
+        admin = new Admin(this);
+        sales = new Sales(this);
+        members = new Members(this);
+
+        panelChanger = new JPanel();
+        card = new CardLayout();
+        panelChanger.setLayout(card);
+        panelChanger.setOpaque(false);
         
         add(titleBar);
-        add(userSelector);
+        add(panelChanger);
+        panelChanger.add(userSelector, "users");
+        panelChanger.add(admin, "administracion");
+        panelChanger.add(sales, "ventas");
+        panelChanger.add(members, "membresias");
 
+    }
+
+    public CardLayout getCard() {
+        return card;
+    }
+
+    public JPanel getPanelChanger() {
+        return panelChanger;
     }
 
     public TitleBar getTitleBar() {
-
         return titleBar;
+    }
 
+    public Admin getAdmin() {
+        return admin;
     }
 
     public int getUsableWidth() {
-        
         return getWidth() - 2;
-
     }
 
     public int getUsableHeight() {
-        
         return getHeight() - 2;
-
     }
 
 }

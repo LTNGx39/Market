@@ -32,11 +32,11 @@ public class TitleBar extends javax.swing.JPanel {
         back.setCorner(CustomShape.left);
         back.setEnabled(false);
         back.addActionListener(new ActionListener() {
-
-            int i = 0;
             
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                frame.getCard().show(frame.getPanelChanger(), "users");
 
                 getLeftButton().setIsMouseOver(false);
                 getLeftButton().setEnabled(false);
