@@ -5,6 +5,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
@@ -58,19 +60,21 @@ public class Admin extends javax.swing.JPanel {
         data.addRow(new Object[] {"Leche", "001", "Descripcion", "23$", "42$", "0", "4"});
 
         itemTable = new JTable(data);
-        itemTable.getTableHeader().setReorderingAllowed(false);
-        itemTable.getTableHeader().setResizingAllowed(false);
         itemTable.setFont(CustomFont.interRegular.deriveFont(14.0F));
+        itemTable.setRowHeight(30);
+        itemTable.setBackground(Palette.MAX_GRAY);
         itemTable.setForeground(Palette.WHITE);
-        itemTable.setBackground(Palette.DARK_GRAY);
         itemTable.setGridColor(Palette.GRID_GRAY);
         itemTable.setSelectionBackground(Palette.GRAY);
         itemTable.setSelectionForeground(Palette.WHITE);
-        itemTable.getTableHeader().setOpaque(false);
-        itemTable.getTableHeader().setFont(CustomFont.interRegular.deriveFont(14.0F));
+        itemTable.setOpaque(false);
+
+        itemTable.getTableHeader().setReorderingAllowed(false);
+        itemTable.getTableHeader().setResizingAllowed(false);
+        itemTable.getTableHeader().setFont(CustomFont.interMedium.deriveFont(14.0F));
         itemTable.getTableHeader().setBackground(Palette.GRID_GRAY);
         itemTable.getTableHeader().setForeground(Palette.WHITE);
-        itemTable.setOpaque(false);
+        itemTable.getTableHeader().setOpaque(false);
 
         JScrollPane scrollPanel = new JScrollPane(itemTable);
         scrollPanel.setPreferredSize(new Dimension(720, 398));
@@ -79,7 +83,19 @@ public class Admin extends javax.swing.JPanel {
         scrollPanel.setBorder(BorderFactory.createLineBorder(Palette.GRID_GRAY));
         scrollPanel.setOpaque(false);
         
+        // Botones
         addItem = new RoundButton(this, "Añadir");
+        addItem.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                new FieldFrame(frame, FieldFrame.ADD_ITEM);
+
+            }
+
+        });
+
         editItem = new RoundButton(this, "Editar");
         deleteItem = new RoundButton(this, "Eliminar");
 
