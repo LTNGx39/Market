@@ -1,4 +1,8 @@
-package UI;
+package UI.Panel;
+
+import UI.*;
+import UI.Assets.CustomFont;
+import UI.Assets.Palette;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -16,7 +20,7 @@ public class Admin extends javax.swing.JPanel {
     private JTable itemTable;
     private RoundButton addItem, editItem, deleteItem;
     
-    public Admin(Frame frame) {
+    public Admin(MainFrame frame) {
 
         setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
         setLayout(new GridBagLayout());

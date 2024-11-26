@@ -1,6 +1,11 @@
-package UI;
+package UI.Panel;
 
 import javax.swing.*;
+
+import UI.*;
+import UI.Assets.CustomFont;
+import UI.Assets.Palette;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,7 +23,7 @@ public class TitleBar extends javax.swing.JPanel {
 
     private boolean inMenu = true;
     
-    public TitleBar(Frame frame) {
+    public TitleBar(MainFrame frame) {
 
         setPreferredSize(new Dimension(frame.getUsableWidth(), 32));
         setMinimumSize(getPreferredSize());

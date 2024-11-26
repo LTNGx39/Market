@@ -1,10 +1,18 @@
 package UI;
 
 import javax.swing.*;
+
+import UI.Assets.Palette;
+import UI.Panel.Admin;
+import UI.Panel.Members;
+import UI.Panel.Sales;
+import UI.Panel.TitleBar;
+import UI.Panel.UserSelector;
+
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 
-public class Frame extends javax.swing.JFrame {
+public class MainFrame extends javax.swing.JFrame {
 
     private TitleBar titleBar;
     private CardLayout card;
@@ -14,7 +22,7 @@ public class Frame extends javax.swing.JFrame {
     private Sales sales;
     private Members members;
 
-    public Frame(int width, int height) {
+    public MainFrame(int width, int height) {
 
         setSize(width + 2, height + 2);
         setLocationRelativeTo(null);
@@ -70,9 +78,9 @@ public class Frame extends javax.swing.JFrame {
 
 class CustomPane extends javax.swing.JPanel {
     
-    Frame frame;
+    MainFrame frame;
 
-    public CustomPane(Frame frame) {
+    public CustomPane(MainFrame frame) {
 
         this.frame = frame;
         setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));

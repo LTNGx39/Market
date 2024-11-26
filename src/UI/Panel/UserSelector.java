@@ -1,6 +1,12 @@
-package UI;
+package UI.Panel;
 
 import javax.swing.*;
+
+import UI.*;
+import UI.MainFrame;
+import UI.Assets.CustomFont;
+import UI.Assets.Palette;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +19,7 @@ public class UserSelector extends javax.swing.JPanel {
     private UserButton admin, sell, member;
     private TextLabel title, adminText, sellText, memberText;
 
-    public UserSelector(Frame frame) {
+    public UserSelector(MainFrame frame) {
 
         setBorder(BorderFactory.createEmptyBorder(130, 130, 180, 130));
         setOpaque(false);
@@ -105,11 +111,11 @@ public class UserSelector extends javax.swing.JPanel {
 
 class UserButton extends javax.swing.JButton {
 
-    private Frame frame;
+    private MainFrame frame;
     private String name;
     private boolean isMouseOver;
 
-    public UserButton(Frame frame, String imagePath, TextLabel label) {
+    public UserButton(MainFrame frame, String imagePath, TextLabel label) {
 
         super(new ImageIcon(imagePath));
         this.frame = frame;

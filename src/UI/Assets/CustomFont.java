@@ -1,4 +1,4 @@
-package UI;
+package UI.Assets;
 
 import java.awt.Font;
 import java.awt.FontFormatException;

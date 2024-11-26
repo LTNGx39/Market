@@ -1,6 +1,11 @@
-package UI;
+package UI.Panel;
 
+import UI.*;
 import javax.swing.*;
+
+import UI.MainFrame;
+import UI.Assets.Palette;
+
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 
@@ -10,7 +15,7 @@ public class FieldFrame extends javax.swing.JFrame {
     public static final int EDIT_ITEM = 2;
     public static final int DELETE_ITEM = 3;
     
-    public FieldFrame(Frame frame, int type) {
+    public FieldFrame(MainFrame frame, int type) {
 
         Shadow shadow = new Shadow(frame);
         shadow.setVisible(true);
@@ -33,7 +38,7 @@ public class FieldFrame extends javax.swing.JFrame {
 
 class Shadow extends javax.swing.JFrame {
 
-    public Shadow(Frame frame) {
+    public Shadow(MainFrame frame) {
 
         setSize(frame.getWidth() - 2, frame.getHeight() - 2);
         setUndecorated(true);
