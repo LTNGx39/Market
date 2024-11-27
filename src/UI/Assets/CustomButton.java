@@ -74,7 +74,10 @@ public class CustomButton extends javax.swing.JButton {
                 break;
 
             case 3:
-            
+                setPreferredSize(new Dimension(180, 50));
+                setBackground(Palette.BLACK);
+                setForeground(Palette.WHITE);
+                shape = new RoundRectangle2D.Double(0, 0, 180, 50, 30, 30);
                 break;
 
         }
@@ -150,7 +153,12 @@ public class CustomButton extends javax.swing.JButton {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         if (isMouseOver) {
-            g2.setColor(getForeground());
+            if (!(ID == OPTION)) {
+                g2.setColor(getForeground());
+            } else {
+                g2.setColor(Palette.GRAY);
+            }
+            
         } else {
             g2.setColor(getBackground());
         }

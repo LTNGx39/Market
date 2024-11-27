@@ -2,15 +2,8 @@ package UI.Panel;
 
 import UI.*;
 import UI.Assets.CustomButton;
-import UI.Assets.CustomFont;
 import UI.Assets.CustomLabel;
-import UI.Assets.Palette;
-
-import javax.swing.*;
-
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -20,8 +13,6 @@ public class TitleBar extends javax.swing.JPanel {
 
     private CustomButton back, close;
     private CustomLabel title;
-
-    private boolean inMenu = true;
     
     public TitleBar(MainFrame mainFrame) {
 
@@ -37,7 +28,7 @@ public class TitleBar extends javax.swing.JPanel {
         back = new CustomButton(mainFrame, CustomButton.BACK);
         close = new CustomButton(mainFrame, CustomButton.CLOSE);
 
-        title = new CustomLabel(mainFrame, CustomLabel.SEMI_BOLD, "Market") {
+        title = new CustomLabel(mainFrame, CustomLabel.SEMI_BOLD, "Market", 16.0F) {
             {
                 setPreferredSize(new Dimension(mainFrame.getUsableWidth() - 96, 32));
 

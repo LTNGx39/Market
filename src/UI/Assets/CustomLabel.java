@@ -20,7 +20,7 @@ public class CustomLabel extends javax.swing.JLabel {
     private MainFrame mainFrame;
     private Font font;
     
-    public CustomLabel(MainFrame mainFrame, int ID, String text) {
+    public CustomLabel(MainFrame mainFrame, int ID, String text, Float size) {
 
         super(text);
         this.mainFrame = mainFrame;
@@ -47,15 +47,10 @@ public class CustomLabel extends javax.swing.JLabel {
         }
 
         // Caracteristicas generales
-        setFont(font);
+        setFont(font.deriveFont(size));
         setForeground(Palette.WHITE);
         setHorizontalAlignment(SwingConstants.CENTER);
 
-    }
-
-    @Override
-    public Font getFont() {
-        return font;
     }
 
 }

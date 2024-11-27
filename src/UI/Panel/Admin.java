@@ -1,16 +1,12 @@
 package UI.Panel;
 
 import UI.*;
+import UI.Assets.CustomButton;
 import UI.Assets.CustomFont;
 import UI.Assets.Palette;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
@@ -18,9 +14,9 @@ import java.awt.geom.RoundRectangle2D;
 public class Admin extends javax.swing.JPanel {
 
     private JTable itemTable;
-    private RoundButton addItem, editItem, deleteItem;
+    private CustomButton addItem, editItem, deleteItem;
     
-    public Admin(MainFrame frame) {
+    public Admin(MainFrame mainFrame) {
 
         setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
         setLayout(new GridBagLayout());
@@ -88,20 +84,17 @@ public class Admin extends javax.swing.JPanel {
         scrollPanel.setOpaque(false);
         
         // Botones
-        addItem = new RoundButton(this, "Añadir");
-        addItem.addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        addItem = new CustomButton(mainFrame, CustomButton.OPTION);
+        addItem.setText("Añadir item");
+        addItem.setFont(CustomFont.interBold);
 
-                new FieldFrame(frame, FieldFrame.ADD_ITEM);
+        editItem = new CustomButton(mainFrame, CustomButton.OPTION);
+        editItem.setText("Editar item");
+        editItem.setFont(CustomFont.interBold);
 
-            }
-
-        });
-
-        editItem = new RoundButton(this, "Editar");
-        deleteItem = new RoundButton(this, "Eliminar");
+        deleteItem = new CustomButton(mainFrame, CustomButton.OPTION);
+        deleteItem.setText("Eliminar item");
+        deleteItem.setFont(CustomFont.interBold);
 
         // Agregar los componentes
         GridBagConstraints gbc = new GridBagConstraints();
@@ -125,63 +118,6 @@ public class Admin extends javax.swing.JPanel {
         gbc.gridx = 2;
         gbc.insets = new Insets(0, 0, 0, 60);
         add(deleteItem, gbc);
-
-    }
-
-}
-
-class RoundButton extends javax.swing.JButton {
-
-    private Admin admin;
-
-    private boolean isMouseOver = false;
-    private Shape rectangle = new RoundRectangle2D.Double(0, 0, 180, 50, 20, 20);;
-
-    public RoundButton(Admin admin, String text) {
-
-        super(text);
-        this.admin = admin;
-
-        setPreferredSize(new Dimension(180, 50));
-        setContentAreaFilled(false);
-        setBorderPainted(false);
-        setFocusPainted(false);
-        setOpaque(false);
-        setBackground(Palette.BLACK);
-        setForeground(Palette.WHITE);
-
-        setFont(CustomFont.interMedium.deriveFont(16.0F));
-
-        addMouseListener(new MouseAdapter() {
-            
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                isMouseOver = true;
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                isMouseOver = false;
-            }
-
-        });
-
-    }
-
-    @Override
-    public void paintComponent(Graphics g) {
-
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        if (isMouseOver) {
-            g2.setColor(Palette.GRAY);
-        } else {
-            g2.setColor(getBackground());
-        }
-        g2.fill(rectangle);
-
-        super.paintComponent(g);
 
     }
 

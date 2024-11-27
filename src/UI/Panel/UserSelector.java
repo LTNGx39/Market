@@ -1,39 +1,38 @@
 package UI.Panel;
 
-import javax.swing.*;
-
-import UI.*;
 import UI.MainFrame;
 import UI.Assets.CustomButton;
-import UI.Assets.CustomFont;
-import UI.Assets.Palette;
-
+import UI.Assets.CustomLabel;
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class UserSelector extends javax.swing.JPanel {
 
-    private CustomButton admin, sell, member;
-    private TextLabel title, adminText, sellText, memberText;
+    private CustomButton admin, sale, member;
+    private CustomLabel title, adminText, sellText, memberText;
 
-    public UserSelector(MainFrame frame) {
+    public UserSelector(MainFrame mainFrame) {
 
         setBorder(BorderFactory.createEmptyBorder(130, 130, 180, 130));
         setOpaque(false);
         setLayout(new GridBagLayout());
 
         // Configuracion de componentes
-        title = new TextLabel("Elija un perfil", CustomFont.interSemiBold, 32.0F);
+        title = new CustomLabel(mainFrame, CustomLabel.SEMI_BOLD, "Elija un perfil", 32.0F);
         title.setPreferredSize(new Dimension(300, 40));
 
-        adminText = new TextLabel("Administracion", CustomFont.interSemiBold, 18.0F);
-        sellText = new TextLabel("Ventas", CustomFont.interSemiBold, 18.0F);
-        memberText = new TextLabel("Membresias", CustomFont.interSemiBold, 18.0F);
+        adminText = new CustomLabel(mainFrame, CustomLabel.SEMI_BOLD, "Administracion", 18.0F);
+        adminText.setPreferredSize(new Dimension(140, 30));
 
-        admin = new CustomButton(frame, "src/UI/Media/Image/pink.png", "Administracion");
-        sell = new CustomButton(frame, "src/UI/Media/Image/blue.png", "Ventas");
-        member = new CustomButton(frame, "src/UI/Media/Image/yellow.png", "Membresias");
+        sellText = new CustomLabel(mainFrame, CustomLabel.SEMI_BOLD, "Ventas", 18.0F);
+        sellText.setPreferredSize(new Dimension(140, 30));
+
+        memberText = new CustomLabel(mainFrame, CustomLabel.SEMI_BOLD, "Membresias", 18.0F);
+        memberText.setPreferredSize(new Dimension(140, 30));
+
+        admin = new CustomButton(mainFrame, "src/UI/Media/Image/pink.png", "Administracion");
+        sale = new CustomButton(mainFrame, "src/UI/Media/Image/blue.png", "Ventas");
+        member = new CustomButton(mainFrame, "src/UI/Media/Image/yellow.png", "Membresias");
 
         // Agregar los componentes
         GridBagConstraints gbc = new GridBagConstraints();
@@ -53,7 +52,7 @@ public class UserSelector extends javax.swing.JPanel {
 
         gbc.gridx = 1;
         gbc.insets = new Insets(0, 60, 0, 60);
-        add(sell, gbc);
+        add(sale, gbc);
 
         gbc.gridx = 2;
         gbc.insets = none;
@@ -71,19 +70,17 @@ public class UserSelector extends javax.swing.JPanel {
         add(memberText, gbc);
         
     }
-    
-}
 
-class TextLabel extends javax.swing.JLabel {
-
-    public TextLabel(String text, Font font, float pt) {
-
-        super(text);
-        setPreferredSize(new Dimension(140, 30));
-        setFont(font.deriveFont(pt));
-        setForeground(Palette.WHITE);
-        setHorizontalAlignment(SwingConstants.CENTER);
-
+    public CustomButton getAdminButton() {
+        return admin;
     }
 
+    public CustomButton getSaleButton() {
+        return sale;
+    }
+
+    public CustomButton getMemberButton() {
+        return member;
+    }
+    
 }
