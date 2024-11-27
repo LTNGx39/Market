@@ -2,12 +2,8 @@ package UI;
 
 import javax.swing.*;
 
-import UI.Assets.Palette;
-import UI.Panel.Admin;
-import UI.Panel.Members;
-import UI.Panel.Sales;
-import UI.Panel.TitleBar;
-import UI.Panel.UserSelector;
+import UI.Assets.*;
+import UI.Panel.*;
 
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
@@ -15,8 +11,10 @@ import java.awt.geom.RoundRectangle2D;
 public class MainFrame extends javax.swing.JFrame {
 
     private TitleBar titleBar;
-    private CardLayout card;
+
+    private CardLayout cardLayout;
     private JPanel panelChanger;
+
     private UserSelector userSelector;
     private Admin admin;
     private Sales sales;
@@ -37,21 +35,21 @@ public class MainFrame extends javax.swing.JFrame {
         members = new Members(this);
 
         panelChanger = new JPanel();
-        card = new CardLayout();
-        panelChanger.setLayout(card);
+        cardLayout = new CardLayout();
+        panelChanger.setLayout(cardLayout);
         panelChanger.setOpaque(false);
         
         add(titleBar);
         add(panelChanger);
-        panelChanger.add(userSelector, "users");
-        panelChanger.add(admin, "administracion");
-        panelChanger.add(sales, "ventas");
-        panelChanger.add(members, "membresias");
+        panelChanger.add(userSelector, "Usuarios");
+        panelChanger.add(admin, "Administracion");
+        panelChanger.add(sales, "Ventas");
+        panelChanger.add(members, "Membresias");
 
     }
 
-    public CardLayout getCard() {
-        return card;
+    public CardLayout getCardLayout() {
+        return cardLayout;
     }
 
     public JPanel getPanelChanger() {

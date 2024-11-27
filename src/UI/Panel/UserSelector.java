@@ -4,19 +4,17 @@ import javax.swing.*;
 
 import UI.*;
 import UI.MainFrame;
+import UI.Assets.CustomButton;
 import UI.Assets.CustomFont;
 import UI.Assets.Palette;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Ellipse2D;
 
 public class UserSelector extends javax.swing.JPanel {
 
-    private UserButton admin, sell, member;
+    private CustomButton admin, sell, member;
     private TextLabel title, adminText, sellText, memberText;
 
     public UserSelector(MainFrame frame) {
@@ -28,47 +26,14 @@ public class UserSelector extends javax.swing.JPanel {
         // Configuracion de componentes
         title = new TextLabel("Elija un perfil", CustomFont.interSemiBold, 32.0F);
         title.setPreferredSize(new Dimension(300, 40));
+
         adminText = new TextLabel("Administracion", CustomFont.interSemiBold, 18.0F);
         sellText = new TextLabel("Ventas", CustomFont.interSemiBold, 18.0F);
         memberText = new TextLabel("Membresias", CustomFont.interSemiBold, 18.0F);
 
-        admin = new UserButton(frame, "src/Media/Image/pink.png", adminText);
-        sell = new UserButton(frame, "src/Media/Image/blue.png", sellText);
-        member = new UserButton(frame, "src/Media/Image/yellow.png", memberText);
-
-        // Listeners
-        admin.addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                frame.getCard().show(frame.getPanelChanger(), "administracion");
-
-            }
-
-        });
-
-        sell.addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                frame.getCard().show(frame.getPanelChanger(), "ventas");
-
-            }
-
-        });
-
-        member.addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                frame.getCard().show(frame.getPanelChanger(), "membresias");
-
-            }
-
-        });
+        admin = new CustomButton(frame, "src/UI/Media/Image/pink.png", "Administracion");
+        sell = new CustomButton(frame, "src/UI/Media/Image/blue.png", "Ventas");
+        member = new CustomButton(frame, "src/UI/Media/Image/yellow.png", "Membresias");
 
         // Agregar los componentes
         GridBagConstraints gbc = new GridBagConstraints();
@@ -107,73 +72,6 @@ public class UserSelector extends javax.swing.JPanel {
         
     }
     
-}
-
-class UserButton extends javax.swing.JButton {
-
-    private MainFrame frame;
-    private String name;
-    private boolean isMouseOver;
-
-    public UserButton(MainFrame frame, String imagePath, TextLabel label) {
-
-        super(new ImageIcon(imagePath));
-        this.frame = frame;
-        name = label.getText();
-        setPreferredSize(new Dimension(140, 140));
-        setContentAreaFilled(false);
-        setBorderPainted(false);
-        setFocusPainted(false);
-        setOpaque(false);
-
-        addMouseListener(new MouseAdapter() {
-            
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                isMouseOver = true;
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                isMouseOver = false;
-            }
-
-        });
-
-        addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                frame.getTitleBar().setTitle(getName());
-                frame.getTitleBar().getLeftButton().setEnabled(true);
-                frame.getTitleBar().setInMenu(false);
-
-            }
-            
-        });
-
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public void paintComponent(Graphics g) {
-
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-
-        g2.setColor(Palette.WHITE);
-        if (isMouseOver) {
-            g2.fill(new Ellipse2D.Double(0, 0, getWidth(), getHeight()));
-        }
-        super.paintComponent(g);
-        
-    }
-
 }
 
 class TextLabel extends javax.swing.JLabel {

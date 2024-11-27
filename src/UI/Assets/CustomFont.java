@@ -14,28 +14,32 @@ public class CustomFont {
 
     static {
         try {
-            interRegular = Font.createFont(Font.TRUETYPE_FONT, new File("src/Media/Font/Inter_Regular.ttf"));
+            interRegular = Font.createFont(Font.TRUETYPE_FONT, new File("src/UI/Media/Font/Inter_Regular.ttf"));
+            interRegular = interRegular.deriveFont(16.0F);
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
             interRegular = new Font("Arial", Font.PLAIN, 16);
         }
 
         try {
-           interMedium = Font.createFont(Font.TRUETYPE_FONT, new File("src/Media/Font/Inter_Medium.ttf"));
+           interMedium = Font.createFont(Font.TRUETYPE_FONT, new File("src/UI/Media/Font/Inter_Medium.ttf"));
+           interMedium = interMedium.deriveFont(16.0F);
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
             interMedium = new Font("Arial", Font.PLAIN, 16);
         }
 
         try {
-            interBold = Font.createFont(Font.TRUETYPE_FONT, new File("src/Media/Font/Inter_Bold.ttf"));
+            interBold = Font.createFont(Font.TRUETYPE_FONT, new File("src/UI/Media/Font/Inter_Bold.ttf"));
+            interBold = interBold.deriveFont(16.0F);
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
             interBold = new Font("Arial", Font.PLAIN, 16);
         }
 
         try {
-            interSemiBold = Font.createFont(Font.TRUETYPE_FONT, new File("src/Media/Font/Inter_SemiBold.ttf"));
+            interSemiBold = Font.createFont(Font.TRUETYPE_FONT, new File("src/UI/Media/Font/Inter_SemiBold.ttf"));
+            interSemiBold = interSemiBold.deriveFont(16.0F);
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
             interSemiBold = new Font("Arial", Font.PLAIN, 16);
