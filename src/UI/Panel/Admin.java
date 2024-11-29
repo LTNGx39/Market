@@ -84,17 +84,9 @@ public class Admin extends javax.swing.JPanel {
         scrollPanel.setOpaque(false);
         
         // Botones
-        addItem = new CustomButton(mainFrame, CustomButton.OPTION);
-        addItem.setText("Añadir item");
-        addItem.setFont(CustomFont.interBold);
-
-        editItem = new CustomButton(mainFrame, CustomButton.OPTION);
-        editItem.setText("Editar item");
-        editItem.setFont(CustomFont.interBold);
-
-        deleteItem = new CustomButton(mainFrame, CustomButton.OPTION);
-        deleteItem.setText("Eliminar item");
-        deleteItem.setFont(CustomFont.interBold);
+        addItem = new CustomButton.Option(CustomButton.Option.ADM_ADD);
+        editItem = new CustomButton.Option(CustomButton.Option.ADM_EDIT);
+        deleteItem = new CustomButton.Option(CustomButton.Option.ADM_DEL);
 
         // Agregar los componentes
         GridBagConstraints gbc = new GridBagConstraints();

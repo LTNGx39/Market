@@ -25,8 +25,8 @@ public class TitleBar extends javax.swing.JPanel {
         setLayout(new GridBagLayout());
 
         // Configuracion de componentes
-        back = new CustomButton(mainFrame, CustomButton.BACK);
-        close = new CustomButton(mainFrame, CustomButton.CLOSE);
+        back = new CustomButton.TitleBar(CustomButton.TitleBar.BACK);
+        close = new CustomButton.TitleBar(CustomButton.TitleBar.CLOSE);
 
         title = new CustomLabel(mainFrame, CustomLabel.SEMI_BOLD, "Market", 16.0F) {
             {

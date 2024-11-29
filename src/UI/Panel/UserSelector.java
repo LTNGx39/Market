@@ -30,9 +30,9 @@ public class UserSelector extends javax.swing.JPanel {
         memberText = new CustomLabel(mainFrame, CustomLabel.SEMI_BOLD, "Membresias", 18.0F);
         memberText.setPreferredSize(new Dimension(140, 30));
 
-        admin = new CustomButton(mainFrame, "src/UI/Media/Image/pink.png", "Administracion");
-        sale = new CustomButton(mainFrame, "src/UI/Media/Image/blue.png", "Ventas");
-        member = new CustomButton(mainFrame, "src/UI/Media/Image/yellow.png", "Membresias");
+        admin = new CustomButton.User(CustomButton.User.PINK_PFP);
+        sale = new CustomButton.User(CustomButton.User.BLUE_PFP);
+        member = new CustomButton.User(CustomButton.User.YELLOW_PFP);
 
         // Agregar los componentes
         GridBagConstraints gbc = new GridBagConstraints();
