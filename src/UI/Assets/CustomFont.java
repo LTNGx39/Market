@@ -13,6 +13,7 @@ public class CustomFont {
     public static Font interBold;
 
     static {
+        
         try {
             interRegular = Font.createFont(Font.TRUETYPE_FONT, new File("src/UI/Media/Font/Inter_Regular.ttf"));
             interRegular = interRegular.deriveFont(16.0F);
@@ -44,5 +45,7 @@ public class CustomFont {
             e.printStackTrace();
             interSemiBold = new Font("Arial", Font.PLAIN, 16);
         }
+
     }
+
 }

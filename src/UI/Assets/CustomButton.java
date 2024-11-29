@@ -1,13 +1,12 @@
 package UI.Assets;
 
 import UI.*;
-import UI.Assets.*;
-import UI.Panel.*;
+import UI.Panel.FieldFrame;
 
-import java.awt.*;
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.*;
 import java.awt.geom.*;
+import java.awt.event.*;
 
 public class CustomButton extends javax.swing.JButton {
 
@@ -291,15 +290,26 @@ public class CustomButton extends javax.swing.JButton {
 
             switch (ID) {
 
-                case 1:
+                case ADM_ADD:
                     setText("Añadir item");
+
+                    addActionListener(new ActionListener() {
+                        
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+
+                            new FieldFrame.AddItem();
+
+                        }
+
+                    });
                     break;
 
-                case 2:
+                case ADM_EDIT:
                     setText("Editar item");
                     break;
 
-                case 3:
+                case ADM_DEL:
                     setText("Eliminar item");
                     break;
 
