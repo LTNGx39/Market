@@ -10,46 +10,72 @@ import java.awt.*;
 
 public class CustomLabel extends javax.swing.JLabel {
 
-    // ID de labels
-    public static final int REGULAR = 1;
-    public static final int MEDIUM = 2;
-    public static final int SEMI_BOLD = 3;
-    public static final int BOLD = 4;
+    // Variable estatica
+    protected static MainFrame mainFrame;
 
-    // Variables globales
-    private MainFrame mainFrame;
-    private Font font;
-    
-    public CustomLabel(MainFrame mainFrame, int ID, String text, Float size) {
-
+    // Constructores simples
+    protected CustomLabel(String text) {
         super(text);
-        this.mainFrame = mainFrame;
+    }
 
-        // Configuracion segun ID
-        switch (ID) {
+    // Metodo estatico
+    public static void setFrame(MainFrame mainFrame) {
+        CustomLabel.mainFrame = mainFrame;
+    }
 
-            case 1:
-                font = CustomFont.interRegular;
-                break;
+    public static class Regular extends CustomLabel {
 
-            case 2:
-                font = CustomFont.interMedium;
-                break;
+        public Regular(String text, int alignment, float size) {
 
-            case 3:
-                font = CustomFont.interSemiBold;
-                break;
+            super(text);
 
-            case 4:
-                font = CustomFont.interBold;
-                break;
+            setForeground(Palette.WHITE);
+            setHorizontalAlignment(alignment);
+            setFont(CustomFont.interRegular.deriveFont(size));
 
         }
 
-        // Caracteristicas generales
-        setFont(font.deriveFont(size));
-        setForeground(Palette.WHITE);
-        setHorizontalAlignment(SwingConstants.CENTER);
+    }
+
+    public static class Medium extends CustomLabel {
+
+        public Medium(String text, int alignment, float size) {
+
+            super(text);
+
+            setForeground(Palette.WHITE);
+            setHorizontalAlignment(alignment);
+            setFont(CustomFont.interMedium.deriveFont(size));
+
+        }
+
+    }
+
+    public static class Semi extends CustomLabel {
+
+        public Semi(String text, int alignment, float size) {
+
+            super(text);
+
+            setForeground(Palette.WHITE);
+            setHorizontalAlignment(alignment);
+            setFont(CustomFont.interSemiBold.deriveFont(size));
+
+        }
+
+    }
+
+    public static class Bold extends CustomLabel {
+
+        public Bold(String text, int alignment, float size) {
+
+            super(text);
+
+            setForeground(Palette.WHITE);
+            setHorizontalAlignment(alignment);
+            setFont(CustomFont.interBold.deriveFont(size));
+
+        }
 
     }
 

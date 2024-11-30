@@ -15,15 +15,15 @@ public class CustomButton extends javax.swing.JButton {
     protected boolean isMouseOver = false;
 
     // Constructores simples
-    public CustomButton() {
+    protected CustomButton() {
         super();
     }
 
-    public CustomButton(String text) {
+    protected CustomButton(String text) {
         super(text);
     }
     
-    public CustomButton(Icon image) {
+    protected CustomButton(Icon image) {
         super(image);
     }
 
@@ -307,6 +307,17 @@ public class CustomButton extends javax.swing.JButton {
 
                 case ADM_EDIT:
                     setText("Editar item");
+
+                    addActionListener(new ActionListener() {
+                        
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+
+                            new FieldFrame.EditItem();
+
+                        }
+
+                    });
                     break;
 
                 case ADM_DEL:
@@ -337,6 +348,57 @@ public class CustomButton extends javax.swing.JButton {
 
         }
 
+    }
+
+    // ----------------------------------------------------------------------------------------------------
+
+    public static class Decision extends CustomButton {
+
+        // Variables estaticas
+        public static final int ACCEPT = 1;
+        public static final int CANCEL = 2;
+
+        // Variables globales
+        private Shape round = new RoundRectangle2D.Double(0, 0, 120, 40, 30, 30);
+
+        public Decision(int ID) {
+
+            super();
+
+            switch (ID) {
+
+                case ACCEPT:
+                    setText("Aceptar");
+                    break;
+            
+                case CANCEL:
+                    setText("Cancelar");
+                    break;
+
+            }
+
+            setPreferredSize(new Dimension(120, 40));
+            setBackground(Palette.BLACK);
+            setFont(CustomFont.interBold);
+            addGeneralSettings();
+
+        }
+
+        @Override
+        public void paintComponent(Graphics g) {
+
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+            setForeground(Palette.GRAY);
+            g2 = mouseOverPaint(g2);
+            g2.fill(round);
+
+            setForeground(Palette.WHITE);
+            super.paintComponent(g);
+
+        }
+        
     }
 
 }

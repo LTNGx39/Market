@@ -18,16 +18,16 @@ public class UserSelector extends javax.swing.JPanel {
         setLayout(new GridBagLayout());
 
         // Configuracion de componentes
-        title = new CustomLabel(mainFrame, CustomLabel.SEMI_BOLD, "Elija un perfil", 32.0F);
+        title = new CustomLabel.Semi("Elija un perfil", SwingConstants.CENTER, 32.0F);
         title.setPreferredSize(new Dimension(300, 40));
 
-        adminText = new CustomLabel(mainFrame, CustomLabel.SEMI_BOLD, "Administracion", 18.0F);
+        adminText = new CustomLabel.Semi("Administracion", SwingConstants.CENTER, 18.0F);
         adminText.setPreferredSize(new Dimension(140, 30));
 
-        sellText = new CustomLabel(mainFrame, CustomLabel.SEMI_BOLD, "Ventas", 18.0F);
+        sellText = new CustomLabel.Semi("Ventas", SwingConstants.CENTER, 18.0F);
         sellText.setPreferredSize(new Dimension(140, 30));
 
-        memberText = new CustomLabel(mainFrame, CustomLabel.SEMI_BOLD, "Membresias", 18.0F);
+        memberText = new CustomLabel.Semi("Membresias", SwingConstants.CENTER, 18.0F);
         memberText.setPreferredSize(new Dimension(140, 30));
 
         admin = new CustomButton.User(CustomButton.User.PINK_PFP);

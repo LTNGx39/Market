@@ -28,6 +28,7 @@ public class MainFrame extends javax.swing.JFrame {
         setContentPane(new CustomPane(this));
         setBackground(Palette.ALPHA_0);
 
+        CustomLabel.setFrame(this);
         CustomButton.setFrame(this);
         FieldFrame.setFrame(this);
         titleBar = new TitleBar(this);

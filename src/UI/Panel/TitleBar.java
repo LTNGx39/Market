@@ -7,6 +7,8 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.SwingConstants;
+
 public class TitleBar extends javax.swing.JPanel {
 
     private MainFrame mainFrame;
@@ -28,34 +30,31 @@ public class TitleBar extends javax.swing.JPanel {
         back = new CustomButton.TitleBar(CustomButton.TitleBar.BACK);
         close = new CustomButton.TitleBar(CustomButton.TitleBar.CLOSE);
 
-        title = new CustomLabel(mainFrame, CustomLabel.SEMI_BOLD, "Market", 16.0F) {
-            {
-                setPreferredSize(new Dimension(mainFrame.getUsableWidth() - 96, 32));
+        title = new CustomLabel.Bold("Market", SwingConstants.CENTER, 16.0F);
+        title.setPreferredSize(new Dimension(mainFrame.getUsableWidth() - 96, 32));
 
-                // Listener
-                MouseAdapter drag = new MouseAdapter() {
+         // Listener
+         MouseAdapter drag = new MouseAdapter() {
 
-                    int mouseX, mouseY;
+            int mouseX, mouseY;
 
-                    @Override
-                    public void mousePressed(MouseEvent e) {
-                        mouseX = mainFrame.getMousePosition().x;
-                        mouseY = mainFrame.getMousePosition().y;
-                    }
-
-                    @Override
-                    public void mouseDragged(MouseEvent e) {
-                        int x = e.getXOnScreen() - mouseX;
-                        int y = e.getYOnScreen() - mouseY;
-
-                        mainFrame.setLocation(x, y);
-                    } 
-                };
-
-                addMouseListener(drag);
-                addMouseMotionListener(drag);
+            @Override
+            public void mousePressed(MouseEvent e) {
+                mouseX = mainFrame.getMousePosition().x;
+                mouseY = mainFrame.getMousePosition().y;
             }
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                int x = e.getXOnScreen() - mouseX;
+                int y = e.getYOnScreen() - mouseY;
+
+                mainFrame.setLocation(x, y);
+            } 
         };
+
+        title.addMouseListener(drag);
+        title.addMouseMotionListener(drag);
 
         // Añadir los componentes
         GridBagConstraints gbc = new GridBagConstraints();
