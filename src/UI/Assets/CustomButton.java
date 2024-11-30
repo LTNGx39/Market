@@ -313,7 +313,8 @@ public class CustomButton extends javax.swing.JButton {
                         @Override
                         public void actionPerformed(ActionEvent e) {
 
-                            new FieldFrame.EditItem();
+                            int rowIndex = mainFrame.getAdmin().getTable().getSelectedRow();
+                            new FieldFrame.EditItem(rowIndex);
 
                         }
 
@@ -322,6 +323,18 @@ public class CustomButton extends javax.swing.JButton {
 
                 case ADM_DEL:
                     setText("Eliminar item");
+
+                    addActionListener(new ActionListener() {
+                        
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+
+                            int rowIndex = mainFrame.getAdmin().getTable().getSelectedRow();
+                            new FieldFrame.DeleteItem(rowIndex);
+
+                        }
+
+                    });
                     break;
 
             }
@@ -361,7 +374,7 @@ public class CustomButton extends javax.swing.JButton {
         // Variables globales
         private Shape round = new RoundRectangle2D.Double(0, 0, 120, 40, 30, 30);
 
-        public Decision(int ID) {
+        public Decision(FieldFrame frame, int ID) {
 
             super();
 
@@ -373,6 +386,18 @@ public class CustomButton extends javax.swing.JButton {
             
                 case CANCEL:
                     setText("Cancelar");
+
+                    addActionListener(new ActionListener() {
+                        
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+
+                            frame.dispose();
+                            frame.getShadow().dispose();
+
+                        }
+
+                    });
                     break;
 
             }

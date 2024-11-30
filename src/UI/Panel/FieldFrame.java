@@ -2,6 +2,7 @@ package UI.Panel;
 
 import UI.*;
 import javax.swing.*;
+import javax.swing.table.TableModel;
 
 import UI.MainFrame;
 import UI.Assets.CustomButton;
@@ -17,6 +18,7 @@ import java.awt.geom.RoundRectangle2D;
 public class FieldFrame extends javax.swing.JFrame {
 
     private static MainFrame mainFrame;
+    protected Shadow shadow;
 
     public static class AddItem extends FieldFrame {
 
@@ -26,7 +28,7 @@ public class FieldFrame extends javax.swing.JFrame {
 
         public AddItem() {
 
-            Shadow shadow = new Shadow(mainFrame, this);
+            shadow = new Shadow(mainFrame, this);
             setSize(322, 407);
             setGeneralSettings();
 
@@ -42,8 +44,8 @@ public class FieldFrame extends javax.swing.JFrame {
             discount = new CustomField("Descuento:");
             stock = new CustomField("Stock:");
 
-            save = new CustomButton.Decision(CustomButton.Decision.ACCEPT);
-            cancel = new CustomButton.Decision(CustomButton.Decision.CANCEL);
+            save = new CustomButton.Decision(this, CustomButton.Decision.ACCEPT);
+            cancel = new CustomButton.Decision(this, CustomButton.Decision.CANCEL);
 
             // Adicion de los componentes
             GridBagConstraints gbc = new GridBagConstraints();
@@ -82,11 +84,11 @@ public class FieldFrame extends javax.swing.JFrame {
             gbc.gridy = 8;
             gbc.gridwidth = 1;
             gbc.insets = new Insets(0, 10, 0, 20);
-            add(save, gbc);
+            add(cancel, gbc);
 
             gbc.gridx = 1;
             gbc.insets = new Insets(0, 0, 0, 10);
-            add(cancel, gbc);
+            add(save, gbc);
 
             setVisible(true);
 
@@ -98,30 +100,40 @@ public class FieldFrame extends javax.swing.JFrame {
 
     public static class EditItem extends FieldFrame {
 
+        private TableModel data;
         private CustomLabel title;
         private CustomField name, id, desc, buy, sell, discount, stock;
         private CustomButton save, cancel;
 
-        public EditItem() {
+        public EditItem(int row) {
 
-            Shadow shadow = new Shadow(mainFrame, this);
+            shadow = new Shadow(mainFrame, this);
             setSize(322, 407);
             setGeneralSettings();
+            data = mainFrame.getAdmin().getTable().getModel();
 
             // Configuracion de componentes
             title = new CustomLabel.Bold("Editar item", SwingConstants.CENTER, 20.0F);
             title.setPreferredSize(new Dimension(200, 30));
+            Object[] rowData = getRowData(data, row);
             
             name = new CustomField("Nombre:");
+            name.getField().setText("" + data.getValueAt(row, 0));
             id = new CustomField("ID:");
+            id.getField().setText("" + data.getValueAt(row, 1));
             desc = new CustomField("Descripcion:");
+            desc.getField().setText("" + data.getValueAt(row, 2));
             buy = new CustomField("P. Compra:");
+            buy.getField().setText("" + data.getValueAt(row, 3));
             sell = new CustomField("P. Venta:");
+            sell.getField().setText("" + data.getValueAt(row, 4));
             discount = new CustomField("Descuento:");
+            discount.getField().setText("" + data.getValueAt(row, 5));
             stock = new CustomField("Stock:");
+            stock.getField().setText("" + data.getValueAt(row, 6));
 
-            save = new CustomButton.Decision(CustomButton.Decision.ACCEPT);
-            cancel = new CustomButton.Decision(CustomButton.Decision.CANCEL);
+            save = new CustomButton.Decision(this, CustomButton.Decision.ACCEPT);
+            cancel = new CustomButton.Decision(this,CustomButton.Decision.CANCEL);
 
             // Adicion de los componentes
             GridBagConstraints gbc = new GridBagConstraints();
@@ -159,11 +171,83 @@ public class FieldFrame extends javax.swing.JFrame {
             gbc.gridy = 8;
             gbc.gridwidth = 1;
             gbc.insets = new Insets(0, 10, 0, 20);
-            add(save, gbc);
+            add(cancel, gbc);
 
             gbc.gridx = 1;
             gbc.insets = new Insets(0, 0, 0, 10);
+            add(save, gbc);
+
+            setVisible(true);
+
+        }
+
+        public Object[] getRowData(TableModel model, int row) {
+
+            Object[] data = new Object[model.getColumnCount()];
+
+            for (int col = 0; col < model.getColumnCount(); col++) {
+                data[col] = model.getValueAt(row, col);
+            }
+
+            return data;
+
+        }
+
+    }
+
+    // ----------------------------------------------------------------------------------------------------
+
+    public static class DeleteItem extends FieldFrame {
+
+        private TableModel model;
+        private CustomLabel title, text1, text2;
+        private CustomButton cancel, accept;
+
+        public DeleteItem(int row) {
+
+            shadow = new Shadow(mainFrame, this);
+            setSize(322, 202);
+            setGeneralSettings();
+            setLayout(new GridBagLayout());
+            model = mainFrame.getAdmin().getTable().getModel();
+
+            title = new CustomLabel.Bold("Eliminar item", SwingConstants.CENTER, 20.0F);
+            title.setPreferredSize(new Dimension(200, 30));
+            text1 = new CustomLabel.Semi("¿Esta seguro que quiere eliminar", SwingConstants.CENTER, 16.0F);
+            text1.setPreferredSize(new Dimension(280, 30));
+            text1.setVerticalAlignment(SwingConstants.BOTTOM);
+            text2 = new CustomLabel.Semi("el producto \"" + model.getValueAt(row, 0) + "\"?", SwingConstants.CENTER, 16.0F);
+            text2.setPreferredSize(new Dimension(280, 30));
+            text2.setVerticalAlignment(SwingConstants.TOP);
+
+            cancel = new CustomButton.Decision(this, CustomButton.Decision.CANCEL);
+            accept = new CustomButton.Decision(this, CustomButton.Decision.ACCEPT);
+
+            // Adicion de los componentes
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.fill = GridBagConstraints.BOTH;
+
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            gbc.gridwidth = 2;
+            gbc.insets = new Insets(0, 0, 15, 0);
+            add(title, gbc);
+
+            gbc.gridy = 1;
+            gbc.insets = new Insets(0, 0, 0, 0);
+            add(text1, gbc);
+
+            gbc.gridy = 2;
+            gbc.insets = new Insets(0, 0, 20, 0);
+            add(text2, gbc);
+
+            gbc.gridy = 3;
+            gbc.gridwidth = 1;
+            gbc.insets = new Insets(0, 10, 0, 10);
             add(cancel, gbc);
+
+            gbc.gridx = 1;
+            add(accept, gbc);
 
             setVisible(true);
 
@@ -183,7 +267,12 @@ public class FieldFrame extends javax.swing.JFrame {
         setLocationRelativeTo(mainFrame);
         setContentPane(new Pane());
         setBackground(Palette.ALPHA_0);
+        setType(Type.UTILITY);
         
+    }
+
+    public JFrame getShadow() {
+        return shadow;
     }
 
     protected class Shadow extends javax.swing.JFrame {

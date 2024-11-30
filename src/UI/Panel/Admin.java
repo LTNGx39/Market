@@ -7,12 +7,10 @@ import UI.Assets.Palette;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.geom.RoundRectangle2D;
 
 public class Admin extends javax.swing.JPanel {
 
+    private DefaultTableModel data;
     private JTable itemTable;
     private CustomButton addItem, editItem, deleteItem;
     
@@ -23,7 +21,7 @@ public class Admin extends javax.swing.JPanel {
         setOpaque(false);
 
         // Configuracion de componentes
-        DefaultTableModel data = new DefaultTableModel();
+        data = new DefaultTableModel();
         data.addColumn("Nombre");
         data.addColumn("ID");
         data.addColumn("Descripcion");
@@ -68,7 +66,8 @@ public class Admin extends javax.swing.JPanel {
         itemTable.setSelectionBackground(Palette.GRAY);
         itemTable.setSelectionForeground(Palette.WHITE);
         itemTable.setOpaque(false);
-
+        itemTable.setRowSelectionInterval(0, 0);
+        
         itemTable.getTableHeader().setReorderingAllowed(false);
         itemTable.getTableHeader().setResizingAllowed(false);
         itemTable.getTableHeader().setFont(CustomFont.interMedium.deriveFont(14.0F));
@@ -111,6 +110,14 @@ public class Admin extends javax.swing.JPanel {
         gbc.insets = new Insets(0, 0, 0, 60);
         add(deleteItem, gbc);
 
+    }
+
+    public DefaultTableModel getTableModel() {
+        return data;
+    }
+
+    public JTable getTable() {
+        return itemTable;
     }
 
 }
