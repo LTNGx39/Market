@@ -17,6 +17,7 @@ public class FieldFrame extends javax.swing.JFrame {
     public static class AddItem extends FieldFrame {
 
         private Admin adminPanel;
+
         private DefaultTableModel data;
         private CustomLabel title;
         private CustomField name, id, desc, buy, sell, discount, stock;
@@ -28,7 +29,7 @@ public class FieldFrame extends javax.swing.JFrame {
             shadow = new Shadow(adminPanel.getMainFrame(), this);
             setSize(322, 407);
             setGeneralSettings(adminPanel.getMainFrame());
-            data = adminPanel.getTableModel();
+            data = adminPanel.getScroll().getModel();
 
             // Configuracion de componentes
             title = new CustomLabel.Bold("Nuevo item", SwingConstants.CENTER, 20.0F);
@@ -85,7 +86,6 @@ public class FieldFrame extends javax.swing.JFrame {
             // Adicion de los componentes
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.fill = GridBagConstraints.BOTH;
-            
 
             gbc.gridx = 0;
             gbc.gridy = 0;
@@ -136,6 +136,7 @@ public class FieldFrame extends javax.swing.JFrame {
     public static class EditItem extends FieldFrame {
 
         private Admin adminPanel;
+
         private DefaultTableModel data;
         private CustomLabel title;
         private CustomField name, id, desc, buy, sell, discount, stock;
@@ -147,7 +148,7 @@ public class FieldFrame extends javax.swing.JFrame {
             shadow = new Shadow(adminPanel.getMainFrame(), this);
             setSize(322, 407);
             setGeneralSettings(adminPanel.getMainFrame());
-            data = adminPanel.getTableModel();
+            data = adminPanel.getScroll().getModel();
 
             // Configuracion de componentes
             title = new CustomLabel.Bold("Editar item", SwingConstants.CENTER, 20.0F);
@@ -275,6 +276,7 @@ public class FieldFrame extends javax.swing.JFrame {
     public static class DeleteItem extends FieldFrame {
 
         private Admin adminPanel;
+
         private DefaultTableModel data;
         private CustomLabel title, text1, text2;
         private CustomButton cancel, accept;
@@ -286,7 +288,7 @@ public class FieldFrame extends javax.swing.JFrame {
             setSize(322, 202);
             setGeneralSettings(adminPanel.getMainFrame());
             setLayout(new GridBagLayout());
-            data = adminPanel.getTableModel();
+            data = adminPanel.getScroll().getModel();
 
             title = new CustomLabel.Bold("Eliminar item", SwingConstants.CENTER, 20.0F);
             title.setPreferredSize(new Dimension(200, 30));
@@ -294,6 +296,348 @@ public class FieldFrame extends javax.swing.JFrame {
             text1.setPreferredSize(new Dimension(280, 30));
             text1.setVerticalAlignment(SwingConstants.BOTTOM);
             text2 = new CustomLabel.Semi("el producto \"" + data.getValueAt(row, 0) + "\"?", SwingConstants.CENTER, 16.0F);
+            text2.setPreferredSize(new Dimension(280, 30));
+            text2.setVerticalAlignment(SwingConstants.TOP);
+
+            cancel = new CustomButton.Decision("Cancelar");
+            cancel.addActionListener(new ActionListener() {
+                        
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    dispose();
+                    getShadow().dispose();
+
+                }
+
+            });
+
+            accept = new CustomButton.Decision("Aceptar");
+            accept.addActionListener(new ActionListener() {
+                
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    dispose();
+                    shadow.dispose();
+                    data.removeRow(row);
+
+                }
+
+            });
+
+            // Adicion de los componentes
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.fill = GridBagConstraints.BOTH;
+
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            gbc.gridwidth = 2;
+            gbc.insets = new Insets(0, 0, 15, 0);
+            add(title, gbc);
+
+            gbc.gridy = 1;
+            gbc.insets = new Insets(0, 0, 0, 0);
+            add(text1, gbc);
+
+            gbc.gridy = 2;
+            gbc.insets = new Insets(0, 0, 20, 0);
+            add(text2, gbc);
+
+            gbc.gridy = 3;
+            gbc.gridwidth = 1;
+            gbc.insets = new Insets(0, 10, 0, 10);
+            add(cancel, gbc);
+
+            gbc.gridx = 1;
+            add(accept, gbc);
+
+            setVisible(true);
+
+        }
+
+    }
+
+    // ----------------------------------------------------------------------------------------------------
+
+    public static class AddMember extends FieldFrame {
+
+        private Members memberPanel;
+
+        private CustomLabel title;
+        private CustomField name, type, address, tel, rfc, aditional1, aditional2, start;
+        private CustomButton.Decision cancel, add;
+
+        public AddMember(Members memberPanel) {
+
+            this.memberPanel = memberPanel;
+            shadow = new Shadow(memberPanel.getMainFrame(), this);
+            setSize(322, 447);
+            setGeneralSettings(memberPanel.getMainFrame());
+            DefaultTableModel data = memberPanel.getScroll().getModel();
+
+            // Configuracion de componentes
+            title = new CustomLabel.Bold("Añadir miembro", SwingConstants.CENTER, 20.0F);
+            title.setPreferredSize(new Dimension(200, 30));
+
+            name = new CustomField("Nombre:");
+            type = new CustomField("Tipo:");
+            address = new CustomField("Direccion:");
+            tel = new CustomField("Telefono:");
+            rfc = new CustomField("RFC:");
+            aditional1 = new CustomField("Adicional 1:");
+            aditional2 = new CustomField("Adicional 2:");
+            start = new CustomField("Fecha de inicio:");
+
+            cancel = new CustomButton.Decision("Cancelar");
+            cancel.addActionListener(new ActionListener() {
+                        
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    dispose();
+                    getShadow().dispose();
+
+                }
+
+            });
+
+            add = new CustomButton.Decision("Añadir");
+            add.addActionListener(new ActionListener() {
+                        
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    String nameS = name.getField().getText();
+                    String typeS = type.getField().getText();
+                    String addressS = address.getField().getText();
+                    String telS = tel.getField().getText();
+                    String rfcS = rfc.getField().getText();
+                    String aditional1S = aditional1.getField().getText();
+                    String aditional2S = aditional2.getField().getText();
+                    String startS = start.getField().getText();
+
+                    if (!nameS.equals("") && !typeS.equals("") && !addressS.equals("") && !telS.equals("") && !rfcS.equals("") && !aditional1S.equals("") && !aditional2S.equals("") && !startS.equals("")) {
+
+                        Object[] newRow = new Object[] {nameS, typeS, addressS, telS, rfcS, aditional1S, aditional2S, startS};
+                        data.addRow(newRow);
+                        dispose();
+                        shadow.dispose();
+
+                    }
+
+                }
+
+            });
+            
+            // Adicion
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.fill = GridBagConstraints.BOTH;
+
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            gbc.gridwidth = 2;
+            gbc.insets = new Insets(0, 0, 15, 0);
+            add(title, gbc);
+
+            gbc.gridy = 1;
+            gbc.insets = new Insets(0, 0, 10, 0);
+            add(name, gbc);
+
+            gbc.gridy = 2;
+            add(type, gbc);
+
+            gbc.gridy = 3;
+            add(address, gbc);
+
+            gbc.gridy = 4;
+            add(tel, gbc);
+
+            gbc.gridy = 5;
+            add(rfc, gbc);
+
+            gbc.gridy = 6;
+            add(aditional1, gbc);
+
+            gbc.gridy = 7;
+            add(aditional2, gbc);
+
+            gbc.gridy = 8;
+            gbc.insets = new Insets(0, 0, 15, 0);
+            add(start, gbc);
+
+            gbc.gridy = 9;
+            gbc.gridwidth = 1;
+            gbc.insets = new Insets(0, 10, 0, 20);
+            add(cancel, gbc);
+
+            gbc.gridx = 1;
+            gbc.insets = new Insets(0, 0, 0, 10);
+            add(add, gbc);
+
+            setVisible(true);
+            
+        }
+
+    }
+
+    // ----------------------------------------------------------------------------------------------------
+
+    public static class EditMember extends FieldFrame {
+
+        private Members memberPanel;
+
+        private CustomLabel title;
+        private CustomField name, type, address, tel, rfc, aditional1, aditional2, start;
+        private CustomButton.Decision cancel, add;
+
+        public EditMember(Members memberPanel, int row) {
+
+            this.memberPanel = memberPanel;
+            shadow = new Shadow(memberPanel.getMainFrame(), this);
+            setSize(322, 447);
+            setGeneralSettings(memberPanel.getMainFrame());
+            DefaultTableModel data = memberPanel.getScroll().getModel();
+
+            // Configuracion de componentes
+            title = new CustomLabel.Bold("Añadir miembro", SwingConstants.CENTER, 20.0F);
+            title.setPreferredSize(new Dimension(200, 30));
+
+            name = new CustomField("Nombre:");
+            name.getField().setText("" + data.getValueAt(row, 0));
+            type = new CustomField("Tipo:");
+            type.getField().setText("" + data.getValueAt(row, 1));
+            address = new CustomField("Direccion:");
+            address.getField().setText("" + data.getValueAt(row, 2));
+            tel = new CustomField("Telefono:");
+            tel.getField().setText("" + data.getValueAt(row, 3));
+            rfc = new CustomField("RFC:");
+            rfc.getField().setText("" + data.getValueAt(row, 4));
+            aditional1 = new CustomField("Adicional 1:");
+            aditional1.getField().setText("" + data.getValueAt(row, 5));
+            aditional2 = new CustomField("Adicional 2:");
+            aditional2.getField().setText("" + data.getValueAt(row, 6));
+            start = new CustomField("Fecha de inicio:");
+            start.getField().setText("" + data.getValueAt(row, 7));
+
+            cancel = new CustomButton.Decision("Cancelar");
+            cancel.addActionListener(new ActionListener() {
+                        
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    dispose();
+                    getShadow().dispose();
+
+                }
+
+            });
+
+            add = new CustomButton.Decision("Guardar");
+            add.addActionListener(new ActionListener() {
+                        
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    String nameS = name.getField().getText();
+                    String typeS = type.getField().getText();
+                    String addressS = address.getField().getText();
+                    String telS = tel.getField().getText();
+                    String rfcS = rfc.getField().getText();
+                    String aditional1S = aditional1.getField().getText();
+                    String aditional2S = aditional2.getField().getText();
+                    String startS = start.getField().getText();
+
+                    if (!nameS.equals("") && !typeS.equals("") && !addressS.equals("") && !telS.equals("") && !rfcS.equals("") && !aditional1S.equals("") && !aditional2S.equals("") && !startS.equals("")) {
+
+                        Object[] newRow = new Object[] {nameS, typeS, addressS, telS, rfcS, aditional1S, aditional2S, startS};
+                        data.removeRow(row);
+                        data.insertRow(row, newRow);
+                        dispose();
+                        shadow.dispose();
+
+                    }
+
+                }
+
+            });
+            
+            // Adicion
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.fill = GridBagConstraints.BOTH;
+
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            gbc.gridwidth = 2;
+            gbc.insets = new Insets(0, 0, 15, 0);
+            add(title, gbc);
+
+            gbc.gridy = 1;
+            gbc.insets = new Insets(0, 0, 10, 0);
+            add(name, gbc);
+
+            gbc.gridy = 2;
+            add(type, gbc);
+
+            gbc.gridy = 3;
+            add(address, gbc);
+
+            gbc.gridy = 4;
+            add(tel, gbc);
+
+            gbc.gridy = 5;
+            add(rfc, gbc);
+
+            gbc.gridy = 6;
+            add(aditional1, gbc);
+
+            gbc.gridy = 7;
+            add(aditional2, gbc);
+
+            gbc.gridy = 8;
+            gbc.insets = new Insets(0, 0, 15, 0);
+            add(start, gbc);
+
+            gbc.gridy = 9;
+            gbc.gridwidth = 1;
+            gbc.insets = new Insets(0, 10, 0, 20);
+            add(cancel, gbc);
+
+            gbc.gridx = 1;
+            gbc.insets = new Insets(0, 0, 0, 10);
+            add(add, gbc);
+
+            setVisible(true);
+            
+        }
+
+    }
+
+    // ----------------------------------------------------------------------------------------------------
+
+    public static class DeleteMember extends FieldFrame {
+
+        private Members memberPanel;
+
+        private DefaultTableModel data;
+        private CustomLabel title, text1, text2;
+        private CustomButton cancel, accept;
+
+        public DeleteMember(Members memberPanel, int row) {
+
+            this.memberPanel = memberPanel;
+            shadow = new Shadow(memberPanel.getMainFrame(), this);
+            setSize(322, 202);
+            setGeneralSettings(memberPanel.getMainFrame());
+            setLayout(new GridBagLayout());
+            data = memberPanel.getScroll().getModel();
+
+            title = new CustomLabel.Bold("Eliminar item", SwingConstants.CENTER, 20.0F);
+            title.setPreferredSize(new Dimension(200, 30));
+            text1 = new CustomLabel.Semi("¿Esta seguro que quiere eliminar", SwingConstants.CENTER, 16.0F);
+            text1.setPreferredSize(new Dimension(280, 30));
+            text1.setVerticalAlignment(SwingConstants.BOTTOM);
+            text2 = new CustomLabel.Semi("al miembro \"" + data.getValueAt(row, 0) + "\"?", SwingConstants.CENTER, 16.0F);
             text2.setPreferredSize(new Dimension(280, 30));
             text2.setVerticalAlignment(SwingConstants.TOP);
 

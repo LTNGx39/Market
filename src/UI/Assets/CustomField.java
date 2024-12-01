@@ -16,7 +16,6 @@ import UI.MainFrame;
 
 public class CustomField extends javax.swing.JPanel{
     
-    private MainFrame mainFrame;
     private JTextField field;
     
     public CustomField(String label) {
@@ -65,10 +64,6 @@ public class CustomField extends javax.swing.JPanel{
 
     public JTextField getField() {
         return field;
-    }
-
-    public void setFrame(MainFrame mainFrame) {
-        this.mainFrame = mainFrame;
     }
 
 }

@@ -10,17 +10,9 @@ import java.awt.*;
 
 public class CustomLabel extends javax.swing.JLabel {
 
-    // Variable estatica
-    protected static MainFrame mainFrame;
-
     // Constructores simples
     protected CustomLabel(String text) {
         super(text);
-    }
-
-    // Metodo estatico
-    public static void setFrame(MainFrame mainFrame) {
-        CustomLabel.mainFrame = mainFrame;
     }
 
     public static class Regular extends CustomLabel {

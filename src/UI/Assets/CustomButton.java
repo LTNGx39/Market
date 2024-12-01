@@ -253,12 +253,12 @@ public class CustomButton extends javax.swing.JButton {
         private Shape round = new RoundRectangle2D.Double(0, 0, 180, 50, 30, 30);
 
         // Constructor base
-        public Option(String text) {
+        public Option(int width, int height, String text) {
 
             super();
 
             setText(text);
-            setPreferredSize(new Dimension(180, 50));
+            setPreferredSize(new Dimension(width, height));
             setBackground(Palette.BLACK);
             setFont(CustomFont.interBold);
             addGeneralSettings();
