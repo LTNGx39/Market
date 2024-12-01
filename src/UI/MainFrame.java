@@ -28,7 +28,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         CustomLabel.setFrame(this);
         CustomButton.setFrame(this);
-        FieldFrame.setFrame(this);
         titleBar = new TitleBar(this);
         userSelector = new UserSelector(this);
         admin = new Admin(this);

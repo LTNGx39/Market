@@ -72,7 +72,7 @@ public class Admin extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                new FieldFrame.AddItem();
+                new FieldFrame.AddItem(Admin.this);
 
             }
 
@@ -85,7 +85,9 @@ public class Admin extends javax.swing.JPanel {
             public void actionPerformed(ActionEvent e) {
 
                 int row = itemTable.getSelectedRow();
-                new FieldFrame.EditItem(row);
+                if (row != -1) {
+                    new FieldFrame.EditItem(Admin.this, row);
+                }
 
             }
 
@@ -98,7 +100,9 @@ public class Admin extends javax.swing.JPanel {
             public void actionPerformed(ActionEvent e) {
 
                 int row = itemTable.getSelectedRow();
-                new FieldFrame.DeleteItem(row);
+                if (row != -1) {
+                    new FieldFrame.DeleteItem(Admin.this, row);
+                }
 
             }
 

@@ -4,6 +4,7 @@ import UI.*;
 import UI.MainFrame;
 import UI.Assets.*;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.*;
@@ -11,20 +12,23 @@ import java.awt.geom.*;
 
 public class FieldFrame extends javax.swing.JFrame {
 
-    private static MainFrame mainFrame;
     protected Shadow shadow;
 
     public static class AddItem extends FieldFrame {
 
+        private Admin adminPanel;
+        private DefaultTableModel data;
         private CustomLabel title;
         private CustomField name, id, desc, buy, sell, discount, stock;
         private CustomButton save, cancel;
 
-        public AddItem() {
+        public AddItem(Admin adminPanel) {
 
-            shadow = new Shadow(mainFrame, this);
+            this.adminPanel = adminPanel;
+            shadow = new Shadow(adminPanel.getMainFrame(), this);
             setSize(322, 407);
-            setGeneralSettings();
+            setGeneralSettings(adminPanel.getMainFrame());
+            data = adminPanel.getTableModel();
 
             // Configuracion de componentes
             title = new CustomLabel.Bold("Nuevo item", SwingConstants.CENTER, 20.0F);
@@ -51,7 +55,32 @@ public class FieldFrame extends javax.swing.JFrame {
 
             });
 
-            save = new CustomButton.Decision("Guardar");
+            save = new CustomButton.Decision("Añadir");
+            save.addActionListener(new ActionListener() {
+                
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    
+                    String nameS = name.getField().getText();
+                    String idS = id.getField().getText();
+                    String descS = desc.getField().getText();
+                    String buyS = buy.getField().getText();
+                    String sellS = sell.getField().getText();
+                    String discountS = discount.getField().getText();
+                    String stockS = stock.getField().getText();
+
+                    if (!nameS.equals("") && !idS.equals("") && !descS.equals("") && !buyS.equals("") && !sellS.equals("") && !discountS.equals("") && !stockS.equals("")) {
+
+                        Object[] newRow = new Object[] {nameS, idS, descS, buyS, sellS, discountS, stockS};
+                        data.addRow(newRow);
+                        dispose();
+                        shadow.dispose();
+
+                    }
+
+                }
+
+            });
 
             // Adicion de los componentes
             GridBagConstraints gbc = new GridBagConstraints();
@@ -106,17 +135,19 @@ public class FieldFrame extends javax.swing.JFrame {
 
     public static class EditItem extends FieldFrame {
 
-        private TableModel data;
+        private Admin adminPanel;
+        private DefaultTableModel data;
         private CustomLabel title;
         private CustomField name, id, desc, buy, sell, discount, stock;
         private CustomButton save, cancel;
 
-        public EditItem(int row) {
+        public EditItem(Admin adminPanel, int row) {
 
-            shadow = new Shadow(mainFrame, this);
+            this.adminPanel = adminPanel;
+            shadow = new Shadow(adminPanel.getMainFrame(), this);
             setSize(322, 407);
-            setGeneralSettings();
-            data = mainFrame.getAdmin().getTable().getModel();
+            setGeneralSettings(adminPanel.getMainFrame());
+            data = adminPanel.getTableModel();
 
             // Configuracion de componentes
             title = new CustomLabel.Bold("Editar item", SwingConstants.CENTER, 20.0F);
@@ -152,6 +183,32 @@ public class FieldFrame extends javax.swing.JFrame {
             });
 
             save = new CustomButton.Decision("Guardar");
+            save.addActionListener(new ActionListener() {
+                        
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    String nameS = name.getField().getText();
+                    String idS = id.getField().getText();
+                    String descS = desc.getField().getText();
+                    String buyS = buy.getField().getText();
+                    String sellS = sell.getField().getText();
+                    String discountS = discount.getField().getText();
+                    String stockS = stock.getField().getText();
+
+                    if (!nameS.equals("") && !idS.equals("") && !descS.equals("") && !buyS.equals("") && !sellS.equals("") && !discountS.equals("") && !stockS.equals("")) {
+
+                        Object[] newRow = new Object[] {nameS, idS, descS, buyS, sellS, discountS, stockS};
+                        data.removeRow(row);
+                        data.insertRow(row, newRow);
+                        dispose();
+                        shadow.dispose();
+
+                    }
+
+                }
+
+            });
 
             // Adicion de los componentes
             GridBagConstraints gbc = new GridBagConstraints();
@@ -217,24 +274,26 @@ public class FieldFrame extends javax.swing.JFrame {
 
     public static class DeleteItem extends FieldFrame {
 
-        private TableModel model;
+        private Admin adminPanel;
+        private DefaultTableModel data;
         private CustomLabel title, text1, text2;
         private CustomButton cancel, accept;
 
-        public DeleteItem(int row) {
+        public DeleteItem(Admin adminPanel, int row) {
 
-            shadow = new Shadow(mainFrame, this);
+            this.adminPanel = adminPanel;
+            shadow = new Shadow(adminPanel.getMainFrame(), this);
             setSize(322, 202);
-            setGeneralSettings();
+            setGeneralSettings(adminPanel.getMainFrame());
             setLayout(new GridBagLayout());
-            model = mainFrame.getAdmin().getTable().getModel();
+            data = adminPanel.getTableModel();
 
             title = new CustomLabel.Bold("Eliminar item", SwingConstants.CENTER, 20.0F);
             title.setPreferredSize(new Dimension(200, 30));
             text1 = new CustomLabel.Semi("¿Esta seguro que quiere eliminar", SwingConstants.CENTER, 16.0F);
             text1.setPreferredSize(new Dimension(280, 30));
             text1.setVerticalAlignment(SwingConstants.BOTTOM);
-            text2 = new CustomLabel.Semi("el producto \"" + model.getValueAt(row, 0) + "\"?", SwingConstants.CENTER, 16.0F);
+            text2 = new CustomLabel.Semi("el producto \"" + data.getValueAt(row, 0) + "\"?", SwingConstants.CENTER, 16.0F);
             text2.setPreferredSize(new Dimension(280, 30));
             text2.setVerticalAlignment(SwingConstants.TOP);
 
@@ -252,6 +311,18 @@ public class FieldFrame extends javax.swing.JFrame {
             });
 
             accept = new CustomButton.Decision("Aceptar");
+            accept.addActionListener(new ActionListener() {
+                
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    dispose();
+                    shadow.dispose();
+                    data.removeRow(row);
+
+                }
+
+            });
 
             // Adicion de los componentes
             GridBagConstraints gbc = new GridBagConstraints();
@@ -287,11 +358,7 @@ public class FieldFrame extends javax.swing.JFrame {
 
     // ----------------------------------------------------------------------------------------------------
 
-    public static void setFrame(MainFrame mainFrame) {
-        FieldFrame.mainFrame = mainFrame;
-    }
-
-    protected void setGeneralSettings() {
+    protected void setGeneralSettings(MainFrame mainFrame) {
 
         setUndecorated(true);
         setLocationRelativeTo(mainFrame);
