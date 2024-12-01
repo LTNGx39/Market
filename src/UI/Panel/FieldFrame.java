@@ -1,19 +1,13 @@
 package UI.Panel;
 
 import UI.*;
+import UI.MainFrame;
+import UI.Assets.*;
 import javax.swing.*;
 import javax.swing.table.TableModel;
-
-import UI.MainFrame;
-import UI.Assets.CustomButton;
-import UI.Assets.CustomField;
-import UI.Assets.CustomLabel;
-import UI.Assets.Palette;
-
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.geom.RoundRectangle2D;
+import java.awt.event.*;
+import java.awt.geom.*;
 
 public class FieldFrame extends javax.swing.JFrame {
 
@@ -44,8 +38,20 @@ public class FieldFrame extends javax.swing.JFrame {
             discount = new CustomField("Descuento:");
             stock = new CustomField("Stock:");
 
-            save = new CustomButton.Decision(this, CustomButton.Decision.ACCEPT);
-            cancel = new CustomButton.Decision(this, CustomButton.Decision.CANCEL);
+            cancel = new CustomButton.Decision("Cancelar");
+            cancel.addActionListener(new ActionListener() {
+                        
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    dispose();
+                    getShadow().dispose();
+
+                }
+
+            });
+
+            save = new CustomButton.Decision("Guardar");
 
             // Adicion de los componentes
             GridBagConstraints gbc = new GridBagConstraints();
@@ -132,8 +138,20 @@ public class FieldFrame extends javax.swing.JFrame {
             stock = new CustomField("Stock:");
             stock.getField().setText("" + data.getValueAt(row, 6));
 
-            save = new CustomButton.Decision(this, CustomButton.Decision.ACCEPT);
-            cancel = new CustomButton.Decision(this,CustomButton.Decision.CANCEL);
+            cancel = new CustomButton.Decision("Cancelar");
+            cancel.addActionListener(new ActionListener() {
+                        
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    dispose();
+                    getShadow().dispose();
+
+                }
+
+            });
+
+            save = new CustomButton.Decision("Guardar");
 
             // Adicion de los componentes
             GridBagConstraints gbc = new GridBagConstraints();
@@ -220,8 +238,20 @@ public class FieldFrame extends javax.swing.JFrame {
             text2.setPreferredSize(new Dimension(280, 30));
             text2.setVerticalAlignment(SwingConstants.TOP);
 
-            cancel = new CustomButton.Decision(this, CustomButton.Decision.CANCEL);
-            accept = new CustomButton.Decision(this, CustomButton.Decision.ACCEPT);
+            cancel = new CustomButton.Decision("Cancelar");
+            cancel.addActionListener(new ActionListener() {
+                        
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    dispose();
+                    getShadow().dispose();
+
+                }
+
+            });
+
+            accept = new CustomButton.Decision("Aceptar");
 
             // Adicion de los componentes
             GridBagConstraints gbc = new GridBagConstraints();

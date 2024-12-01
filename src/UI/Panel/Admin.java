@@ -7,15 +7,20 @@ import UI.Assets.Palette;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.*;
 
 public class Admin extends javax.swing.JPanel {
 
+    private MainFrame mainFrame;
+
     private DefaultTableModel data;
     private JTable itemTable;
-    private CustomButton addItem, editItem, deleteItem;
+
+    private CustomButton.Option addItem, editItem, deleteItem;
     
     public Admin(MainFrame mainFrame) {
 
+        this.mainFrame = mainFrame;
         setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
         setLayout(new GridBagLayout());
         setOpaque(false);
@@ -30,32 +35,10 @@ public class Admin extends javax.swing.JPanel {
         data.addColumn("Descuento");
         data.addColumn("Stock");
 
-        // Datos de prueba
-        data.addRow(new Object[] {"Leche", "001", "Descripcion", "23$", "42$", "0", "4"});
-        data.addRow(new Object[] {"Leche", "001", "Descripcion", "23$", "42$", "0", "4"});
-        data.addRow(new Object[] {"Leche", "001", "Descripcion", "23$", "42$", "0", "4"});
-        data.addRow(new Object[] {"Leche", "001", "Descripcion", "23$", "42$", "0", "4"});
-        data.addRow(new Object[] {"Leche", "001", "Descripcion", "23$", "42$", "0", "4"});
-        data.addRow(new Object[] {"Leche", "001", "Descripcion", "23$", "42$", "0", "4"});
-        data.addRow(new Object[] {"Leche", "001", "Descripcion", "23$", "42$", "0", "4"});
-        data.addRow(new Object[] {"Leche", "001", "Descripcion", "23$", "42$", "0", "4"});
-        data.addRow(new Object[] {"Leche", "001", "Descripcion", "23$", "42$", "0", "4"});
-        data.addRow(new Object[] {"Leche", "001", "Descripcion", "23$", "42$", "0", "4"});
-        data.addRow(new Object[] {"Leche", "001", "Descripcion", "23$", "42$", "0", "4"});
-        data.addRow(new Object[] {"Leche", "001", "Descripcion", "23$", "42$", "0", "4"});
-        data.addRow(new Object[] {"Leche", "001", "Descripcion", "23$", "42$", "0", "4"});
-        data.addRow(new Object[] {"Leche", "001", "Descripcion", "23$", "42$", "0", "4"});
-        data.addRow(new Object[] {"Leche", "001", "Descripcion", "23$", "42$", "0", "4"});
-        data.addRow(new Object[] {"Leche", "001", "Descripcion", "23$", "42$", "0", "4"});
-        data.addRow(new Object[] {"Leche", "001", "Descripcion", "23$", "42$", "0", "4"});
-        data.addRow(new Object[] {"Leche", "001", "Descripcion", "23$", "42$", "0", "4"});
-        data.addRow(new Object[] {"Leche", "001", "Descripcion", "23$", "42$", "0", "4"});
-        data.addRow(new Object[] {"Leche", "001", "Descripcion", "23$", "42$", "0", "4"});
-        data.addRow(new Object[] {"Leche", "001", "Descripcion", "23$", "42$", "0", "4"});
-        data.addRow(new Object[] {"Leche", "001", "Descripcion", "23$", "42$", "0", "4"});
-        data.addRow(new Object[] {"Leche", "001", "Descripcion", "23$", "42$", "0", "4"});
-        data.addRow(new Object[] {"Leche", "001", "Descripcion", "23$", "42$", "0", "4"});
-        data.addRow(new Object[] {"Leche", "001", "Descripcion", "23$", "42$", "0", "4"});
+        // Dato de prueba
+        data.addRow(new Object[] {"Leche", "001", "Lala entera", "23$", "42$", "0%", "4"});
+        data.addRow(new Object[] {"Maiz", "002", "Para animales de granja", "47$", "65$", "0%", "9"});
+        data.addRow(new Object[] {"Llanta", "003", "R23 - 64''", "180$", "299$", "24%", "2"});
 
         itemTable = new JTable(data);
         itemTable.setFont(CustomFont.interRegular.deriveFont(14.0F));
@@ -83,9 +66,43 @@ public class Admin extends javax.swing.JPanel {
         scrollPanel.setOpaque(false);
         
         // Botones
-        addItem = new CustomButton.Option(CustomButton.Option.ADM_ADD);
-        editItem = new CustomButton.Option(CustomButton.Option.ADM_EDIT);
-        deleteItem = new CustomButton.Option(CustomButton.Option.ADM_DEL);
+        addItem = new CustomButton.Option("Añadir item");
+        addItem.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                new FieldFrame.AddItem();
+
+            }
+
+        });
+
+        editItem = new CustomButton.Option("Editar item");
+        editItem.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int row = itemTable.getSelectedRow();
+                new FieldFrame.EditItem(row);
+
+            }
+
+        });
+
+        deleteItem = new CustomButton.Option("Eliminar item");
+        deleteItem.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int row = itemTable.getSelectedRow();
+                new FieldFrame.DeleteItem(row);
+
+            }
+
+        });
 
         // Agregar los componentes
         GridBagConstraints gbc = new GridBagConstraints();
@@ -110,6 +127,10 @@ public class Admin extends javax.swing.JPanel {
         gbc.insets = new Insets(0, 0, 0, 60);
         add(deleteItem, gbc);
 
+    }
+
+    public MainFrame getMainFrame() {
+        return mainFrame;
     }
 
     public DefaultTableModel getTableModel() {

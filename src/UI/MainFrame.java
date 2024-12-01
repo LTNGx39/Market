@@ -1,10 +1,8 @@
 package UI;
 
-import javax.swing.*;
-
 import UI.Assets.*;
 import UI.Panel.*;
-
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 
@@ -63,8 +61,20 @@ public class MainFrame extends javax.swing.JFrame {
         return titleBar;
     }
 
+    public UserSelector getUserSelector() {
+        return userSelector;
+    }
+
     public Admin getAdmin() {
         return admin;
+    }
+
+    public Sales getSales() {
+        return sales;
+    }
+
+    public Members getMembers() {
+        return members;
     }
 
     public int getUsableWidth() {
@@ -75,34 +85,34 @@ public class MainFrame extends javax.swing.JFrame {
         return getHeight() - 2;
     }
 
-}
-
-class CustomPane extends javax.swing.JPanel {
+    class CustomPane extends javax.swing.JPanel {
     
-    MainFrame frame;
-
-    public CustomPane(MainFrame frame) {
-
-        this.frame = frame;
-        setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-    }
-
-    @Override
-    public void paintComponent(Graphics g) {
-
-        super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        // Borde
-        g2.setColor(Palette.GRAY);
-        g2.fill(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 22, 22));
-
-        // Area interna
-        g2.setColor(Palette.DARK_GRAY);
-        g2.fill(new RoundRectangle2D.Double(1, 1, getWidth() - 2, getHeight() - 2, 20, 20));
+        MainFrame frame;
+    
+        public CustomPane(MainFrame frame) {
+    
+            this.frame = frame;
+            setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+            setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+    
+        }
+    
+        @Override
+        public void paintComponent(Graphics g) {
+    
+            super.paintComponent(g);
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    
+            // Borde
+            g2.setColor(Palette.GRAY);
+            g2.fill(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 22, 22));
+    
+            // Area interna
+            g2.setColor(Palette.DARK_GRAY);
+            g2.fill(new RoundRectangle2D.Double(1, 1, getWidth() - 2, getHeight() - 2, 20, 20));
+    
+        }
 
     }
 

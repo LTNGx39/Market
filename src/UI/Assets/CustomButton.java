@@ -1,8 +1,7 @@
 package UI.Assets;
 
 import UI.*;
-import UI.Panel.FieldFrame;
-
+import UI.Panel.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
@@ -154,38 +153,12 @@ public class CustomButton extends javax.swing.JButton {
                     icon = CustomShape.back;
                     setForeground(Palette.GRAY);
                     setEnabled(false);
-
-                    addActionListener(new ActionListener() {
-                        
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-
-                            mainFrame.getCardLayout().show(mainFrame.getPanelChanger(), "Usuarios");
-                            mainFrame.getTitleBar().getTitleLabel().setText("Market");
-                            setMouseOver(false);
-                            setEnabled(false);
-
-                        }
-
-                    });
                     break;
 
                 case CLOSE:
                 	corner = CustomShape.right;
                     icon = CustomShape.cross;
                     setForeground(Palette.RED);
-
-                    addActionListener(new ActionListener() {
-                        
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-
-                            mainFrame.dispose();
-                            System.exit(0);
-
-                        }
-
-                    });
                     break;
 
             }
@@ -196,7 +169,7 @@ public class CustomButton extends javax.swing.JButton {
 
         }
 
-        private void setMouseOver(boolean truth) {
+        public void setMouseOver(boolean truth) {
             isMouseOver = truth;
         }
 
@@ -276,69 +249,15 @@ public class CustomButton extends javax.swing.JButton {
 
     public static class Option extends CustomButton {
 
-        // Variables estaticas
-        public static final int ADM_ADD = 1;
-        public static final int ADM_EDIT = 2;
-        public static final int ADM_DEL = 3;
-
         // Variables globales
         private Shape round = new RoundRectangle2D.Double(0, 0, 180, 50, 30, 30);
 
-        public Option(int ID) {
+        // Constructor base
+        public Option(String text) {
 
             super();
 
-            switch (ID) {
-
-                case ADM_ADD:
-                    setText("Añadir item");
-
-                    addActionListener(new ActionListener() {
-                        
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-
-                            new FieldFrame.AddItem();
-
-                        }
-
-                    });
-                    break;
-
-                case ADM_EDIT:
-                    setText("Editar item");
-
-                    addActionListener(new ActionListener() {
-                        
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-
-                            int rowIndex = mainFrame.getAdmin().getTable().getSelectedRow();
-                            new FieldFrame.EditItem(rowIndex);
-
-                        }
-
-                    });
-                    break;
-
-                case ADM_DEL:
-                    setText("Eliminar item");
-
-                    addActionListener(new ActionListener() {
-                        
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-
-                            int rowIndex = mainFrame.getAdmin().getTable().getSelectedRow();
-                            new FieldFrame.DeleteItem(rowIndex);
-
-                        }
-
-                    });
-                    break;
-
-            }
-
+            setText(text);
             setPreferredSize(new Dimension(180, 50));
             setBackground(Palette.BLACK);
             setFont(CustomFont.interBold);
@@ -367,41 +286,14 @@ public class CustomButton extends javax.swing.JButton {
 
     public static class Decision extends CustomButton {
 
-        // Variables estaticas
-        public static final int ACCEPT = 1;
-        public static final int CANCEL = 2;
-
         // Variables globales
         private Shape round = new RoundRectangle2D.Double(0, 0, 120, 40, 30, 30);
 
-        public Decision(FieldFrame frame, int ID) {
+        public Decision(String text) {
 
             super();
 
-            switch (ID) {
-
-                case ACCEPT:
-                    setText("Aceptar");
-                    break;
-            
-                case CANCEL:
-                    setText("Cancelar");
-
-                    addActionListener(new ActionListener() {
-                        
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-
-                            frame.dispose();
-                            frame.getShadow().dispose();
-
-                        }
-
-                    });
-                    break;
-
-            }
-
+            setText(text);
             setPreferredSize(new Dimension(120, 40));
             setBackground(Palette.BLACK);
             setFont(CustomFont.interBold);

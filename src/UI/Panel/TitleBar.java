@@ -1,11 +1,9 @@
 package UI.Panel;
 
 import UI.*;
-import UI.Assets.CustomButton;
-import UI.Assets.CustomLabel;
+import UI.Assets.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 import javax.swing.SwingConstants;
 
@@ -13,7 +11,7 @@ public class TitleBar extends javax.swing.JPanel {
 
     private MainFrame mainFrame;
 
-    private CustomButton back, close;
+    private CustomButton.TitleBar back, close;
     private CustomLabel title;
     
     public TitleBar(MainFrame mainFrame) {
@@ -28,13 +26,38 @@ public class TitleBar extends javax.swing.JPanel {
 
         // Configuracion de componentes
         back = new CustomButton.TitleBar(CustomButton.TitleBar.BACK);
+        back.addActionListener(new ActionListener() {
+                        
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                mainFrame.getCardLayout().show(mainFrame.getPanelChanger(), "Usuarios");
+                mainFrame.getTitleBar().getTitleLabel().setText("Market");
+                back.setMouseOver(false);
+                back.setEnabled(false);
+
+            }
+
+        });
+
         close = new CustomButton.TitleBar(CustomButton.TitleBar.CLOSE);
+        close.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                mainFrame.dispose();
+                System.exit(0);
+
+            }
+
+        });
 
         title = new CustomLabel.Bold("Market", SwingConstants.CENTER, 16.0F);
         title.setPreferredSize(new Dimension(mainFrame.getUsableWidth() - 96, 32));
 
-         // Listener
-         MouseAdapter drag = new MouseAdapter() {
+        // Listener para arrastrar la ventana
+        MouseAdapter drag = new MouseAdapter() {
 
             int mouseX, mouseY;
 
@@ -51,6 +74,7 @@ public class TitleBar extends javax.swing.JPanel {
 
                 mainFrame.setLocation(x, y);
             } 
+
         };
 
         title.addMouseListener(drag);
