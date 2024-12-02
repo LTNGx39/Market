@@ -1,6 +1,7 @@
 package Item;
 
 import java.io.*;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -169,5 +170,15 @@ public class Files {
         if (!sociosFile.exists()) {
             sociosFile.createNewFile();
         }
+    }
+
+    public static void createDirectories(Path carpetaPath) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'createDirectories'");
+    }
+
+    public static boolean exists(Path carpetaPath) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'exists'");
     }
 }
