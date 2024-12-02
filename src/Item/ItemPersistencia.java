@@ -5,16 +5,15 @@ import java.util.ArrayList;
 import javax.swing.table.TableModel;
 
 public class ItemPersistencia {
+    // Ruta predefinida para el archivo
+    private static final String RUTA_ARCHIVO = "items.csv";
+
     /**
      * Método para guardar Items desde un TableModel a un archivo
      * @param tableModel TableModel que contiene los datos de los Items
-     * @param archivo Ruta del archivo donde se guardarán los datos
      */
-    
-    public static void guardarItems(TableModel tableModel, String archivo) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo))) {
-
-            // Iterar por cada fila del TableModel
+    public static void guardarItems(TableModel tableModel) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(RUTA_ARCHIVO))) {
             for (int fila = 0; fila < tableModel.getRowCount(); fila++) {
                 // Recuperar datos de cada columna
                 String nombre = tableModel.getValueAt(fila, 0).toString();
@@ -25,18 +24,13 @@ public class ItemPersistencia {
                 double descuento = Double.parseDouble(tableModel.getValueAt(fila, 5).toString());
                 int stock = Integer.parseInt(tableModel.getValueAt(fila, 6).toString());
 
-                // Crear objeto Item
-                Item item = new Item(nombre, id, descripcion, 
-                                     precioCompra, precioVenta, 
-                                     descuento, stock);
-
                 // Escribir en archivo (formato CSV para simplicidad)
                 writer.write(String.format("%s;%s;%s;%.2f;%.2f;%.2f;%d\n", 
                     nombre, id, descripcion, 
                     precioCompra, precioVenta, 
                     descuento, stock));
             }
-            System.out.println("Datos guardados exitosamente en " + archivo);
+            System.out.println("Datos guardados exitosamente en " + RUTA_ARCHIVO);
         } catch (IOException e) {
             System.err.println("Error al guardar los datos: " + e.getMessage());
         }
@@ -44,13 +38,12 @@ public class ItemPersistencia {
 
     /**
      * Método para leer Items desde un archivo y devolver un arreglo
-     * @param archivo Ruta del archivo a leer
      * @return Arreglo de Items leídos del archivo
      */
-    public static Item[] leerItemsDesdeArchivo(String archivo) {
+    public static Item[] leerItemsDesdeArchivo() {
         ArrayList<Item> items = new ArrayList<>();
         
-        try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(RUTA_ARCHIVO))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
                 // Dividir línea por separador
@@ -69,12 +62,11 @@ public class ItemPersistencia {
                 
                 items.add(item);
             }
-            System.out.println("Datos leídos exitosamente de " + archivo);
+            System.out.println("Datos leídos exitosamente de " + RUTA_ARCHIVO);
         } catch (IOException e) {
             System.err.println("Error al leer los datos: " + e.getMessage());
         }
         
-        // Convertir ArrayList a array de Items
         return items.toArray(new Item[0]);
     }
 }
