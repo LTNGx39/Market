@@ -4,7 +4,6 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 public class ItemPersistencia {
     // Ruta de la carpeta y archivo
@@ -12,10 +11,10 @@ public class ItemPersistencia {
     private static final String RUTA_ARCHIVO = CARPETA + "/items.csv";
     
     /**
-     * Método para guardar Items desde un TableModel a un archivo
-     * @param tableModel TableModel que contiene los datos de los Items
+     * Método para guardar Items desde un DefaultTableModel a un archivo
+     * @param tableModel DefaultTableModel que contiene los datos de los Items
      */
-    public static void guardarItems(TableModel tableModel) {
+    public static void guardarItems(DefaultTableModel tableModel) {
         try {
             // Verificar si la carpeta existe, si no, crearla
             Path carpetaPath = Paths.get(CARPETA);

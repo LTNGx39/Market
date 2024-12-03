@@ -96,7 +96,7 @@ public class Files {
                     item.getNombre(), DELIMITER,
                     item.getId(), DELIMITER,
                     item.getDescripcion(), DELIMITER,
-                    item.getPrecioCompra(), DELIMITER,
+                    item.getPrecioConDescuento(), DELIMITER,
                     item.getPrecioVenta(), DELIMITER,
                     item.getDescuento(), DELIMITER,
                     item.getStock()
@@ -173,8 +173,22 @@ public class Files {
     }
 
     public static void createDirectories(Path carpetaPath) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createDirectories'");
+        try {
+            // Verifica si el directorio no existe
+            if (!exists(carpetaPath)) {
+                // Intenta crear el directorio, incluyendo directorios padre si no existen
+                carpetaPath.toFile().mkdirs();
+                
+                // Verificación adicional
+                if (!exists(carpetaPath)) {
+                    throw new IOException("No se pudo crear el directorio: " + carpetaPath);
+                }
+                
+                System.out.println("Directorio creado: " + carpetaPath);
+            }
+        } catch (Exception e) {
+            System.err.println("Error al crear directorios: " + e.getMessage());
+        }
     }
 
     public static boolean exists(Path carpetaPath) {
