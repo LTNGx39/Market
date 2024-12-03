@@ -85,11 +85,11 @@ public class MainFrame extends javax.swing.JFrame {
 
     class CustomPane extends javax.swing.JPanel {
     
-        MainFrame frame;
+        MainFrame mainFrame;
     
-        public CustomPane(MainFrame frame) {
+        public CustomPane(MainFrame mainFrame) {
     
-            this.frame = frame;
+            this.mainFrame = mainFrame;
             setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
             setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     

@@ -28,9 +28,9 @@ public class ItemPersistencia {
                     String nombre = tableModel.getValueAt(fila, 0).toString();
                     String id = tableModel.getValueAt(fila, 1).toString();
                     String descripcion = tableModel.getValueAt(fila, 2).toString();
-                    double precioCompra = Double.parseDouble(tableModel.getValueAt(fila, 3).toString());
-                    double precioVenta = Double.parseDouble(tableModel.getValueAt(fila, 4).toString());
-                    double descuento = Double.parseDouble(tableModel.getValueAt(fila, 5).toString());
+                    double precioCompra = Double.parseDouble(tableModel.getValueAt(fila, 3).toString().replace("$", ""));
+                    double precioVenta = Double.parseDouble(tableModel.getValueAt(fila, 4).toString().replace("$", ""));
+                    double descuento = Double.parseDouble(tableModel.getValueAt(fila, 5).toString().replace("%", ""));
                     int stock = Integer.parseInt(tableModel.getValueAt(fila, 6).toString());
                     writer.write(String.format("%s;%s;%s;%.2f;%.2f;%.2f;%d\n",
                             nombre, id, descripcion,

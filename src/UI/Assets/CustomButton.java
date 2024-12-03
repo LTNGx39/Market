@@ -250,7 +250,7 @@ public class CustomButton extends javax.swing.JButton {
     public static class Option extends CustomButton {
 
         // Variables globales
-        private Shape round = new RoundRectangle2D.Double(0, 0, 180, 50, 30, 30);
+        private Shape round;
 
         // Constructor base
         public Option(int width, int height, String text) {
@@ -261,6 +261,7 @@ public class CustomButton extends javax.swing.JButton {
             setPreferredSize(new Dimension(width, height));
             setBackground(Palette.BLACK);
             setFont(CustomFont.interBold);
+            round = new RoundRectangle2D.Double(0, 0, width, height, 30, 30);
             addGeneralSettings();
 
         }
@@ -287,16 +288,17 @@ public class CustomButton extends javax.swing.JButton {
     public static class Decision extends CustomButton {
 
         // Variables globales
-        private Shape round = new RoundRectangle2D.Double(0, 0, 120, 40, 30, 30);
+        private Shape round;
 
-        public Decision(String text) {
+        public Decision(int width, int height, String text) {
 
             super();
 
             setText(text);
-            setPreferredSize(new Dimension(120, 40));
+            setPreferredSize(new Dimension(width, height));
             setBackground(Palette.BLACK);
             setFont(CustomFont.interBold);
+            round = new RoundRectangle2D.Double(0, 0, width, height, 30, 30);
             addGeneralSettings();
 
         }

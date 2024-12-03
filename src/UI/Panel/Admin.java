@@ -4,8 +4,12 @@ import UI.*;
 import UI.Assets.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+import Item.ItemPersistencia;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 
 public class Admin extends javax.swing.JPanel {
 
@@ -23,12 +27,7 @@ public class Admin extends javax.swing.JPanel {
         setOpaque(false);
 
         // Configuracion de componentes
-        scroll = new CustomScroll(720, 398, new Object[] {"Nombre", "ID", "Descripcion", "P. Compra", "P. Venta", "Descuento", "Stock"});
-
-        // Dato de prueba
-        scroll.getModel().addRow(new Object[] {"Leche", "001", "Lala entera", "23$", "42$", "0%", "4"});
-        scroll.getModel().addRow(new Object[] {"Maiz", "002", "Para animales de granja", "47$", "65$", "0%", "9"});
-        scroll.getModel().addRow(new Object[] {"Llanta", "003", "R23 - 64''", "180$", "299$", "24%", "2"});
+        scroll = new CustomScroll(720, 398, ItemPersistencia.leerItemsDesdeArchivo());
         
         // Botones
         addItem = new CustomButton.Option(180, 50, "Añadir item");

@@ -43,7 +43,7 @@ public class FieldFrame extends javax.swing.JFrame {
             discount = new CustomField("Descuento:");
             stock = new CustomField("Stock:");
 
-            cancel = new CustomButton.Decision("Cancelar");
+            cancel = new CustomButton.Decision(120, 40, "Cancelar");
             cancel.addActionListener(new ActionListener() {
                         
                 @Override
@@ -56,7 +56,7 @@ public class FieldFrame extends javax.swing.JFrame {
 
             });
 
-            save = new CustomButton.Decision("Añadir");
+            save = new CustomButton.Decision(120, 40, "Añadir");
             save.addActionListener(new ActionListener() {
                 
                 @Override
@@ -170,7 +170,7 @@ public class FieldFrame extends javax.swing.JFrame {
             stock = new CustomField("Stock:");
             stock.getField().setText("" + data.getValueAt(row, 6));
 
-            cancel = new CustomButton.Decision("Cancelar");
+            cancel = new CustomButton.Decision(120, 40, "Cancelar");
             cancel.addActionListener(new ActionListener() {
                         
                 @Override
@@ -183,7 +183,7 @@ public class FieldFrame extends javax.swing.JFrame {
 
             });
 
-            save = new CustomButton.Decision("Guardar");
+            save = new CustomButton.Decision(120, 40, "Guardar");
             save.addActionListener(new ActionListener() {
                         
                 @Override
@@ -299,7 +299,7 @@ public class FieldFrame extends javax.swing.JFrame {
             text2.setPreferredSize(new Dimension(280, 30));
             text2.setVerticalAlignment(SwingConstants.TOP);
 
-            cancel = new CustomButton.Decision("Cancelar");
+            cancel = new CustomButton.Decision(120, 40, "Cancelar");
             cancel.addActionListener(new ActionListener() {
                         
                 @Override
@@ -312,7 +312,7 @@ public class FieldFrame extends javax.swing.JFrame {
 
             });
 
-            accept = new CustomButton.Decision("Aceptar");
+            accept = new CustomButton.Decision(120, 40, "Aceptar");
             accept.addActionListener(new ActionListener() {
                 
                 @Override
@@ -389,7 +389,7 @@ public class FieldFrame extends javax.swing.JFrame {
             aditional2 = new CustomField("Adicional 2:");
             start = new CustomField("Fecha de inicio:");
 
-            cancel = new CustomButton.Decision("Cancelar");
+            cancel = new CustomButton.Decision(120, 40, "Cancelar");
             cancel.addActionListener(new ActionListener() {
                         
                 @Override
@@ -402,7 +402,7 @@ public class FieldFrame extends javax.swing.JFrame {
 
             });
 
-            add = new CustomButton.Decision("Añadir");
+            add = new CustomButton.Decision(120, 40, "Añadir");
             add.addActionListener(new ActionListener() {
                         
                 @Override
@@ -520,7 +520,7 @@ public class FieldFrame extends javax.swing.JFrame {
             start = new CustomField("Fecha de inicio:");
             start.getField().setText("" + data.getValueAt(row, 7));
 
-            cancel = new CustomButton.Decision("Cancelar");
+            cancel = new CustomButton.Decision(120, 40, "Cancelar");
             cancel.addActionListener(new ActionListener() {
                         
                 @Override
@@ -533,7 +533,7 @@ public class FieldFrame extends javax.swing.JFrame {
 
             });
 
-            add = new CustomButton.Decision("Guardar");
+            add = new CustomButton.Decision(120, 40, "Guardar");
             add.addActionListener(new ActionListener() {
                         
                 @Override
@@ -641,7 +641,7 @@ public class FieldFrame extends javax.swing.JFrame {
             text2.setPreferredSize(new Dimension(280, 30));
             text2.setVerticalAlignment(SwingConstants.TOP);
 
-            cancel = new CustomButton.Decision("Cancelar");
+            cancel = new CustomButton.Decision(120, 40, "Cancelar");
             cancel.addActionListener(new ActionListener() {
                         
                 @Override
@@ -654,7 +654,7 @@ public class FieldFrame extends javax.swing.JFrame {
 
             });
 
-            accept = new CustomButton.Decision("Aceptar");
+            accept = new CustomButton.Decision(120, 40, "Aceptar");
             accept.addActionListener(new ActionListener() {
                 
                 @Override

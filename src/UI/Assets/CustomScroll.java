@@ -14,14 +14,14 @@ public class CustomScroll extends javax.swing.JScrollPane {
     private DefaultTableModel model;
     private JTable table;
     
-    public CustomScroll(int width, int height, Object[] columns) {
+    public CustomScroll(int width, int height, DefaultTableModel modelReaded) {
 
         super();
 
         setPreferredSize(new Dimension(width, height));
 
         // Modelo de datos
-        model = new DefaultTableModel(null, columns);
+        model = modelReaded;
 
         // Tabla base
         table = new JTable(model);
@@ -82,6 +82,10 @@ public class CustomScroll extends javax.swing.JScrollPane {
 
     public JTable getTable() {
         return table;
+    }
+
+    public void setModel(DefaultTableModel model) {
+        this.model = model;
     }
 
 }

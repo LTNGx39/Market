@@ -7,6 +7,8 @@ import java.awt.event.*;
 
 import javax.swing.SwingConstants;
 
+import Item.ItemPersistencia;
+
 public class TitleBar extends javax.swing.JPanel {
 
     private MainFrame mainFrame;
@@ -31,6 +33,10 @@ public class TitleBar extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                // Guardar tablas
+                ItemPersistencia.guardarItems(mainFrame.getAdmin().getScroll().getModel());
+
+                // Salir a market
                 mainFrame.getCardLayout().show(mainFrame.getPanelChanger(), "Usuarios");
                 mainFrame.getTitleBar().getTitleLabel().setText("Market");
                 back.setMouseOver(false);

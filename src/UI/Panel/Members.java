@@ -2,6 +2,7 @@ package UI.Panel;
 
 import javax.swing.*;
 
+import Item.ItemPersistencia;
 import UI.*;
 import UI.MainFrame;
 import UI.Assets.*;
@@ -24,7 +25,7 @@ public class Members extends javax.swing.JPanel {
         setOpaque(false);
 
         // Configuracion de componentes
-        scroll = new CustomScroll(720, 398, new Object[] {"Nombre", "Tipo", "Direccion", "Telefono", "RFC", "Adicional 1", "Adicional 2", "Inicio", "Fin"});
+        scroll = new CustomScroll(720, 398, ItemPersistencia.leerItemsDesdeArchivo());
 
         // Datos de prueba
         scroll.getModel().addRow(new Object[] {"Agua", "Premium", "Fuego", "Tierra", "Luz", "Oscuridad", "Particulas", "1954", "1924"});
