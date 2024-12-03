@@ -1,6 +1,6 @@
 package Item;
 
-import javax.swing.table.TableModel;
+import javax.swing.table.DefaultTableModel;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,15 +10,15 @@ import java.util.List;
 public class Miembros {
     
     /**
-     * Lee datos de un TableModel y convierte cada fila en un objeto Socio
+     * Lee datos de un DefaultTableModel y convierte cada fila en un objeto Socio
      * 
      * @param tableModel El modelo de tabla que contiene los datos de los socios
      * @return Lista de objetos Socio creados a partir de los datos de la tabla
      */
-    public static List<Socio> convertirTableModelASocios(TableModel tableModel) {
+    public static List<Socio> convertirTableModelASocios(DefaultTableModel tableModel) {
         List<Socio> socios = new ArrayList<>();
         
-        // Validar que el TableModel tenga los datos necesarios
+        // Validar que el DefaultTableModel tenga los datos necesarios
         if (tableModel == null || tableModel.getRowCount() == 0) {
             return socios;
         }
@@ -36,7 +36,7 @@ public class Miembros {
             throw new IllegalArgumentException("No se encontraron todas las columnas necesarias");
         }
         
-        // Recorrer cada fila del TableModel
+        // Recorrer cada fila del DefaultTableModel
         for (int fila = 0; fila < tableModel.getRowCount(); fila++) {
             try {
                 // Obtener datos de la fila
@@ -97,35 +97,18 @@ public class Miembros {
     }
     
     /**
-     * Busca el índice de una columna en el TableModel por su nombre
+     * Busca el índice de una columna en el DefaultTableModel por su nombre
      * 
      * @param tableModel Modelo de tabla
      * @param nombreColumna Nombre de la columna a buscar
      * @return Índice de la columna o -1 si no se encuentra
      */
-    private static int findColumnIndex(TableModel tableModel, String nombreColumna) {
+    private static int findColumnIndex(DefaultTableModel tableModel, String nombreColumna) {
         for (int i = 0; i < tableModel.getColumnCount(); i++) {
             if (tableModel.getColumnName(i).equalsIgnoreCase(nombreColumna)) {
                 return i;
             }
         }
         return -1;
-    }
-    
-    /**
-     * Método de ejemplo para usar los métodos anteriores
-     */
-    public static void ejemploUso(TableModel tableModel) {
-        try {
-            // Convertir TableModel a lista de Socios
-            List<Socio> socios = convertirTableModelASocios(tableModel);
-            
-            // Guardar socios en un archivo
-            guardarSociosEnArchivo(socios, "socios.csv");
-            
-            System.out.println("Se han guardado " + socios.size() + " socios en el archivo.");
-        } catch (IOException e) {
-            System.err.println("Error al guardar los socios: " + e.getMessage());
-        }
     }
 }
