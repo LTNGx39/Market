@@ -59,40 +59,59 @@ public class ItemPersistencia {
         columnNames.add("Precio Venta");
         columnNames.add("Descuento");
         columnNames.add("Stock");
-
+    
         // Vector para almacenar los datos
         Vector<Vector<Object>> data = new Vector<>();
-
+    
         try {
             // Verificar si el archivo existe
             Path archivoPath = Paths.get(RUTA_ARCHIVO);
+            
+            // Verificación explícita de existencia del archivo
             if (!Files.exists(archivoPath)) {
-                System.err.println("El archivo no existe en: " + RUTA_ARCHIVO);
-                return new DefaultTableModel(columnNames, 0);
+                try {
+                    // Crear directorios si no existen
+                    Files.createDirectories(archivoPath.getParent());
+                    
+                    // Usar FileWriter para crear el archivo
+                    try (FileWriter writer = new FileWriter(archivoPath.toFile())) {
+                        // Archivo creado, pero vacío
+                        System.out.println("Archivo creado en: " + archivoPath);
+                    }
+                    
+                    // Devolver un DefaultTableModel vacío
+                    return new DefaultTableModel(columnNames, 0);
+                } catch (IOException e) {
+                    System.err.println("Error al crear el archivo: " + e.getMessage());
+                    return new DefaultTableModel(columnNames, 0);
+                }
             }
-
+    
             // Leer datos desde el archivo
             try (BufferedReader reader = new BufferedReader(new FileReader(RUTA_ARCHIVO))) {
                 String linea;
                 while ((linea = reader.readLine()) != null) {
-                    String[] datos = linea.split(";");
-                    Vector<Object> row = new Vector<>();
-                    row.add(datos[0]);       // Nombre
-                    row.add(datos[1]);       // ID
-                    row.add(datos[2]);       // Descripción
-                    row.add(Double.parseDouble(datos[3]));  // Precio Compra
-                    row.add(Double.parseDouble(datos[4]));  // Precio Venta
-                    row.add(Double.parseDouble(datos[5]));  // Descuento
-                    row.add(Integer.parseInt(datos[6]));    // Stock
-
-                    data.add(row);
+                    // Verificar que la línea no esté vacía
+                    if (!linea.trim().isEmpty()) {
+                        String[] datos = linea.split(";");
+                        Vector<Object> row = new Vector<>();
+                        row.add(datos[0]);       // Nombre
+                        row.add(datos[1]);       // ID
+                        row.add(datos[2]);       // Descripción
+                        row.add(Double.parseDouble(datos[3]));  // Precio Compra
+                        row.add(Double.parseDouble(datos[4]));  // Precio Venta
+                        row.add(Double.parseDouble(datos[5]));  // Descuento
+                        row.add(Integer.parseInt(datos[6]));    // Stock
+    
+                        data.add(row);
+                    }
                 }
                 System.out.println("Datos leídos exitosamente de: " + RUTA_ARCHIVO);
             }
         } catch (IOException e) {
             System.err.println("Error al leer los datos: " + e.getMessage());
         }
-
+    
         // Crear y devolver DefaultTableModel
         return new DefaultTableModel(data, columnNames);
     }
