@@ -178,7 +178,7 @@ public class Files {
     }
 
     public static boolean exists(Path carpetaPath) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'exists'");
+        // Verificación básica de existencia de carpeta o archivo
+        return carpetaPath != null && carpetaPath.toFile().exists();
     }
 }
