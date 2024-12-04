@@ -35,7 +35,7 @@ public class Sales extends javax.swing.JPanel {
         Object[] miembros = {"Juan"};
         member = new CustomCombo("Seleccion miembro", miembros);
 
-        Object[] productos = {"xd"};
+        Object[] productos = {"xd", "xd", "xd", "xd", "xd", "xd", "xd", "xd", "xd", "xd", "xd", "xd", "xd", "xd", "xd", "xd", "xd", "xd", "xd", "xd"};
         item = new CustomCombo("Seleccion item", productos);
 
         text = new CustomLabel.Semi("Total acumulado", SwingConstants.CENTER, 22.0F);

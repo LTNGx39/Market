@@ -490,7 +490,7 @@ public class FieldFrame extends javax.swing.JFrame {
                     String aditional2S = aditional2.getField().getText();
                     String startS = start.getField().getText();
 
-                    if (!nameS.equals("") && !typeS.equals("") && !addressS.equals("") && !telS.equals("") && !rfcS.equals("") && !aditional1S.equals("") && !aditional2S.equals("") && !startS.equals("")) {
+                    if (!nameS.equals("") && !typeS.equals("") && !addressS.equals("") && !telS.equals("") && !rfcS.equals("") && !startS.equals("")) {
 
                         Object[] newRow = new Object[] {nameS, typeS, addressS, telS, rfcS, aditional1S, aditional2S, startS};
                         data.addRow(newRow);
@@ -498,7 +498,7 @@ public class FieldFrame extends javax.swing.JFrame {
                         shadow.dispose();
 
                         // Guarda los datos
-                        // Miembros.guardarSociosEnArchivo("src\\data\\DatosM.csv", data);
+                        Miembros.guardarTableModelEnArchivo("src\\data\\DatosM.csv", data);
 
                     }
 
