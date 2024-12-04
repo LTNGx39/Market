@@ -5,7 +5,7 @@ import UI.Assets.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-import Item.ItemPersistencia;
+import Item.Item;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -27,7 +27,7 @@ public class Admin extends javax.swing.JPanel {
         setOpaque(false);
 
         // Configuracion de componentes
-        scroll = new CustomScroll(720, 398, ItemPersistencia.leerItemsDesdeArchivo());
+        scroll = new CustomScroll(720, 398, Item.leerItemsDesdeArchivo());
         
         // Botones
         addItem = new CustomButton.Option(180, 50, "Añadir item");
