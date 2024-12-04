@@ -94,8 +94,6 @@ public class Miembros {
     public static DefaultTableModel leerSociosDesdeArchivo(String rutaArchivo) {
         List<Socio> socios = new ArrayList<>();
     
-
-
     try (BufferedReader lector = new BufferedReader(new FileReader(rutaArchivo))) {
         String linea = lector.readLine(); // Leer encabezados
         
@@ -124,37 +122,11 @@ public class Miembros {
     }
     return convertirSociosATableModel(socios);
 }
-
     
-    // Guardar lista de socios en un archivo CSV
-    public static void guardarSociosEnArchivo(String rutaArchivo, List<Socio> socios) throws IOException {
-        try (BufferedWriter escritor = new BufferedWriter(new FileWriter(rutaArchivo))) {
-            escritor.write("Nombre,Direccion,Telefono,RFC,TipoMembresia,UsuarioAdicional1,UsuarioAdicional2,FechaInicio,FechaRenovacion,Activa,Cashback");
-            escritor.newLine();
-            for (Socio socio : socios) {
-                String linea = String.format(
-                    "%s,%s,%s,%s,%s,%s,%s,%s,%s,%b,%.2f",
-                    socio.getNombre(),
-                    socio.getDireccion(),
-                    socio.getTelefono(),
-                    socio.getRfc(),
-                    socio.getTipoMembresia().name(),
-                    socio.getUsuarioAdicional1() != null ? socio.getUsuarioAdicional1() : "",
-                    socio.getUsuarioAdicional2() != null ? socio.getUsuarioAdicional2() : "",
-                    socio.getFechaInicio() != null ? socio.getFechaInicio().toString() : "",
-                    socio.getFechaRenovacion() != null ? socio.getFechaRenovacion().toString() : "",
-                    socio.isActiva(),
-                    socio.getCashback()
-                );
-                escritor.write(linea);
-                escritor.newLine();
-            }
-        }
-    }
-    
-    // Guardar TableModel en un archivo CSV
+    // Guardar DefaultTableModel en un archivo CSV
     public static void guardarTableModelEnArchivo(String rutaArchivo, DefaultTableModel tableModel) throws IOException {
         try (BufferedWriter escritor = new BufferedWriter(new FileWriter(rutaArchivo))) {
+            // Escribir encabezados
             for (int col = 0; col < tableModel.getColumnCount(); col++) {
                 escritor.write(tableModel.getColumnName(col));
                 if (col < tableModel.getColumnCount() - 1) {
@@ -162,6 +134,8 @@ public class Miembros {
                 }
             }
             escritor.newLine();
+            
+            // Escribir filas
             for (int fila = 0; fila < tableModel.getRowCount(); fila++) {
                 for (int col = 0; col < tableModel.getColumnCount(); col++) {
                     Object valor = tableModel.getValueAt(fila, col);
