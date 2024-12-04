@@ -1,12 +1,16 @@
 package UI.Panel;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 import Item.Item;
 import UI.*;
 import UI.Assets.*;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.rmi.server.ObjID;
 
 public class Sales extends javax.swing.JPanel {
 
@@ -25,19 +29,31 @@ public class Sales extends javax.swing.JPanel {
         setOpaque(false);
 
         // Configuracion de componentes
-        scroll = new CustomScroll(460, 398, Item.leerItemsDesdeArchivo());
+        DefaultTableModel model = new DefaultTableModel(null, new Object[] {"Nombre", "ID", "Precio I.", "Descuento", "Precio F.", "Cantidad"});
+        scroll = new CustomScroll(460, 398, model);
 
-        // Datos de prueba
-        scroll.getModel().addRow(new Object[] {"Agua", "Premium", "Fuego", "Tierra", "Luz", "Oscuridad"});
+        Object[] miembros = {"Juan"};
+        member = new CustomCombo("Seleccion miembro", miembros);
 
-        member = new CustomCombo("Seleccion miembro", new Object[] {"Tests1", "Tests2"});
-        item = new CustomCombo("Seleccion item", new Object[] {"Tests1", "Tests2"});
+        Object[] productos = {"xd"};
+        item = new CustomCombo("Seleccion item", productos);
 
         text = new CustomLabel.Semi("Total acumulado", SwingConstants.CENTER, 22.0F);
         text.setPreferredSize(new Dimension(220, 60));
         total = new CustomLabel.Semi("$0", SwingConstants.CENTER, 36.0F);
 
         reset = new CustomButton.Option(180, 50, "Reiniciar");
+        reset.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                cleanTable();
+
+            }
+
+        }); 
+
         complete = new CustomButton.Option(180, 50, "Completar venta");
 
         delete = new CustomButton.Decision(100, 40, "Eliminar");
@@ -103,6 +119,27 @@ public class Sales extends javax.swing.JPanel {
         gbc.insets = new Insets(0, 15, 0, 165);
         add(complete, gbc);
 
+    }
+
+    private void cleanTable() {
+
+        DefaultTableModel model = scroll.getModel();
+
+        if (model.getRowCount() > 0) {
+
+            for (int i = model.getRowCount() - 1; i > -1; i--) {
+                model.removeRow(i);
+            }
+
+        }
+    }
+
+    public CustomCombo getMemberBox() {
+        return member;
+    }
+
+    public CustomCombo getItemBox() {
+        return item;
     }
 
 }

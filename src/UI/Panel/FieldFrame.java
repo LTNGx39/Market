@@ -6,6 +6,10 @@ import UI.Assets.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+
+import Item.Item;
+import Item.Miembros;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
@@ -13,6 +17,46 @@ import java.awt.geom.*;
 public class FieldFrame extends javax.swing.JFrame {
 
     protected Shadow shadow;
+
+    // Listeners de fields
+    protected KeyAdapter money = new KeyAdapter() {
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+
+            if (!Character.isDigit(e.getKeyChar()) && e.getKeyChar() != '$' && e.getKeyChar() != '.') {
+                e.consume();
+            }
+
+        }
+        
+    };
+    
+    protected KeyAdapter percentage = new KeyAdapter() {
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+
+            if (!Character.isDigit(e.getKeyChar()) && e.getKeyChar() != '%') {
+                e.consume();
+            }
+
+        }
+        
+    };
+    
+    protected KeyAdapter digit = new KeyAdapter() {
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+
+            if (!Character.isDigit(e.getKeyChar())) {
+                e.consume();
+            }
+
+        }
+        
+    };
 
     public static class AddItem extends FieldFrame {
 
@@ -47,44 +91,6 @@ public class FieldFrame extends javax.swing.JFrame {
             discount = new CustomField("Descuento:");
             stock = new CustomField("Stock:");
 
-            // Listeners de fields
-            KeyAdapter money = new KeyAdapter() {
-
-                @Override
-                public void keyTyped(KeyEvent e) {
-
-                    if (!Character.isDigit(e.getKeyChar()) && e.getKeyChar() != '$' && e.getKeyChar() != '.') {
-                        e.consume();
-                    }
-
-                }
-                
-            };
-            KeyAdapter percentage = new KeyAdapter() {
-
-                @Override
-                public void keyTyped(KeyEvent e) {
-
-                    if (!Character.isDigit(e.getKeyChar()) && e.getKeyChar() != '%') {
-                        e.consume();
-                    }
-
-                }
-                
-            };
-            KeyAdapter digit = new KeyAdapter() {
-
-                @Override
-                public void keyTyped(KeyEvent e) {
-
-                    if (!Character.isDigit(e.getKeyChar())) {
-                        e.consume();
-                    }
-
-                }
-                
-            };
-
             id.getField().addKeyListener(digit);
             buy.getField().addKeyListener(money);
             sell.getField().addKeyListener(money);
@@ -118,7 +124,7 @@ public class FieldFrame extends javax.swing.JFrame {
                     String discountS = discount.getField().getText();
                     String stockS = stock.getField().getText();
 
-                    // if (idS ) { // verificacion si el id ingresado no esta ya en el archivo
+                    if (!Item.existeID(idS)) { // verificacion si el id ingresado no esta ya en el archivo
 
                         if (!nameS.equals("") && !idS.equals("") && !descS.equals("") && !buyS.equals("") && !sellS.equals("") && !discountS.equals("") && !stockS.equals("")) {
 
@@ -127,9 +133,12 @@ public class FieldFrame extends javax.swing.JFrame {
                             dispose();
                             shadow.dispose();
 
+                            // Guarda los datos
+                            Item.guardarItems(data);
+
                         }
 
-                    // }
+                    }
 
                 }
 
@@ -222,6 +231,12 @@ public class FieldFrame extends javax.swing.JFrame {
             stock = new CustomField("Stock:");
             stock.getField().setText("" + data.getValueAt(row, 6));
 
+            id.getField().addKeyListener(digit);
+            buy.getField().addKeyListener(money);
+            sell.getField().addKeyListener(money);
+            discount.getField().addKeyListener(percentage);
+            stock.getField().addKeyListener(digit);
+
             cancel = new CustomButton.Decision(120, 40, "Cancelar");
             cancel.addActionListener(new ActionListener() {
                         
@@ -256,6 +271,9 @@ public class FieldFrame extends javax.swing.JFrame {
                         data.insertRow(row, newRow);
                         dispose();
                         shadow.dispose();
+
+                        // Guarda los datos
+                        Item.guardarItems(data);
 
                     }
 
@@ -374,6 +392,9 @@ public class FieldFrame extends javax.swing.JFrame {
                     shadow.dispose();
                     data.removeRow(row);
 
+                    // Guarda los datos
+                    Item.guardarItems(data);
+
                 }
 
             });
@@ -475,6 +496,9 @@ public class FieldFrame extends javax.swing.JFrame {
                         data.addRow(newRow);
                         dispose();
                         shadow.dispose();
+
+                        // Guarda los datos
+                        // Miembros.guardarSociosEnArchivo("src\\data\\DatosM.csv", data);
 
                     }
 

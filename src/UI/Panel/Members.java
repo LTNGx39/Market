@@ -1,8 +1,10 @@
 package UI.Panel;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 import Item.Item;
+import Item.Miembros;
 import UI.*;
 import UI.MainFrame;
 import UI.Assets.*;
@@ -25,10 +27,7 @@ public class Members extends javax.swing.JPanel {
         setOpaque(false);
 
         // Configuracion de componentes
-        scroll = new CustomScroll(720, 398, Item.leerItemsDesdeArchivo());
-
-        // Datos de prueba
-        scroll.getModel().addRow(new Object[] {"Agua", "Premium", "Fuego", "Tierra", "Luz", "Oscuridad", "Particulas", "1954", "1924"});
+        scroll = new CustomScroll(720, 398, Miembros.leerSociosDesdeArchivo("src\\data\\DatosM.csv"));
 
         addMember = new CustomButton.Option(180, 50, "Añadir miembro");
         addMember.addActionListener(new ActionListener() {
