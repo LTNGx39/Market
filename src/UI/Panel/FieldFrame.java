@@ -39,9 +39,57 @@ public class FieldFrame extends javax.swing.JFrame {
             id = new CustomField("ID:");
             desc = new CustomField("Descripcion:");
             buy = new CustomField("P. Compra:");
+            buy.getField().setText("$");
+
             sell = new CustomField("P. Venta:");
+            sell.getField().setText("$");
+
             discount = new CustomField("Descuento:");
             stock = new CustomField("Stock:");
+
+            // Listeners de fields
+            KeyAdapter money = new KeyAdapter() {
+
+                @Override
+                public void keyTyped(KeyEvent e) {
+
+                    if (!Character.isDigit(e.getKeyChar()) && e.getKeyChar() != '$' && e.getKeyChar() != '.') {
+                        e.consume();
+                    }
+
+                }
+                
+            };
+            KeyAdapter percentage = new KeyAdapter() {
+
+                @Override
+                public void keyTyped(KeyEvent e) {
+
+                    if (!Character.isDigit(e.getKeyChar()) && e.getKeyChar() != '%') {
+                        e.consume();
+                    }
+
+                }
+                
+            };
+            KeyAdapter digit = new KeyAdapter() {
+
+                @Override
+                public void keyTyped(KeyEvent e) {
+
+                    if (!Character.isDigit(e.getKeyChar())) {
+                        e.consume();
+                    }
+
+                }
+                
+            };
+
+            id.getField().addKeyListener(digit);
+            buy.getField().addKeyListener(money);
+            sell.getField().addKeyListener(money);
+            discount.getField().addKeyListener(percentage);
+            stock.getField().addKeyListener(digit);
 
             cancel = new CustomButton.Decision(120, 40, "Cancelar");
             cancel.addActionListener(new ActionListener() {
@@ -70,14 +118,18 @@ public class FieldFrame extends javax.swing.JFrame {
                     String discountS = discount.getField().getText();
                     String stockS = stock.getField().getText();
 
-                    if (!nameS.equals("") && !idS.equals("") && !descS.equals("") && !buyS.equals("") && !sellS.equals("") && !discountS.equals("") && !stockS.equals("")) {
+                    // if (idS ) { // verificacion si el id ingresado no esta ya en el archivo
 
-                        Object[] newRow = new Object[] {nameS, idS, descS, buyS, sellS, discountS, stockS};
-                        data.addRow(newRow);
-                        dispose();
-                        shadow.dispose();
+                        if (!nameS.equals("") && !idS.equals("") && !descS.equals("") && !buyS.equals("") && !sellS.equals("") && !discountS.equals("") && !stockS.equals("")) {
 
-                    }
+                            Object[] newRow = new Object[] {nameS, idS, descS, buyS, sellS, discountS, stockS};
+                            data.addRow(newRow);
+                            dispose();
+                            shadow.dispose();
+
+                        }
+
+                    // }
 
                 }
 

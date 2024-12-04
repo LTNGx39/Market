@@ -97,9 +97,9 @@ public class ItemPersistencia {
                         row.add(datos[0]);       // Nombre
                         row.add(datos[1]);       // ID
                         row.add(datos[2]);       // Descripción
-                        row.add(Double.parseDouble(datos[3]));  // Precio Compra
-                        row.add(Double.parseDouble(datos[4]));  // Precio Venta
-                        row.add(Double.parseDouble(datos[5]));  // Descuento
+                        row.add("$" + Double.parseDouble(datos[3]));  // Precio Compra
+                        row.add("$" + Double.parseDouble(datos[4]));  // Precio Venta
+                        row.add(Double.parseDouble(datos[5]) + "%");  // Descuento
                         row.add(Integer.parseInt(datos[6]));    // Stock
     
                         data.add(row);
