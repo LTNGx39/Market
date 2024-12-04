@@ -282,4 +282,90 @@ public class Item {
 
         return false; // ID no encontrado
     }
+
+    /**
+     * Obtiene los detalles de un ítem por su ID
+     * @param id Identificador del producto
+     * @return Un arreglo con los detalles: [nombre, id, precioVenta, descuento, precioFinal]
+     */
+    public static String[] obtenerDetallesItem(String id) {
+        try {
+            Path archivoPath = Paths.get(RUTA_ARCHIVO);
+            if (!Files.exists(archivoPath)) {
+                return null;
+            }
+
+            try (BufferedReader reader = new BufferedReader(new FileReader(RUTA_ARCHIVO))) {
+                String linea;
+                while ((linea = reader.readLine()) != null) {
+                    String[] datos = linea.split(";");
+                    if (datos[1].equals(id)) {
+                        double precioVenta = Double.parseDouble(datos[4]);
+                        double descuento = Double.parseDouble(datos[5]);
+                        double precioFinal = precioVenta * (1 - descuento);
+                        
+                        return new String[]{
+                            datos[0],  // nombre
+                            datos[1],  // id
+                            String.format("$%.2f", precioVenta),  // precioVenta
+                            String.format("%.0f%%", descuento * 100),  // descuento
+                            String.format("$%.2f", precioFinal)   // precioFinal
+                        };
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error al leer el archivo: " + e.getMessage());
+        }
+        return null;
+    }
+
+    /**
+     * Reduce el stock de un producto por su ID
+     * @param id Identificador del producto
+     * @param cantidad Cantidad a reducir
+     * @return true si se pudo reducir, false si no hay suficiente stock
+     */
+    public static boolean reducirStock(String id, int cantidad) {
+        try {
+            Path archivoPath = Paths.get(RUTA_ARCHIVO);
+            if (!Files.exists(archivoPath)) {
+                return false;
+            }
+
+            // Leer todos los datos
+            Vector<String> lineas = new Vector<>();
+            boolean stockReducido = false;
+
+            try (BufferedReader reader = new BufferedReader(new FileReader(RUTA_ARCHIVO))) {
+                String linea;
+                while ((linea = reader.readLine()) != null) {
+                    String[] datos = linea.split(";");
+                    if (datos[1].equals(id)) {
+                        int stockActual = Integer.parseInt(datos[6]);
+                        if (cantidad <= stockActual) {
+                            stockActual -= cantidad;
+                            datos[6] = String.valueOf(stockActual);
+                            stockReducido = true;
+                        }
+                        linea = String.join(";", datos);
+                    }
+                    lineas.add(linea);
+                }
+            }
+
+            // Si se pudo reducir, guardar los cambios
+            if (stockReducido) {
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(RUTA_ARCHIVO))) {
+                    for (String linea : lineas) {
+                        writer.write(linea + "\n");
+                    }
+                }
+                return true;
+            }
+        } catch (IOException e) {
+            System.err.println("Error al procesar el archivo: " + e.getMessage());
+        }
+        return false;
+    }
 }
