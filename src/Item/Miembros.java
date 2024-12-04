@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Miembros {
+    private static final String RUTA_ARCHIVO = "src\\data\\DatosM.csv";
     
     // Convertir DefaultTableModel a lista de objetos Socio
     public static List<Socio> convertirTableModelASocios(DefaultTableModel tableModel) {
