@@ -103,15 +103,16 @@ public class Miembros {
                         String telefono = campos[2];
                         String rfc = campos[3];
                         Socio.TipoMembresia tipoMembresia = Socio.TipoMembresia.valueOf(campos[4].toUpperCase());
-                        
+                    
                         Socio socio = new Socio(nombre, direccion, telefono, rfc, tipoMembresia);
-                        if (campos.length > 7) {
-                            socio.setCashback(Double.parseDouble(campos[7]));
+                        if (campos.length > 7 && !campos[7].trim().isEmpty()) {
+                            socio.setCashback(Double.parseDouble(campos[7].trim()));
                         }
                         socios.add(socio);
                     } catch (Exception e) {
                         System.err.println("Error procesando línea: " + linea);
-                    }
+                        e.printStackTrace(); // Esto muestra la pila de excepciones
+                    }                    
                 }
             }
         }
