@@ -1,4 +1,5 @@
 package Item;
+
 public class Item {
     // Atributos privados para encapsulación
     private String nombre;
@@ -11,6 +12,7 @@ public class Item {
    
     // Constante para el stock mínimo que genera alerta
     private static final int STOCK_MINIMO = 5;
+
     // Constructor
     public Item(String nombre, String id, String descripcion, double precioCompra,
                 double precioVenta, double descuento, int stock) {
@@ -22,50 +24,65 @@ public class Item {
         this.descuento = descuento;
         this.stock = stock;
     }
+
     // Getters
     public String getNombre() {
         return nombre;
     }
+
     public String getId() {
         return id;
     }
+
     public String getDescripcion() {
         return descripcion;
     }
-    public double getPrecioCompra() {
-        return precioCompra;
+
+    public String getPrecioCompra() {
+        return String.format("$%.2f", precioCompra); // Precio formateado con $
     }
-    public double getPrecioVenta() {
-        return precioVenta;
+
+    public String getPrecioVenta() {
+        return String.format("$%.2f", precioVenta); // Precio formateado con $
     }
-    public double getDescuento() {
-        return descuento;
+
+    public String getDescuento() {
+        return String.format("%.0f%%", descuento * 100); // Descuento formateado con %
     }
+
     public int getStock() {
         return stock;
     }
+
     // Setters
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
     public void setId(String id) {
         this.id = id;
     }
+
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
     public void setPrecioCompra(double precioCompra) {
         this.precioCompra = precioCompra;
     }
+
     public void setPrecioVenta(double precioVenta) {
         this.precioVenta = precioVenta;
     }
+
     public void setDescuento(double descuento) {
         this.descuento = descuento;
     }
+
     public void setStock(int stock) {
         this.stock = stock;
     }
+
     // Método para comprar artículo
     public boolean compraArticulo(int cantidad) {
         if (cantidad <= 0) {
@@ -79,17 +96,21 @@ public class Item {
         }
         return false;
     }
+
     // Método privado para verificar si el stock está bajo el mínimo
     private void verificarStockMinimo() {
         if (stock < STOCK_MINIMO) {
             System.out.println("¡ALERTA! Stock bajo para el artículo: " + nombre +
-                             " (ID: " + id + "). Stock actual: " + stock);
+                               " (ID: " + id + "). Stock actual: " + stock);
         }
     }
+
     // Método para obtener el precio final con descuento
-    public double getPrecioConDescuento() {
-        return precioVenta * (1 - descuento);
+    public String getPrecioConDescuento() {
+        double precioConDescuento = precioVenta * (1 - descuento);
+        return String.format("$%.2f", precioConDescuento);
     }
+
     // Método toString para imprimir información del artículo
     @Override
     public String toString() {
@@ -97,9 +118,9 @@ public class Item {
                "nombre='" + nombre + '\'' +
                ", id='" + id + '\'' +
                ", descripcion='" + descripcion + '\'' +
-               ", precioCompra=" + precioCompra +
-               ", precioVenta=" + precioVenta +
-               ", descuento=" + descuento +
+               ", precioCompra=" + getPrecioCompra() +
+               ", precioVenta=" + getPrecioVenta() +
+               ", descuento=" + getDescuento() +
                ", stock=" + stock +
                '}';
     }
