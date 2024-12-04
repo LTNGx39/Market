@@ -245,5 +245,41 @@ public class Item {
         // Crear y devolver DefaultTableModel
         return new DefaultTableModel(data, columnNames);
     }
+    
+    /**
+     * Método para verificar si un ID ya existe en el archivo.
+     * 
+     * @param id El ID del producto a verificar.
+     * @return true si el ID existe, false en caso contrario.
+     */
+    public static boolean existeID(String id) {
+        try {
+            // Verificar si el archivo existe
+            Path archivoPath = Paths.get(RUTA_ARCHIVO);
+            if (!Files.exists(archivoPath)) {
+                System.out.println("El archivo no existe. No se encontraron productos.");
+                return false;
+            }
 
+            // Leer el archivo y buscar el ID
+            try (BufferedReader reader = new BufferedReader(new FileReader(RUTA_ARCHIVO))) {
+                String linea;
+                while ((linea = reader.readLine()) != null) {
+                    // Saltar encabezados o líneas vacías
+                    if (linea.trim().isEmpty() || linea.startsWith("Nombre")) {
+                        continue;
+                    }
+
+                    String[] datos = linea.split(";");
+                    if (datos.length > 1 && datos[1].equals(id)) {
+                        return true; // ID encontrado
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error al leer el archivo: " + e.getMessage());
+        }
+
+        return false; // ID no encontrado
+    }
 }
