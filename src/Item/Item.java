@@ -302,13 +302,13 @@ public class Item {
                     if (datos[1].equals(id)) {
                         double precioVenta = Double.parseDouble(datos[4]);
                         double descuento = Double.parseDouble(datos[5]);
-                        double precioFinal = precioVenta * (1 - descuento);
+                        double precioFinal = (precioVenta / 100) * (100 - descuento);
                         
                         return new String[]{
                             datos[0],  // nombre
                             datos[1],  // id
                             String.format("$%.2f", precioVenta),  // precioVenta
-                            String.format("%.0f%%", descuento * 100),  // descuento
+                            String.format("%.0f%%", descuento),  // descuento
                             String.format("$%.2f", precioFinal)   // precioFinal
                         };
                     }
