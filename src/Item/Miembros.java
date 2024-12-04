@@ -124,9 +124,8 @@ public class Miembros {
 }
     
     // Guardar DefaultTableModel en un archivo CSV
-    public static void guardarTableModelEnArchivo(String rutaArchivo, DefaultTableModel tableModel) throws IOException {
+    public static void guardarTableModelEnArchivo(String rutaArchivo, DefaultTableModel tableModel) {
         try (BufferedWriter escritor = new BufferedWriter(new FileWriter(rutaArchivo))) {
-            // Escribir encabezados
             for (int col = 0; col < tableModel.getColumnCount(); col++) {
                 escritor.write(tableModel.getColumnName(col));
                 if (col < tableModel.getColumnCount() - 1) {
@@ -134,8 +133,6 @@ public class Miembros {
                 }
             }
             escritor.newLine();
-            
-            // Escribir filas
             for (int fila = 0; fila < tableModel.getRowCount(); fila++) {
                 for (int col = 0; col < tableModel.getColumnCount(); col++) {
                     Object valor = tableModel.getValueAt(fila, col);
@@ -146,8 +143,13 @@ public class Miembros {
                 }
                 escritor.newLine();
             }
+        } catch (IOException e) {
+            // Manejo de la excepción: mostrar el error en la consola
+            System.err.println("Error al guardar el archivo: " + e.getMessage());
+            e.printStackTrace(); // Para ver la traza completa del error
         }
     }
+    
     
     // Buscar índice de columna
     private static int findColumnIndex(DefaultTableModel tableModel, String nombreColumna) {
