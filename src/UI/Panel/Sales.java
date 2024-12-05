@@ -68,34 +68,38 @@ public class Sales extends javax.swing.JPanel {
                 // Reduce el stock para cada item en la tabla
                 DefaultTableModel adminTable = mainFrame.getAdmin().getScroll().getModel();
                 DefaultTableModel salesTable = scroll.getModel();
+
+                if (salesTable.getRowCount() > 0) {
                 
-                for (int a = 0; a < salesTable.getRowCount(); a++) {
+                    for (int a = 0; a < salesTable.getRowCount(); a++) {
 
-                    for (int i = 0; i < adminTable.getRowCount(); i++) {
+                        for (int i = 0; i < adminTable.getRowCount(); i++) {
 
-                        if (adminTable.getValueAt(i, 1).toString().equals(salesTable.getValueAt(a, 1).toString())) {
+                            if (adminTable.getValueAt(i, 1).toString().equals(salesTable.getValueAt(a, 1).toString())) {
 
-                            int resta = Integer.parseInt(salesTable.getValueAt(a, 5).toString());
-                            int stock = Integer.parseInt(adminTable.getValueAt(i, 6).toString());
+                                int resta = Integer.parseInt(salesTable.getValueAt(a, 5).toString());
+                                int stock = Integer.parseInt(adminTable.getValueAt(i, 6).toString());
 
-                            stock -= resta;
-                            adminTable.setValueAt("" + stock, i, 6);
+                                stock -= resta;
+                                adminTable.setValueAt("" + stock, i, 6);
+
+                            }
 
                         }
 
                     }
 
+                    // Agrega cashback al miembro en cuestion
+
+                    // Limpia los datos
+                    cleanTable();
+                    totalValue = 0;
+                    total.setText("$" + totalValue);
+
+                    // Guarda la tabla con los nuevos datos
+                    Item.guardarItems(adminTable);
+
                 }
-
-                // Agrega cashback al miembro en cuestion
-
-                // Limpia los datos
-                cleanTable();
-                totalValue = 0;
-                total.setText("$" + totalValue);
-
-                // Guarda la tabla con los nuevos datos
-                Item.guardarItems(adminTable);
 
             }
 
@@ -107,7 +111,59 @@ public class Sales extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                // Extrae el id del item desde el checkbox y obtiene los detalles del mismo
+                String[] itemId = item.getBox().getSelectedItem().toString().replace(" - ", " ").split(" ");
+                String[] itemData = Item.obtenerDetallesItem(itemId[1]);
 
+                // Modelos para verificaciones
+                DefaultTableModel salesTable = scroll.getModel();
+
+                // Revisa si el item ya esta en la tabla y devuelve su numero de fila
+                boolean inTable = false;
+                int row = 0;
+
+                for (int i = 0; i < salesTable.getRowCount(); i++) {
+
+                    String temp = salesTable.getValueAt(i, 1).toString();
+                    if (temp.equals(itemData[1]) ) {
+
+                        inTable = true;
+                        row = i;
+                        break;
+
+                    }
+
+                }
+
+                // Solo si ya esta en la tabla
+                if (inTable) {
+
+                    int cantidad = Integer.parseInt(salesTable.getValueAt(row, 5).toString());
+
+                    // Modificacion de la cantidad
+                    cantidad -= 1;
+                    salesTable.setValueAt(cantidad, row, 5);
+
+                    // Reduccion del dinero
+                    double finalPrice = Double.parseDouble(itemData[4].replace("$", ""));
+                    salesTable.setValueAt(String.format("$%.2f", finalPrice * cantidad), row, 4);
+
+                    if (cantidad == 0) {
+
+                        salesTable.removeRow(row);
+
+                    }
+
+                    totalValue -= finalPrice;
+                    String output = String.format("$%.2f", totalValue);
+
+                    if (totalValue < 0) {
+                        totalValue *= -1;
+                    }
+
+                    total.setText(output);
+
+                }
 
             }
 
@@ -188,6 +244,11 @@ public class Sales extends javax.swing.JPanel {
                     }
 
                     String output = String.format("$%.2f", totalValue);
+
+                    if (totalValue < 0) {
+                        totalValue *= -1;
+                    }
+
                     total.setText(output);
 
                 }

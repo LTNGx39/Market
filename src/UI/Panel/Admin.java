@@ -3,6 +3,7 @@ package UI.Panel;
 import UI.*;
 import UI.Assets.*;
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import Item.Item;

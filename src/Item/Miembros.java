@@ -34,10 +34,10 @@ public class Miembros {
                 if (campos.length >= 5) {
                     try {
                         String nombre = campos[0].trim();
-                        String direccion = campos[1].trim();
-                        String telefono = campos[2].trim();
-                        String rfc = campos[3].trim();
-                        Socio.TipoMembresia tipoMembresia = Socio.convertirAMembresia(campos[4]);
+                        Socio.TipoMembresia tipoMembresia = Socio.convertirAMembresia(campos[1]);
+                        String direccion = campos[2].trim();
+                        String telefono = campos[3].trim();
+                        String rfc = campos[4].trim();
 
                         String adicional1 = campos.length > 5 ? campos[5].trim() : "";
                         String adicional2 = campos.length > 6 ? campos[6].trim() : "";
