@@ -28,6 +28,7 @@ public class Members extends javax.swing.JPanel {
 
         // Configuracion de componentes
         scroll = new CustomScroll(720, 398, Miembros.leerSociosDesdeArchivo("src\\data\\DatosM.csv"));
+        // dato para remplazar Miembros.leerSociosDesdeArchivo("src\\data\\DatosM.csv"
 
         addMember = new CustomButton.Option(180, 50, "Añadir miembro");
         addMember.addActionListener(new ActionListener() {

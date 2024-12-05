@@ -32,7 +32,7 @@ public class Files {
                         data[2].trim(),                    // descripcion
                         Double.parseDouble(data[3].trim()), // precioCompra
                         Double.parseDouble(data[4].trim()), // precioVenta
-                        Double.parseDouble(data[5].trim()), // descuento
+                        Integer.parseInt(data[5].trim()), // descuento
                         Integer.parseInt(data[6].trim())    // stock
                     );
                     items.add(item);

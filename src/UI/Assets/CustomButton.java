@@ -3,6 +3,8 @@ package UI.Assets;
 import UI.*;
 import UI.Panel.*;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.event.*;
@@ -109,6 +111,21 @@ public class CustomButton extends javax.swing.JButton {
                     mainFrame.getTitleBar().getTitleLabel().setText(panelName);
                     mainFrame.getCardLayout().show(mainFrame.getPanelChanger(), panelName);
                     mainFrame.getTitleBar().getBackButton().setEnabled(true);
+
+                    if (path.equals(BLUE_PFP)) {
+
+                        DefaultTableModel model = mainFrame.getAdmin().getScroll().getModel();
+                        Object[] items = new Object[model.getRowCount()];
+
+                        for (int i = 0; i < model.getRowCount(); i++) {
+
+                            items[i] = model.getValueAt(i, 0) + " - " + model.getValueAt(i, 1);
+
+                        }
+            
+                        mainFrame.getSales().getItemBox().getBox().setModel(new DefaultComboBoxModel<>(items));
+
+                    }
 
                 }
                 

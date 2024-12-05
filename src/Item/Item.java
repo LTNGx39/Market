@@ -19,7 +19,7 @@ public class Item {
     private String descripcion;
     private double precioCompra;
     private double precioVenta;
-    private double descuento;
+    private int descuento;
     private int stock;
 
     // Variables estaticas para lectura y escritura
@@ -31,7 +31,7 @@ public class Item {
 
     // Constructor
     public Item(String nombre, String id, String descripcion, double precioCompra,
-                double precioVenta, double descuento, int stock) {
+                double precioVenta, int descuento, int stock) {
         this.nombre = nombre;
         this.id = id;
         this.descripcion = descripcion;
@@ -91,7 +91,7 @@ public class Item {
         this.precioVenta = precioVenta;
     }
 
-    public void setDescuento(double descuento) {
+    public void setDescuento(int descuento) {
         this.descuento = descuento;
     }
 
@@ -161,9 +161,9 @@ public class Item {
                     String descripcion = tableModel.getValueAt(fila, 2).toString();
                     double precioCompra = Double.parseDouble(tableModel.getValueAt(fila, 3).toString().replace("$", ""));
                     double precioVenta = Double.parseDouble(tableModel.getValueAt(fila, 4).toString().replace("$", ""));
-                    double descuento = Double.parseDouble(tableModel.getValueAt(fila, 5).toString().replace("%", ""));
+                    int descuento = Integer.parseInt(tableModel.getValueAt(fila, 5).toString().replace("%", ""));
                     int stock = Integer.parseInt(tableModel.getValueAt(fila, 6).toString());
-                    writer.write(String.format("%s;%s;%s;%.2f;%.2f;%.2f;%d\n",
+                    writer.write(String.format("%s;%s;%s;%.2f;%.2f;%d;%d\n",
                             nombre, id, descripcion,
                             precioCompra, precioVenta,
                             descuento, stock));
@@ -230,7 +230,7 @@ public class Item {
                         row.add(datos[2]);       // Descripción
                         row.add("$" + Double.parseDouble(datos[3]));  // Precio Compra
                         row.add("$" + Double.parseDouble(datos[4]));  // Precio Venta
-                        row.add(Double.parseDouble(datos[5]) + "%");  // Descuento
+                        row.add(Integer.parseInt(datos[5]) + "%");  // Descuento
                         row.add(Integer.parseInt(datos[6]));    // Stock
     
                         data.add(row);
@@ -301,7 +301,7 @@ public class Item {
                     String[] datos = linea.split(";");
                     if (datos[1].equals(id)) {
                         double precioVenta = Double.parseDouble(datos[4]);
-                        double descuento = Double.parseDouble(datos[5]);
+                        double descuento = Integer.parseInt(datos[5]);
                         double precioFinal = (precioVenta / 100) * (100 - descuento);
                         
                         return new String[]{

@@ -58,6 +58,32 @@ public class FieldFrame extends javax.swing.JFrame {
         
     };
 
+    protected String checkDiscount(CustomField discount, String discountS) {
+
+        if (!discount.getField().getText().equals("") && Integer.parseInt(discount.getField().getText().replace("%", "")) > 100) {
+            discountS = "100%";
+        } else {
+            discountS = discount.getField().getText().replace("%", "") + "%";
+        }
+
+        return discountS;
+
+    }
+
+    protected String addZeros(String idS) {
+
+        if (idS.length() < 4) {
+
+            for (int i = idS.length(); i < 4; i++) {
+                idS = "0" + idS;
+            }
+
+        }
+
+        return idS;
+
+    }
+
     public static class AddItem extends FieldFrame {
 
         private Admin adminPanel;
@@ -117,16 +143,23 @@ public class FieldFrame extends javax.swing.JFrame {
                 public void actionPerformed(ActionEvent e) {
                     
                     String nameS = name.getField().getText();
+
                     String idS = id.getField().getText();
+                    idS = addZeros(idS);
+
                     String descS = desc.getField().getText();
                     String buyS = buy.getField().getText();
                     String sellS = sell.getField().getText();
-                    String discountS = discount.getField().getText();
+
+                    String discountS = "";
+                    discountS = checkDiscount(discount, discountS);
+
                     String stockS = stock.getField().getText();
+                    
 
-                    if (!Item.existeID(idS)) { // verificacion si el id ingresado no esta ya en el archivo
+                    if (!nameS.equals("") && !idS.equals("") && !(idS.length() > 4) && !descS.equals("") && !buyS.equals("") && !sellS.equals("") && !discountS.equals("") && !stockS.equals("")) {
 
-                        if (!nameS.equals("") && !idS.equals("") && !descS.equals("") && !buyS.equals("") && !sellS.equals("") && !discountS.equals("") && !stockS.equals("")) {
+                        if (!Item.existeID(idS)) { // verificacion si el id ingresado no esta ya en el archivo
 
                             Object[] newRow = new Object[] {nameS, idS, descS, buyS, sellS, discountS, stockS};
                             data.addRow(newRow);
@@ -257,11 +290,17 @@ public class FieldFrame extends javax.swing.JFrame {
                 public void actionPerformed(ActionEvent e) {
 
                     String nameS = name.getField().getText();
+
                     String idS = id.getField().getText();
+                    idS = addZeros(idS);
+
                     String descS = desc.getField().getText();
                     String buyS = buy.getField().getText();
                     String sellS = sell.getField().getText();
-                    String discountS = discount.getField().getText();
+
+                    String discountS = "";
+                    discountS = checkDiscount(discount, discountS);
+
                     String stockS = stock.getField().getText();
 
                     if (!nameS.equals("") && !idS.equals("") && !descS.equals("") && !buyS.equals("") && !sellS.equals("") && !discountS.equals("") && !stockS.equals("")) {
@@ -490,7 +529,7 @@ public class FieldFrame extends javax.swing.JFrame {
                     String aditional2S = aditional2.getField().getText();
                     String startS = start.getField().getText();
 
-                    if (!nameS.equals("") && !typeS.equals("") && !addressS.equals("") && !telS.equals("") && !rfcS.equals("") && !startS.equals("")) {
+                    if (!nameS.equals("") && !typeS.equals("") && !addressS.equals("") && !telS.equals("") && !rfcS.equals("") && !aditional1S.equals("") && !aditional2S.equals("") && !startS.equals("")) {
 
                         Object[] newRow = new Object[] {nameS, typeS, addressS, telS, rfcS, aditional1S, aditional2S, startS};
                         data.addRow(newRow);
