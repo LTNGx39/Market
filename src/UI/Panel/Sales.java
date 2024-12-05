@@ -67,8 +67,15 @@ public class Sales extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String[] name = member.getBox().getSelectedItem().toString().split(" - ");
-                new FieldFrame.UseCashback(Sales.this, name[0]);
+                if (member.getBox().getSelectedItem() != null) {
+
+                    String[] name = member.getBox().getSelectedItem().toString().replace(" ", "").split(" - ");
+
+                    if (name[1].equals("PREMIUM")) {
+                        new FieldFrame.UseCashback(Sales.this, name[0]);
+                    }
+
+                }
 
             }
 
@@ -126,105 +133,19 @@ public class Sales extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                // Extrae el id del item desde el checkbox y obtiene los detalles del mismo
-                String[] itemId = item.getBox().getSelectedItem().toString().replace(" ", "").split("-");
-                String[] itemData = Item.obtenerDetallesItem(itemId[1]);
+                if (item.getBox().getSelectedItem() != null) {
 
-                // Modelos para verificaciones
-                DefaultTableModel salesTable = scroll.getModel();
+                    // Extrae el id del item desde el checkbox y obtiene los detalles del mismo
+                    String[] itemId = item.getBox().getSelectedItem().toString().replace(" ", "").split("-");
+                    String[] itemData = Item.obtenerDetallesItem(itemId[1]);
 
-                // Revisa si el item ya esta en la tabla y devuelve su numero de fila
-                boolean inTable = false;
-                int row = 0;
-
-                for (int i = 0; i < salesTable.getRowCount(); i++) {
-
-                    String temp = salesTable.getValueAt(i, 1).toString();
-                    if (temp.equals(itemData[1]) ) {
-
-                        inTable = true;
-                        row = i;
-                        break;
-
-                    }
-
-                }
-
-                // Solo si ya esta en la tabla
-                if (inTable) {
-
-                    int cantidad = Integer.parseInt(salesTable.getValueAt(row, 5).toString());
-
-                    // Modificacion de la cantidad
-                    cantidad -= 1;
-                    salesTable.setValueAt(cantidad, row, 5);
-
-                    // Reduccion del dinero
-                    double finalPrice = Double.parseDouble(itemData[4].replace("$", ""));
-                    salesTable.setValueAt(String.format("$%.2f", finalPrice * cantidad), row, 4);
-
-                    if (cantidad == 0) {
-
-                        salesTable.removeRow(row);
-
-                    }
-
-                    totalValue -= finalPrice;
-                    String output = String.format("$%.2f", totalValue);
-
-                    if (totalValue < 0) {
-                        totalValue *= -1;
-                    }
-
-                    total.setText(output);
-
-                }
-
-            }
-
-        });
-
-        add = new CustomButton.Decision(100, 40, "Añadir");
-        add.addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                // Modelo desde el panel admin
-                DefaultTableModel itemsModel = mainFrame.getAdmin().getScroll().getModel();
-
-                // Extrae el id del item desde el checkbox y obtiene los detalles del mismo
-                String[] itemId = item.getBox().getSelectedItem().toString().replace(" ", "").split("-");
-                String[] itemData = Item.obtenerDetallesItem(itemId[1]);
-
-                int cantidad = 0;
-                int adminRow = 0;
-
-                    // Busca el item en la tabla de items (en admin)
-                    for (int i = 0; i < itemsModel.getRowCount(); i++) {
-
-                        if (itemsModel.getValueAt(i, 1).toString().equals(itemId[1]) ) {
-                            cantidad = Integer.parseInt(itemsModel.getValueAt(i, 6).toString());
-                            adminRow = i;
-                            break;
-                        }
-
-                }
-
-                if (Integer.parseInt(itemsModel.getValueAt(adminRow, 6).toString()) >= 1) {
-
-                    String name = itemData[0].toString();
-                    String id = itemData[1].toString();
-                    String priceI = itemData[2].toString();
-                    String discount = itemData[3].toString();
-                    String priceF = itemData[4].toString();
-                    String amount = "1";
-        
-                    int row = 0;
-                    boolean inTable = false;
+                    // Modelos para verificaciones
                     DefaultTableModel salesTable = scroll.getModel();
 
                     // Revisa si el item ya esta en la tabla y devuelve su numero de fila
+                    boolean inTable = false;
+                    int row = 0;
+
                     for (int i = 0; i < salesTable.getRowCount(); i++) {
 
                         String temp = salesTable.getValueAt(i, 1).toString();
@@ -238,33 +159,127 @@ public class Sales extends javax.swing.JPanel {
 
                     }
 
-                    if (!inTable) {
+                    // Solo si ya esta en la tabla
+                    if (inTable) {
 
-                        Object[] item = {name, id, priceI, discount, priceF, amount};
-                        salesTable.addRow(item);
-                        totalValue += Double.parseDouble(priceF.replace("$", ""));
+                        int cantidad = Integer.parseInt(salesTable.getValueAt(row, 5).toString());
 
-                    } else {
+                        // Modificacion de la cantidad
+                        cantidad -= 1;
+                        salesTable.setValueAt(cantidad, row, 5);
 
-                        // Agrega mas items solo si hay stock
-                        if (cantidad > Integer.parseInt(salesTable.getValueAt(row, 5).toString())) {
+                        // Reduccion del dinero
+                        double finalPrice = Double.parseDouble(itemData[4].replace("$", ""));
+                        salesTable.setValueAt(String.format("$%.2f", finalPrice * cantidad), row, 4);
 
-                            int nuevaCantidad = (Integer.parseInt(salesTable.getValueAt(row, 5).toString()) + 1);
-                            salesTable.setValueAt("" + nuevaCantidad, row, 5);
-                            salesTable.setValueAt(String.format("$%.2f", Double.parseDouble(priceF.replace("$", "")) * nuevaCantidad), row, 4);
-                            totalValue += Double.parseDouble(priceF.replace("$", ""));
-                            
+                        if (cantidad == 0) {
+
+                            salesTable.removeRow(row);
+
                         }
 
+                        totalValue -= finalPrice;
+                        String output = String.format("$%.2f", totalValue);
+
+                        if (totalValue < 0) {
+                            totalValue *= -1;
+                        }
+
+                        total.setText(output);
+
                     }
 
-                    String output = String.format("$%.2f", totalValue);
+                }
 
-                    if (totalValue < 0) {
-                        totalValue *= -1;
+            }
+
+        });
+
+        add = new CustomButton.Decision(100, 40, "Añadir");
+        add.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if (item.getBox().getSelectedItem() != null) {
+
+                    // Modelo desde el panel admin
+                    DefaultTableModel itemsModel = mainFrame.getAdmin().getScroll().getModel();
+
+                    // Extrae el id del item desde el checkbox y obtiene los detalles del mismo
+                    String[] itemId = item.getBox().getSelectedItem().toString().replace(" ", "").split("-");
+                    String[] itemData = Item.obtenerDetallesItem(itemId[1]);
+
+                    int cantidad = 0;
+                    int adminRow = 0;
+
+                        // Busca el item en la tabla de items (en admin)
+                        for (int i = 0; i < itemsModel.getRowCount(); i++) {
+
+                            if (itemsModel.getValueAt(i, 1).toString().equals(itemId[1]) ) {
+                                cantidad = Integer.parseInt(itemsModel.getValueAt(i, 6).toString());
+                                adminRow = i;
+                                break;
+                            }
+
                     }
 
-                    total.setText(output);
+                    if (Integer.parseInt(itemsModel.getValueAt(adminRow, 6).toString()) >= 1) {
+
+                        String name = itemData[0].toString();
+                        String id = itemData[1].toString();
+                        String priceI = itemData[2].toString();
+                        String discount = itemData[3].toString();
+                        String priceF = itemData[4].toString();
+                        String amount = "1";
+            
+                        int row = 0;
+                        boolean inTable = false;
+                        DefaultTableModel salesTable = scroll.getModel();
+
+                        // Revisa si el item ya esta en la tabla y devuelve su numero de fila
+                        for (int i = 0; i < salesTable.getRowCount(); i++) {
+
+                            String temp = salesTable.getValueAt(i, 1).toString();
+                            if (temp.equals(itemData[1]) ) {
+
+                                inTable = true;
+                                row = i;
+                                break;
+
+                            }
+
+                        }
+
+                        if (!inTable) {
+
+                            Object[] item = {name, id, priceI, discount, priceF, amount};
+                            salesTable.addRow(item);
+                            totalValue += Double.parseDouble(priceF.replace("$", ""));
+
+                        } else {
+
+                            // Agrega mas items solo si hay stock
+                            if (cantidad > Integer.parseInt(salesTable.getValueAt(row, 5).toString())) {
+
+                                int nuevaCantidad = (Integer.parseInt(salesTable.getValueAt(row, 5).toString()) + 1);
+                                salesTable.setValueAt("" + nuevaCantidad, row, 5);
+                                salesTable.setValueAt(String.format("$%.2f", Double.parseDouble(priceF.replace("$", "")) * nuevaCantidad), row, 4);
+                                totalValue += Double.parseDouble(priceF.replace("$", ""));
+                                
+                            }
+
+                        }
+
+                        String output = String.format("$%.2f", totalValue);
+
+                        if (totalValue < 0) {
+                            totalValue *= -1;
+                        }
+
+                        total.setText(output);
+
+                    }
 
                 }
 

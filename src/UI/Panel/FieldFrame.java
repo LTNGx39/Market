@@ -580,9 +580,11 @@ public class FieldFrame extends javax.swing.JFrame {
                     String[] values = startS.split("/");
                     String endS = values[0] + "/" + values[1] + "/" + (Integer.parseInt(values[2]) + 1);
 
-                    if (!nameS.equals("") && !typeS.equals("") && !addressS.equals("") && !telS.equals("") && !rfcS.equals("") && !startS.equals("")) {
+                    String cashbackS = "%0";
 
-                        Object[] newRow = new Object[] {nameS, typeS, addressS, telS, rfcS, aditional1S, aditional2S, startS, endS};
+                    if (!nameS.equals("") && !typeS.equals("") && (typeS.equalsIgnoreCase("premium") || typeS.equalsIgnoreCase("normal")) && !addressS.equals("") && !telS.equals("") && !rfcS.equals("") && !startS.equals("")) {
+
+                        Object[] newRow = new Object[] {nameS, typeS, addressS, telS, rfcS, aditional1S, aditional2S, startS, endS, cashbackS};
                         data.addRow(newRow);
                         dispose();
                         shadow.dispose();
@@ -721,9 +723,20 @@ public class FieldFrame extends javax.swing.JFrame {
                     String aditional2S = aditional2.getField().getText();
                     String startS = start.getField().getText();
 
+                    String[] date = startS.split("/");
+                    if (date[0].length() < 2) {
+                        date[0] += "0";
+                    }
+                    if (date[1].length() < 2) {
+                        date[1] += "0";
+                    }
+                    
+                    String[] values = startS.split("/");
+                    String endS = values[0] + "/" + values[1] + "/" + (Integer.parseInt(values[2]) + 1);
+
                     if (!nameS.equals("") && !typeS.equals("") && !addressS.equals("") && !telS.equals("") && !rfcS.equals("") && !startS.equals("")) {
 
-                        Object[] newRow = new Object[] {nameS, typeS, addressS, telS, rfcS, aditional1S, aditional2S, startS};
+                        Object[] newRow = new Object[] {nameS, typeS, addressS, telS, rfcS, aditional1S, aditional2S, startS, endS};
                         data.removeRow(row);
                         data.insertRow(row, newRow);
                         dispose();

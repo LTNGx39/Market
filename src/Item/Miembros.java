@@ -73,7 +73,7 @@ public class Miembros {
                         }
     
                         // Leer Cashback
-                        double cashback = campos.length > 9 ? Double.parseDouble(campos[9]) : 0.0;
+                        double cashback = campos.length > 9 ? Double.parseDouble(campos[9].replace("$", "")) : 0.0;
     
                         Socio socio = new Socio(nombre, direccion, telefono, rfc, tipoMembresia);
                         socio.setUsuarioAdicional1(add1);
