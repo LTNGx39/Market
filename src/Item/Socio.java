@@ -154,6 +154,23 @@ public class Socio {
         this.cashback = cashback;
     }
 
+
+    public static TipoMembresia convertirAMembresia(String entrada) {
+        if (entrada == null) return null;
+        switch (entrada.trim().toUpperCase()) {
+            case "NORMAL":
+            case "NORM":
+            case "NRM":
+                return TipoMembresia.NORMAL;
+            case "PREMIUM":
+            case "PREM":
+            case "PRM":
+                return TipoMembresia.PREMIUM;
+            default:
+                throw new IllegalArgumentException("Tipo de membresía inválido:  " + entrada);
+        }
+    }
+    
     // Método para verificar si la membresía está activa
     public boolean isMembresiaActiva() {
         LocalDate hoy = LocalDate.now();
