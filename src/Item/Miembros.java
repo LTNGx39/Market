@@ -24,7 +24,7 @@ public class Miembros {
 
     public static DefaultTableModel leerSociosDesdeArchivo(String rutaArchivo) {
         List<Socio> socios = new ArrayList<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         try (BufferedReader lector = new BufferedReader(new FileReader(rutaArchivo))) {
             String linea = lector.readLine(); // Leer encabezados
@@ -41,9 +41,19 @@ public class Miembros {
 
                         String adicional1 = campos.length > 5 ? campos[5].trim() : "";
                         String adicional2 = campos.length > 6 ? campos[6].trim() : "";
-                        LocalDate fechaInicio = campos.length > 7
-                                ? LocalDate.parse(campos[7].trim(), formatter)
-                                : null;
+                        LocalDate fechaInicio = null;
+
+                        // Intenta parsear la fecha de inicio con diferentes formatos
+                        for (String formato : new String[] {"dd/MM/yyyy", "yyyy-MM-dd", "yyyy/MM/dd"}) {
+                            try {
+                                fechaInicio = campos.length > 7
+                                        ? LocalDate.parse(campos[7].trim(), DateTimeFormatter.ofPattern(formato))
+                                        : null;
+                                break;
+                            } catch (Exception e) {
+                                // Ignora el error y sigue probando con el siguiente formato
+                            }
+                        }
 
                         Socio socio = new Socio(nombre, direccion, telefono, rfc, tipoMembresia);
                         socio.setUsuarioAdicional1(adicional1);
@@ -68,7 +78,7 @@ public class Miembros {
                 "Adicional 1", "Adicional 2", "Fecha de Inicio", "Fecha de Fin"};
 
         DefaultTableModel tableModel = new DefaultTableModel(columnas, 0);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         for (Socio socio : socios) {
             LocalDate fechaInicio = socio.getFechaInicio();
