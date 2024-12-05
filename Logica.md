@@ -1,8 +1,8 @@
 # Informe Técnico del Archivo Java: Files.java
+
 # Clase Principal: Files
 
 La clase Files se utiliza para gestionar archivos relacionados con los objetos Item y Socio. Permite leer, guardar, y verificar la existencia de estos archivos, además de crear directorios si es necesario.
-
 
 Variables Globales
 
@@ -18,68 +18,61 @@ Variables Globales
         Separador de campos utilizado para procesar los datos en los archivos (",").
 
 Métodos Principales
+
 1. readFileItems()
 
-    Función: Lee datos de un archivo específico y los convierte en una lista de objetos Item.
-    Detalles:
-        Usa un bloque try-with-resources para manejar un BufferedReader, asegurando el cierre del recurso automáticamente.
-        Cada línea se divide utilizando el delimitador, y los datos se asignan a un objeto Item si cumplen con el formato esperado.
-        Maneja excepciones como IOException y NumberFormatException, informando cualquier error.
-    Retorno: Una lista de objetos Item.
-
+   Función: Lee datos de un archivo específico y los convierte en una lista de objetos Item.
+   Detalles:
+   Usa un bloque try-with-resources para manejar un BufferedReader, asegurando el cierre del recurso automáticamente.
+   Cada línea se divide utilizando el delimitador, y los datos se asignan a un objeto Item si cumplen con el formato esperado.
+   Maneja excepciones como IOException y NumberFormatException, informando cualquier error.
+   Retorno: Una lista de objetos Item.
 2. readFileSocios()
 
-    Función: Lee datos de un archivo específico y los convierte en una lista de objetos Socio.
-    Detalles:
-        Similar a readFileItems, utiliza un BufferedReader y procesa cada línea.
-        Configura atributos adicionales (usuarioAdicional1, usuarioAdicional2, fechas, estado y cashback`) si los datos están presentes.
-        Maneja excepciones como IOException e IllegalArgumentException.
-    Retorno: Una lista de objetos Socio.
+   Función: Lee datos de un archivo específico y los convierte en una lista de objetos Socio.
+   Detalles:
+   Similar a readFileItems, utiliza un BufferedReader y procesa cada línea.
+   Configura atributos adicionales (usuarioAdicional1, usuarioAdicional2, fechas, estado y cashback`) si los datos están presentes.
+   Maneja excepciones como IOException e IllegalArgumentException.
+   Retorno: Una lista de objetos Socio.
+3. saveFileItems(List`<Item>` items)
 
-3. saveFileItems(List<Item> items)
+   Función: Escribe una lista de objetos Item en un archivo.
+   Detalles:
+   Utiliza un bloque try-with-resources para manejar un BufferedWriter.
+   Cada objeto Item se serializa en una línea utilizando el delimitador definido.
+   Captura y maneja excepciones de tipo IOException.
+4. saveFileSocios(List`<Socio>` socios)
 
-    Función: Escribe una lista de objetos Item en un archivo.
-    Detalles:
-        Utiliza un bloque try-with-resources para manejar un BufferedWriter.
-        Cada objeto Item se serializa en una línea utilizando el delimitador definido.
-        Captura y maneja excepciones de tipo IOException.
-
-4. saveFileSocios(List<Socio> socios)
-
-    Función: Escribe una lista de objetos Socio en un archivo.
-    Detalles:
-        Similar a saveFileItems, serializa cada objeto Socio en una línea del archivo.
-        Maneja valores opcionales y garantiza que las líneas estén formateadas correctamente.
-        Captura excepciones de tipo IOException.
-
+   Función: Escribe una lista de objetos Socio en un archivo.
+   Detalles:
+   Similar a saveFileItems, serializa cada objeto Socio en una línea del archivo.
+   Maneja valores opcionales y garantiza que las líneas estén formateadas correctamente.
+   Captura excepciones de tipo IOException.
 5. filesExist()
 
-    Función: Verifica la existencia de los archivos de Item y Socio.
-    Detalles:
-        Utiliza las rutas itemsFilePath y sociosFilePath.
-        Retorna un valor booleano que indica si ambos archivos existen.
-
+   Función: Verifica la existencia de los archivos de Item y Socio.
+   Detalles:
+   Utiliza las rutas itemsFilePath y sociosFilePath.
+   Retorna un valor booleano que indica si ambos archivos existen.
 6. createFiles()
 
-    Función: Crea los archivos de Item y Socio si no existen.
-    Detalles:
-        Usa la clase File para comprobar y crear los archivos.
-        Lanza una excepción de tipo IOException si ocurre un error al crear los archivos.
-
+   Función: Crea los archivos de Item y Socio si no existen.
+   Detalles:
+   Usa la clase File para comprobar y crear los archivos.
+   Lanza una excepción de tipo IOException si ocurre un error al crear los archivos.
 7. createDirectories(Path carpetaPath)
 
-    Función: Crea un directorio y sus padres si no existen.
-    Detalles:
-        Comprueba la existencia del directorio usando el método estático exists.
-        Si no existe, intenta crearlo con mkdirs.
-        Lanza una excepción de tipo IOException si falla la creación.
-
+   Función: Crea un directorio y sus padres si no existen.
+   Detalles:
+   Comprueba la existencia del directorio usando el método estático exists.
+   Si no existe, intenta crearlo con mkdirs.
+   Lanza una excepción de tipo IOException si falla la creación.
 8. exists(Path carpetaPath)
 
-    Función: Verifica si un directorio o archivo existe.
-    Detalles:
-        Retorna true si la ruta es válida y el archivo/directorio existe.
-
+   Función: Verifica si un directorio o archivo existe.
+   Detalles:
+   Retorna true si la ruta es válida y el archivo/directorio existe.
 
 Bloques de Código Destacados
 
@@ -92,17 +85,13 @@ Bloques de Código Destacados
     Uso de Métodos Estáticos:
         Métodos como createDirectories y exists facilitan tareas comunes relacionadas con archivos y directorios.
 
-
-
 Notas Finales
 
     La clase Files está diseñada para gestionar de manera robusta y modular los archivos de datos, asegurando la persistencia y la integridad de los objetos Item y Socio.
     Hace un uso eficiente de las herramientas estándar de Java para manejo de archivos y excepciones, lo que refuerza su fiabilidad y legibilidad.
 
-
-
-
 # Reporte Técnico
+
 # Nombre de la Clase: Item
 
 Resumen General:
@@ -124,8 +113,6 @@ Atributos Globales Importantes:
         CARPETA (String): Ruta de la carpeta que contiene los archivos de datos.
         RUTA_ARCHIVO (String): Ruta completa al archivo CSV donde se almacenan los datos de los artículos.
         STOCK_MINIMO (int): Umbral de stock mínimo para generar una alerta.
-
-
 
 Métodos Principales:
 
@@ -167,8 +154,6 @@ Métodos Principales:
         @Override String toString()
             Retorna una representación en formato texto de los datos del artículo.
 
-
-
 Explicación de Bloques Importantes:
 
     Bloque de manejo de archivos:
@@ -184,14 +169,11 @@ Explicación de Bloques Importantes:
         Bloque condicional en existeID:
             Implementa un flujo para detectar la existencia del ID con comprobaciones de línea vacía o encabezados.
 
-
-
 # Reporte Técnico
+
 # Nombre de la Clase: Miembros
 
-
 Esta clase pertenece al paquete Item y se encarga de la gestión de socios, incluyendo lectura y escritura de datos desde/para un archivo CSV, manejo de fechas de membresía, y representación de los datos en una tabla (DefaultTableModel).
-
 
 Variables Globales Más Importantes
 
@@ -199,7 +181,6 @@ Variables Globales Más Importantes
         Tipo: String
         Descripción: Define la ruta del archivo CSV donde se almacenan los datos de los socios.
         Uso: Se utiliza como valor predeterminado para la ruta de los archivos en operaciones de entrada y salida.
-
 
 Métodos Más Importantes
 a) calcularFechaVencimiento
@@ -235,7 +216,7 @@ c) convertirSociosATableModel
     Propósito:
         Convierte una lista de objetos Socio en un modelo de tabla (DefaultTableModel).
     Parámetros:
-        List<Socio> socios: Lista de objetos Socio.
+        List`<Socio>` socios: Lista de objetos Socio.
     Retorno:
         Un objeto DefaultTableModel con las columnas {"Nombre", "Tipo", "Dirección", "Teléfono", "RFC", "Add1", "Add2", "Fecha I.", "Fecha F.", "Cashback"}.
     Detalles Importantes:
@@ -256,8 +237,6 @@ d) guardarTableModelEnArchivo
         Control de errores:
             Maneja posibles errores de escritura con un bloque try-catch.
 
-
-
 Estructuras de Control Relevantes
 a) Bloques try-catch
 
@@ -272,8 +251,6 @@ b) Ciclo para Formatos de Fecha
     Propósito:
         Probar múltiples formatos de fecha para asegurar compatibilidad.
 
-
-
 Resumen del Flujo de Trabajo
 
     Lectura:
@@ -285,13 +262,11 @@ Resumen del Flujo de Trabajo
     Escritura:
         Los datos del DefaultTableModel se guardan nuevamente en un archivo CSV mediante guardarTableModelEnArchivo.
 
-
-
 # Reporte Técnico: Clase Socio
+
 # Nombre de la Clase: Socio
 
 Esta clase pertenece al paquete Item y modela la información y comportamientos asociados a un socio, incluyendo atributos personales, estado de la membresía, fechas importantes, y funcionalidades adicionales como manejo de cashback y renovación.
-
 
 Variables Globales Más Importantes
 
@@ -319,8 +294,6 @@ Variables Globales Más Importantes
         Tipo: double
         Descripción: Monto acumulado en cashback para socios con membresía PREMIUM.
 
-
-
 Enumeración TipoMembresia
 
     Propósito:
@@ -330,8 +303,6 @@ Enumeración TipoMembresia
     Método Importante:
         getCosto:
             Retorna el costo asociado al tipo de membresía.
-
-
 
 Métodos Más Importantes
 a) Constructores
@@ -396,10 +367,6 @@ h) toString
     Propósito:
         Retorna una representación en texto del objeto Socio, incluyendo datos clave como el nombre, tipo de membresía, fecha de renovación y estado.
 
-
-
-
-
 Estructuras de Control Relevantes
 a) Control de Inicialización en Constructores
 
@@ -410,7 +377,6 @@ Bloque switch en convertirAMembresia
 
     Propósito:
         Validar y transformar las cadenas de texto en valores de la enumeración TipoMembresia.
-
 
 Resumen del Flujo de Trabajo
 
