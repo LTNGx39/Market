@@ -40,6 +40,7 @@ Realizar un sistema para el manejo de una tienda por membresía
    - Supervisor
    - Membresias
    - Vendedor
+   - 
 
 ## Extras
 
