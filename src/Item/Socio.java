@@ -33,21 +33,29 @@ public class Socio {
     private TipoMembresia tipoMembresia;
     private double cashback;
 
-    // Constructor
+    // Constructor con todos los parámetros
     public Socio(String nombre, String direccion, String telefono, String rfc, 
-                 TipoMembresia tipoMembresia) {
+                 TipoMembresia tipoMembresia, String usuarioAdicional1, 
+                 String usuarioAdicional2, LocalDate fechaInicio) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.telefono = telefono;
         this.rfc = rfc;
         this.tipoMembresia = tipoMembresia;
-        this.fechaInicio = LocalDate.now();
-        this.fechaRenovacion = fechaInicio.plusYears(1);
+        this.usuarioAdicional1 = usuarioAdicional1;
+        this.usuarioAdicional2 = usuarioAdicional2;
+        this.fechaInicio = fechaInicio != null ? fechaInicio : LocalDate.now();
+        this.fechaRenovacion = this.fechaInicio.plusYears(1);
         this.activa = true;
         this.cashback = 0.0;
     }
 
-    // Getters
+    // Constructor sin los parámetros adicionales (para casos cuando no se tengan)
+    public Socio(String nombre, String direccion, String telefono, String rfc, TipoMembresia tipoMembresia) {
+        this(nombre, direccion, telefono, rfc, tipoMembresia, null, null, LocalDate.now());
+    }
+
+    // Getters y Setters
     public String getNombre() {
         return nombre;
     }
