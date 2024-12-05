@@ -9,6 +9,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Miembros {
     private static final String RUTA_ARCHIVO = "src\\data\\DatosM.csv";
@@ -21,13 +23,13 @@ public class Miembros {
         }
         
         int indiceNombre = findColumnIndex(tableModel, "Nombre");
-        int indiceDireccion = findColumnIndex(tableModel, "Direccion");
-        int indiceTelefono = findColumnIndex(tableModel, "Telefono");
+        int indiceDireccion = findColumnIndex(tableModel, "Dirección");
+        int indiceTelefono = findColumnIndex(tableModel, "Teléfono");
         int indiceRFC = findColumnIndex(tableModel, "RFC");
-        int indiceTipoMembresia = findColumnIndex(tableModel, "TipoMembresia");
-
+        int indiceTipo = findColumnIndex(tableModel, "Tipo");
+    
         if (indiceNombre == -1 || indiceDireccion == -1 || indiceTelefono == -1 ||
-            indiceRFC == -1 || indiceTipoMembresia == -1) {
+            indiceRFC == -1 || indiceTipo == -1) {
             throw new IllegalArgumentException("No se encontraron todas las columnas necesarias");
         }
         
@@ -38,18 +40,18 @@ public class Miembros {
                 String telefono = (String) tableModel.getValueAt(fila, indiceTelefono);
                 String rfc = (String) tableModel.getValueAt(fila, indiceRFC);
                 Socio.TipoMembresia tipoMembresia = 
-                    Socio.TipoMembresia.valueOf(((String) tableModel.getValueAt(fila, indiceTipoMembresia)).toUpperCase());
+                    Socio.TipoMembresia.valueOf(((String) tableModel.getValueAt(fila, indiceTipo)).toUpperCase());
                 
                 Socio socio = new Socio(nombre, direccion, telefono, rfc, tipoMembresia);
                 
-                int indiceUsuario1 = findColumnIndex(tableModel, "UsuarioAdicional1");
-                int indiceUsuario2 = findColumnIndex(tableModel, "UsuarioAdicional2");
+                int indiceAdicional1 = findColumnIndex(tableModel, "Adicional 1");
+                int indiceAdicional2 = findColumnIndex(tableModel, "Adicional 2");
                 
-                if (indiceUsuario1 != -1) {
-                    socio.setUsuarioAdicional1((String) tableModel.getValueAt(fila, indiceUsuario1));
+                if (indiceAdicional1 != -1) {
+                    socio.setUsuarioAdicional1((String) tableModel.getValueAt(fila, indiceAdicional1));
                 }
-                if (indiceUsuario2 != -1) {
-                    socio.setUsuarioAdicional2((String) tableModel.getValueAt(fila, indiceUsuario2));
+                if (indiceAdicional2 != -1) {
+                    socio.setUsuarioAdicional2((String) tableModel.getValueAt(fila, indiceAdicional2));
                 }
                 
                 socios.add(socio);
@@ -63,26 +65,32 @@ public class Miembros {
     
     // Convertir lista de Socios a DefaultTableModel
     public static DefaultTableModel convertirSociosATableModel(List<Socio> socios) {
-        String[] columnas = {"Nombre", "Direccion", "Telefono", "RFC", 
-            "Usuario Adicional 1", "Usuario Adicional 2", 
-            "Tipo Membresía", "Fecha Inicio", "Fecha Renovación", 
-            "Activa", "Cashback"};
+        String[] columnas = {"Nombre", "Tipo", "Dirección", "Teléfono", "RFC", 
+            "Adicional 1", "Adicional 2", "Fecha de Inicio", "Fecha de Fin"};
         
         DefaultTableModel tableModel = new DefaultTableModel(columnas, 0);
         
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+        
         for (Socio socio : socios) {
+            
+            LocalDate fechaInicio = socio.getFechaInicio();
+            String fechaFin = "";
+            
+            if (fechaInicio != null) {
+                fechaFin = fechaInicio.plusYears(1).format(formatter);
+            }
+            
             Object[] fila = {
                 socio.getNombre(),
+                socio.getTipoMembresia().name(),
                 socio.getDireccion(),
                 socio.getTelefono(),
                 socio.getRfc(),
                 socio.getUsuarioAdicional1(),
                 socio.getUsuarioAdicional2(),
-                socio.getTipoMembresia().name(),
-                socio.getFechaInicio(),
-                socio.getFechaRenovacion(),
-                socio.isActiva(),
-                socio.getCashback()
+                fechaInicio != null ? fechaInicio.format(formatter) : "",
+                fechaFin,
             };
             tableModel.addRow(fila);
         }
