@@ -13,6 +13,7 @@ import Item.Miembros;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
+import java.time.LocalDate;
 
 public class FieldFrame extends javax.swing.JFrame {
 
@@ -528,15 +529,16 @@ public class FieldFrame extends javax.swing.JFrame {
                     String aditional1S = aditional1.getField().getText();
                     String aditional2S = aditional2.getField().getText();
                     String startS = start.getField().getText();
+                    String endS = "";
 
                     if (!nameS.equals("") && !typeS.equals("") && !addressS.equals("") && !telS.equals("") && !rfcS.equals("") && !startS.equals("")) {
 
-                        Object[] newRow = new Object[] {nameS, typeS, addressS, telS, rfcS, aditional1S, aditional2S, startS};
+                        Object[] newRow = new Object[] {nameS, typeS, addressS, telS, rfcS, aditional1S, aditional2S, startS, endS};
                         data.addRow(newRow);
                         dispose();
                         shadow.dispose();
 
-                        // Guarda los datos
+                        // Guardar la informacion
                         Miembros.guardarTableModelEnArchivo("src\\data\\DatosM.csv", data);
 
                     }

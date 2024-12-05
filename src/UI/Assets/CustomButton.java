@@ -114,16 +114,29 @@ public class CustomButton extends javax.swing.JButton {
 
                     if (path.equals(BLUE_PFP)) {
 
-                        DefaultTableModel model = mainFrame.getAdmin().getScroll().getModel();
-                        Object[] items = new Object[model.getRowCount()];
+                        /// Lista de items
+                        DefaultTableModel adminModel = mainFrame.getAdmin().getScroll().getModel();
+                        Object[] items = new Object[adminModel.getRowCount()];
 
-                        for (int i = 0; i < model.getRowCount(); i++) {
+                        for (int i = 0; i < adminModel.getRowCount(); i++) {
 
-                            items[i] = model.getValueAt(i, 0) + " - " + model.getValueAt(i, 1);
+                            items[i] = adminModel.getValueAt(i, 0) + " - " + adminModel.getValueAt(i, 1);
+
+                        }
+
+                        // Lista de miembros
+                        DefaultTableModel memberModel = mainFrame.getMembers().getScroll().getModel();
+                        Object[] members = new Object[memberModel.getRowCount()];
+
+                        for (int i = 0; i < memberModel.getRowCount(); i++) {
+
+                            members[i] = memberModel.getValueAt(i, 0) + " - " + memberModel.getValueAt(i, 1);
 
                         }
             
                         mainFrame.getSales().getItemBox().getBox().setModel(new DefaultComboBoxModel<>(items));
+
+                        mainFrame.getSales().getMemberBox().getBox().setModel(new DefaultComboBoxModel<>(members));
 
                     }
 
