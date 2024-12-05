@@ -25,43 +25,43 @@ public class Miembros {
     public static DefaultTableModel leerSociosDesdeArchivo(String rutaArchivo) {
         List<Socio> socios = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
+    
         try (BufferedReader lector = new BufferedReader(new FileReader(rutaArchivo))) {
             String linea = lector.readLine(); // Leer encabezados
-
+    
             while ((linea = lector.readLine()) != null) {
                 String[] campos = linea.split(",");
-                if (campos.length >= 6) {
+                if (campos.length >= 8) {
                     try {
                         String nombre = campos[0].trim();
                         Socio.TipoMembresia tipoMembresia = Socio.convertirAMembresia(campos[1]);
                         String direccion = campos[2].trim();
                         String telefono = campos[3].trim();
                         String rfc = campos[4].trim();
-                        double cashback = Double.parseDouble(campos[5]);
-
-                        String add1 = campos.length > 6 ? campos[6].trim() : "";
-                        String add2 = campos.length > 7 ? campos[7].trim() : "";
+                        String add1 = campos[5].trim();
+                        String add2 = campos[6].trim();
+                        
                         LocalDate fechaInicio = null;
-
                         // Intenta parsear la fecha de inicio con diferentes formatos
                         for (String formato : new String[] {"dd/MM/yyyy", "yyyy-MM-dd", "yyyy/MM/dd"}) {
                             try {
-                                fechaInicio = campos.length > 8
-                                        ? LocalDate.parse(campos[8].trim(), DateTimeFormatter.ofPattern(formato))
+                                fechaInicio = campos.length > 7
+                                        ? LocalDate.parse(campos[7].trim(), DateTimeFormatter.ofPattern(formato))
                                         : null;
                                 break;
                             } catch (Exception e) {
                                 // Ignora el error y sigue probando con el siguiente formato
                             }
                         }
-
+    
+                        double cashback = campos.length > 8 ? Double.parseDouble(campos[8].trim()) : 0.0;
+    
                         Socio socio = new Socio(nombre, direccion, telefono, rfc, tipoMembresia);
                         socio.setUsuarioAdicional1(add1);
                         socio.setUsuarioAdicional2(add2);
                         socio.setFechaInicio(fechaInicio);
                         socio.setCashback(cashback);
-
+    
                         socios.add(socio);
                     } catch (Exception e) {
                         System.err.println("Error procesando línea: " + linea + " | " + e.getMessage());
@@ -71,7 +71,7 @@ public class Miembros {
         } catch (IOException e) {
             System.err.println("Error al leer el archivo: " + e.getMessage());
         }
-
+    
         return convertirSociosATableModel(socios);
     }
 
