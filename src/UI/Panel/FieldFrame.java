@@ -902,6 +902,9 @@ public class FieldFrame extends javax.swing.JFrame {
         private CustomLabel title, text1, text2;
         private CustomButton cancel, accept;
 
+        private double cashback;
+        private int row = 0;
+
         public UseCashback(Sales salesPanel, String name) {
 
             this.salesPanel = salesPanel;
@@ -913,15 +916,16 @@ public class FieldFrame extends javax.swing.JFrame {
 
             // Busca la cantidad de cashback con el nombre dado
             DefaultTableModel memberTable = salesPanel.getMainFrame().getMembers().getScroll().getModel();
-            double cashback = 0;
+            cashback = 0;
             boolean found = false;
 
             // Primero en los nombres de propietarios
             for(int i = 0; i < memberTable.getRowCount(); i++) {
 
                 if (memberTable.getValueAt(i, 0).toString().equals(name)) {
-                    // asigna el cashback
+                    cashback = Double.parseDouble(memberTable.getValueAt(i, 9).toString().replace("$", ""));
                     found = true;
+                    row = i;
                     break;
                 }
 
@@ -932,8 +936,9 @@ public class FieldFrame extends javax.swing.JFrame {
                 for(int i = 0; i < memberTable.getRowCount(); i++) {
 
                     if (memberTable.getValueAt(i, 5).toString().equals(name)) {
-                        // asigna el cashback
+                        cashback = Double.parseDouble(memberTable.getValueAt(i, 9).toString().replace("$", ""));
                         found = true;
+                        row = i;
                         break;
                     }
 
@@ -945,8 +950,9 @@ public class FieldFrame extends javax.swing.JFrame {
                 for(int i = 0; i < memberTable.getRowCount(); i++) {
 
                     if (memberTable.getValueAt(i, 6).toString().equals(name)) {
-                        // asigna el cashback
+                        cashback = Double.parseDouble(memberTable.getValueAt(i, 9).toString().replace("$", ""));
                         found = true;
+                        row = i;
                         break;
                     }
 
@@ -955,10 +961,10 @@ public class FieldFrame extends javax.swing.JFrame {
 
             title = new CustomLabel.Bold("Usar cashback", SwingConstants.CENTER, 20.0F);
             title.setPreferredSize(new Dimension(200, 30));
-            text1 = new CustomLabel.Semi("¿Quiere usar sus $" + name, SwingConstants.CENTER, 16.0F);
+            text1 = new CustomLabel.Semi("¿Quiere usar sus $" + cashback + " de", SwingConstants.CENTER, 16.0F);
             text1.setPreferredSize(new Dimension(280, 30));
             text1.setVerticalAlignment(SwingConstants.BOTTOM);
-            text2 = new CustomLabel.Semi("de cashback?", SwingConstants.CENTER, 16.0F);
+            text2 = new CustomLabel.Semi("cashback y concluir la compra?", SwingConstants.CENTER, 16.0F);
             text2.setPreferredSize(new Dimension(280, 30));
             text2.setVerticalAlignment(SwingConstants.TOP);
 
@@ -981,6 +987,29 @@ public class FieldFrame extends javax.swing.JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
+                    DefaultTableModel memberTable = salesPanel.getMainFrame().getMembers().getScroll().getModel();
+
+                    double total = Double.parseDouble(salesPanel.getTotal().getText().replace("$", ""));
+
+                    if (cashback > 0.0) {
+
+                        if (cashback <= total) {
+
+                            salesPanel.getTotal().setText(String.format("$%.2f", (total - cashback)));
+                            memberTable.setValueAt("$0.0", row, 9);
+
+                        } else {
+
+                            cashback -= total;
+                            salesPanel.getTotal().setText("$0.0");
+                            memberTable.setValueAt("$" + cashback, row, 9);
+
+                        }
+
+                    }
+
+                    salesPanel.getCompleteButton().doClick();
+                    
                     dispose();
                     shadow.dispose();
 

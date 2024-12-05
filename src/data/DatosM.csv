@@ -1,5 +1,5 @@
-Nombre,Tipo,Dirección,Teléfono,RFC,Adicional 1,Adicional 2,Fecha de Inicio,Fecha de Fin
-Pedro,NORMAL,San Claudio,222 947 4821,ABCDEFG,Luis,Marcos,04/12/2024,04/12/25
-Dulce,PREMIUM,Los Heroes,222 415 6367,XYZ,Elizabeth,,24/12/2023,24/12/24
-esf,PREMIUM,efs,esf,efs,pedritoSola,,12/10/2024,
-123,NORMAL,123,132,213,,,03/04/2023,03/04/24
+Nombre,Tipo,Dirección,Teléfono,RFC,Add1,Add2,Fecha I.,Fecha F.,Cashback
+Dulce,PREMIUM,Los Heroes,2223124124,RFC_ABC,Valeria,,04/12/2024,04/12/2025,$1082.63
+Yaneth,NORMAL,Tepito,2225126256,RFC_AAA,,,01/04/2024,01/04/2025,$0.0
+Emilio,NORMAL,La Habana,2226526235,RFC_XXX,Juan,,05/09/2023,05/09/2024,$0.0
+Hernesto,PREMIUM,Juan Pablo II,2225168914,RFC_ABC,Elizabeth,Armando,04/12/2024,04/12/2025,$3.0

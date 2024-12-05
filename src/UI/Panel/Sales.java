@@ -5,6 +5,7 @@ import javax.swing.event.AncestorListener;
 import javax.swing.table.DefaultTableModel;
 
 import Item.Item;
+import Item.Miembros;
 import UI.*;
 import UI.Assets.*;
 
@@ -69,7 +70,7 @@ public class Sales extends javax.swing.JPanel {
 
                 if (member.getBox().getSelectedItem() != null) {
 
-                    String[] name = member.getBox().getSelectedItem().toString().replace(" ", "").split(" - ");
+                    String[] name = member.getBox().getSelectedItem().toString().replace(" ", "").split("-");
 
                     if (name[1].equals("PREMIUM")) {
                         new FieldFrame.UseCashback(Sales.this, name[0]);
@@ -93,6 +94,7 @@ public class Sales extends javax.swing.JPanel {
 
                 if (salesTable.getRowCount() > 0) {
                 
+                    // Reduce el stock de los items
                     for (int a = 0; a < salesTable.getRowCount(); a++) {
 
                         for (int i = 0; i < adminTable.getRowCount(); i++) {
@@ -111,7 +113,59 @@ public class Sales extends javax.swing.JPanel {
 
                     }
 
-                    // Agrega cashback al miembro en cuestion
+                    // Agrega cashback al miembro en cuestion, busca primero al dueño
+                    String[] name = member.getBox().getSelectedItem().toString().replace(" ", "").split("-");
+                    DefaultTableModel memberTable = mainFrame.getMembers().getScroll().getModel();
+
+                    if (name[1].equalsIgnoreCase("premium")) {
+                        
+                        int row = 0;
+                        boolean found = false;
+                        double cashbackD = 0;
+
+                        for(int i = 0; i < memberTable.getRowCount(); i++) {
+
+                            if (memberTable.getValueAt(i, 0).toString().equals(name[0])) {
+                                cashbackD = Double.parseDouble(memberTable.getValueAt(i, 9).toString().replace("$", ""));
+                                found = true;
+                                row = i;
+                                break;
+                            }
+
+                        }
+
+                        // Si no lo encontro, busca en Add1
+                        if (!found) {
+                            for(int i = 0; i < memberTable.getRowCount(); i++) {
+
+                                if (memberTable.getValueAt(i, 5).toString().equals(name[0])) {
+                                    cashbackD = Double.parseDouble(memberTable.getValueAt(i, 9).toString().replace("$", ""));
+                                    found = true;
+                                    row = i;
+                                    break;
+                                }
+
+                            }
+                        }
+
+                        // Si no lo encontro, busca en Add2
+                        if (!found) {
+                            for(int i = 0; i < memberTable.getRowCount(); i++) {
+
+                                if (memberTable.getValueAt(i, 6).toString().equals(name[0])) {
+                                    cashbackD = Double.parseDouble(memberTable.getValueAt(i, 9).toString().replace("$", ""));
+                                    found = true;
+                                    row = i;
+                                    break;
+                                }
+
+                            }
+                        }
+
+                        cashbackD += totalValue * 0.05;
+                        memberTable.setValueAt(String.format("$%.2f", cashbackD), row, 9);
+
+                    }
 
                     // Limpia los datos
                     cleanTable();
@@ -120,6 +174,9 @@ public class Sales extends javax.swing.JPanel {
 
                     // Guarda la tabla con los nuevos datos
                     Item.guardarItems(adminTable);
+
+                    // Guarda los datos de los miembros
+                    Miembros.guardarTableModelEnArchivo("src\\data\\DatosM.csv", memberTable);
 
                 }
 
@@ -380,6 +437,14 @@ public class Sales extends javax.swing.JPanel {
 
     public CustomScroll getScroll() {
         return scroll;
+    }
+
+    public CustomLabel getTotal() {
+        return total;
+    }
+
+    public CustomButton.Option getCompleteButton() {
+        return complete;
     }
 
 }
