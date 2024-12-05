@@ -668,7 +668,7 @@ public class FieldFrame extends javax.swing.JFrame {
             DefaultTableModel data = memberPanel.getScroll().getModel();
 
             // Configuracion de componentes
-            title = new CustomLabel.Bold("Añadir miembro", SwingConstants.CENTER, 20.0F);
+            title = new CustomLabel.Bold("Editar miembro", SwingConstants.CENTER, 20.0F);
             title.setPreferredSize(new Dimension(200, 30));
 
             name = new CustomField("Nombre:");
@@ -824,7 +824,7 @@ public class FieldFrame extends javax.swing.JFrame {
             setLayout(new GridBagLayout());
             data = memberPanel.getScroll().getModel();
 
-            title = new CustomLabel.Bold("Eliminar item", SwingConstants.CENTER, 20.0F);
+            title = new CustomLabel.Bold("Eliminar miembro", SwingConstants.CENTER, 20.0F);
             title.setPreferredSize(new Dimension(200, 30));
             text1 = new CustomLabel.Semi("¿Esta seguro que quiere eliminar", SwingConstants.CENTER, 16.0F);
             text1.setPreferredSize(new Dimension(280, 30));
@@ -855,6 +855,9 @@ public class FieldFrame extends javax.swing.JFrame {
                     dispose();
                     shadow.dispose();
                     data.removeRow(row);
+
+                    // Guardar la informacion
+                    Miembros.guardarTableModelEnArchivo("src\\data\\DatosM.csv", data);
 
                 }
 
@@ -995,20 +998,23 @@ public class FieldFrame extends javax.swing.JFrame {
 
                         if (cashback <= total) {
 
+                            salesPanel.setTotalValue(total - cashback);
                             salesPanel.getTotal().setText(String.format("$%.2f", (total - cashback)));
                             memberTable.setValueAt("$0.0", row, 9);
 
                         } else {
 
                             cashback -= total;
+                            salesPanel.setTotalValue(0.0);
                             salesPanel.getTotal().setText("$0.0");
                             memberTable.setValueAt("$" + cashback, row, 9);
+                            salesPanel.getCompleteButton().doClick();
 
                         }
 
                     }
 
-                    salesPanel.getCompleteButton().doClick();
+                    // salesPanel.getCompleteButton().doClick();
                     
                     dispose();
                     shadow.dispose();

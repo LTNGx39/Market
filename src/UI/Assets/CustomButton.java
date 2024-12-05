@@ -7,6 +7,7 @@ import javax.swing.table.DefaultTableModel;
 
 import java.awt.*;
 import java.awt.geom.*;
+import java.time.LocalDate;
 import java.awt.event.*;
 
 public class CustomButton extends javax.swing.JButton {
@@ -130,7 +131,7 @@ public class CustomButton extends javax.swing.JButton {
 
                         // Obtiene el tamaño del arreglo
                         for (int i = 0; i < memberModel.getRowCount(); i++) {
-
+                        
                             cantidadSocios++;
 
                             if (!memberModel.getValueAt(i, 5).toString().equals("")) {
@@ -139,7 +140,7 @@ public class CustomButton extends javax.swing.JButton {
 
                             if (!memberModel.getValueAt(i, 6).toString().equals("")) {
                                 cantidadSocios++;
-                            }
+                            }     
 
                         }
 

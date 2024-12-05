@@ -443,6 +443,10 @@ public class Sales extends javax.swing.JPanel {
         return total;
     }
 
+    public void setTotalValue(double value) {
+        totalValue = value;
+    }
+
     public CustomButton.Option getCompleteButton() {
         return complete;
     }
