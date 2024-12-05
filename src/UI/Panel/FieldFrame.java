@@ -571,16 +571,16 @@ public class FieldFrame extends javax.swing.JFrame {
 
                     String[] date = startS.split("/");
                     if (date[0].length() < 2) {
-                        date[0] += "0";
+                        date[0] = "0" + date[0];
                     }
                     if (date[1].length() < 2) {
-                        date[1] += "0";
+                        date[1] = "0" + date[1];
                     }
+                    startS = String.join("/", date);
                     
-                    String[] values = startS.split("/");
-                    String endS = values[0] + "/" + values[1] + "/" + (Integer.parseInt(values[2]) + 1);
+                    String endS = date[0] + "/" + date[1] + "/" + (Integer.parseInt(date[2]) + 1);
 
-                    String cashbackS = "%0";
+                    String cashbackS = "$0";
 
                     if (!nameS.equals("") && !typeS.equals("") && (typeS.equalsIgnoreCase("premium") || typeS.equalsIgnoreCase("normal")) && !addressS.equals("") && !telS.equals("") && !rfcS.equals("") && !startS.equals("")) {
 
@@ -725,18 +725,21 @@ public class FieldFrame extends javax.swing.JFrame {
 
                     String[] date = startS.split("/");
                     if (date[0].length() < 2) {
-                        date[0] += "0";
+                        date[0] = "0" + date[0];
                     }
                     if (date[1].length() < 2) {
-                        date[1] += "0";
+                        date[1] = "0" + date[1];
                     }
+                    startS = String.join("/", date);
                     
-                    String[] values = startS.split("/");
-                    String endS = values[0] + "/" + values[1] + "/" + (Integer.parseInt(values[2]) + 1);
+                    String endS = date[0] + "/" + date[1] + "/" + (Integer.parseInt(date[2]) + 1);
+
+                    double cashback = Double.parseDouble(memberPanel.getScroll().getModel().getValueAt(row, 9).toString().replace("$", ""));
+                    String cashbackS = String.format("$%.2f", cashback);
 
                     if (!nameS.equals("") && !typeS.equals("") && !addressS.equals("") && !telS.equals("") && !rfcS.equals("") && !startS.equals("")) {
 
-                        Object[] newRow = new Object[] {nameS, typeS, addressS, telS, rfcS, aditional1S, aditional2S, startS, endS};
+                        Object[] newRow = new Object[] {nameS, typeS, addressS, telS, rfcS, aditional1S, aditional2S, startS, endS, cashbackS};
                         data.removeRow(row);
                         data.insertRow(row, newRow);
                         dispose();

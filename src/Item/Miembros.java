@@ -116,7 +116,7 @@ public class Miembros {
                     socio.getUsuarioAdicional2(),
                     fechaInicio != null ? fechaInicio.format(formatter) : "",
                     fechaFin,
-                    socio.getCashback()
+                    "$" + socio.getCashback()
             };
             tableModel.addRow(fila);
         }
