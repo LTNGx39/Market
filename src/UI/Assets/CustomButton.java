@@ -144,19 +144,25 @@ public class CustomButton extends javax.swing.JButton {
                         }
 
                         Object[] members = new Object[cantidadSocios];
-
-                        boolean owner = true;
                         int row = 0;
-                        for (int i = 0; i < memberModel.getRowCount(); i++) {
 
-                            if (owner) {
-                                members[i] = memberModel.getValueAt(i, 0) + " - " + memberModel.getValueAt(row, 1);
-                                owner = false;
-                            } else if (!memberModel.getValueAt(i, 5).toString().equals("")) {
-                                members[i] = memberModel.getValueAt(i, 5) + " - " + memberModel.getValueAt(row, 1);
-                            } else if (!memberModel.getValueAt(i, 6).toString().equals("")) {
-                                members[i] = memberModel.getValueAt(i, 6) + " - " + memberModel.getValueAt(row, 1);
+                        for (int i = 0; i < cantidadSocios; i++) {
+
+                            members[i] = memberModel.getValueAt(row, 0) + " - " + memberModel.getValueAt(row, 1);
+
+                            int x = i;
+                            if (!memberModel.getValueAt(row, 5).toString().equals("")) {
+                                x += 1;
+                                members[x] = memberModel.getValueAt(row, 5) + " - " + memberModel.getValueAt(row, 1);
                             }
+
+                            if (!memberModel.getValueAt(row, 6).toString().equals("")) {
+                                x += 1;
+                                members[x] = memberModel.getValueAt(row, 6) + " - " + memberModel.getValueAt(row, 1);
+                            }
+
+                            i = x;
+                            row++;
 
                         }
             

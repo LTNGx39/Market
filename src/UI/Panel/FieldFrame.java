@@ -45,6 +45,19 @@ public class FieldFrame extends javax.swing.JFrame {
         }
         
     };
+
+    protected KeyAdapter letter = new KeyAdapter() {
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+
+            if (!Character.isLetter(e.getKeyChar()) && e.getKeyChar() != ' ') {
+                e.consume();
+            }
+
+        }
+        
+    };
     
     protected KeyAdapter digit = new KeyAdapter() {
 
@@ -52,6 +65,19 @@ public class FieldFrame extends javax.swing.JFrame {
         public void keyTyped(KeyEvent e) {
 
             if (!Character.isDigit(e.getKeyChar())) {
+                e.consume();
+            }
+
+        }
+        
+    };
+
+    protected KeyAdapter slash = new KeyAdapter() {
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+
+            if (!Character.isDigit(e.getKeyChar()) && e.getKeyChar() != '/') {
                 e.consume();
             }
 
@@ -118,6 +144,7 @@ public class FieldFrame extends javax.swing.JFrame {
             discount = new CustomField("Descuento:");
             stock = new CustomField("Stock:");
 
+            name.getField().addKeyListener(letter);
             id.getField().addKeyListener(digit);
             buy.getField().addKeyListener(money);
             sell.getField().addKeyListener(money);
@@ -265,6 +292,7 @@ public class FieldFrame extends javax.swing.JFrame {
             stock = new CustomField("Stock:");
             stock.getField().setText("" + data.getValueAt(row, 6));
 
+            name.getField().addKeyListener(letter);
             id.getField().addKeyListener(digit);
             buy.getField().addKeyListener(money);
             sell.getField().addKeyListener(money);
@@ -502,6 +530,17 @@ public class FieldFrame extends javax.swing.JFrame {
             aditional2 = new CustomField("Adicional 2:");
             start = new CustomField("Fecha de inicio:");
 
+            name.getField().addKeyListener(letter);
+            type.getField().addKeyListener(letter);
+            tel.getField().addKeyListener(digit);
+            aditional1.getField().addKeyListener(letter);
+            aditional2.getField().addKeyListener(letter);
+            start.getField().addKeyListener(slash);
+
+            String date = "" + LocalDate.now();
+            String[] dates = date.split("-");
+            start.getField().setText("" + dates[2] + "/" + dates[1] + "/" + dates[0]);
+
             cancel = new CustomButton.Decision(120, 40, "Cancelar");
             cancel.addActionListener(new ActionListener() {
                         
@@ -529,7 +568,17 @@ public class FieldFrame extends javax.swing.JFrame {
                     String aditional1S = aditional1.getField().getText();
                     String aditional2S = aditional2.getField().getText();
                     String startS = start.getField().getText();
-                    String endS = "";
+
+                    String[] date = startS.split("/");
+                    if (date[0].length() < 2) {
+                        date[0] += "0";
+                    }
+                    if (date[1].length() < 2) {
+                        date[1] += "0";
+                    }
+                    
+                    String[] values = startS.split("/");
+                    String endS = values[0] + "/" + values[1] + "/" + (Integer.parseInt(values[2]) + 1);
 
                     if (!nameS.equals("") && !typeS.equals("") && !addressS.equals("") && !telS.equals("") && !rfcS.equals("") && !startS.equals("")) {
 
@@ -636,6 +685,13 @@ public class FieldFrame extends javax.swing.JFrame {
             aditional2.getField().setText("" + data.getValueAt(row, 6));
             start = new CustomField("Fecha de inicio:");
             start.getField().setText("" + data.getValueAt(row, 7));
+
+            name.getField().addKeyListener(letter);
+            type.getField().addKeyListener(letter);
+            tel.getField().addKeyListener(digit);
+            aditional1.getField().addKeyListener(letter);
+            aditional2.getField().addKeyListener(letter);
+            start.getField().addKeyListener(slash);
 
             cancel = new CustomButton.Decision(120, 40, "Cancelar");
             cancel.addActionListener(new ActionListener() {
@@ -783,6 +839,134 @@ public class FieldFrame extends javax.swing.JFrame {
                     dispose();
                     shadow.dispose();
                     data.removeRow(row);
+
+                }
+
+            });
+
+            // Adicion de los componentes
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.fill = GridBagConstraints.BOTH;
+
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            gbc.gridwidth = 2;
+            gbc.insets = new Insets(0, 0, 15, 0);
+            add(title, gbc);
+
+            gbc.gridy = 1;
+            gbc.insets = new Insets(0, 0, 0, 0);
+            add(text1, gbc);
+
+            gbc.gridy = 2;
+            gbc.insets = new Insets(0, 0, 20, 0);
+            add(text2, gbc);
+
+            gbc.gridy = 3;
+            gbc.gridwidth = 1;
+            gbc.insets = new Insets(0, 10, 0, 10);
+            add(cancel, gbc);
+
+            gbc.gridx = 1;
+            add(accept, gbc);
+
+            setVisible(true);
+
+        }
+
+    }
+
+    // ----------------------------------------------------------------------------------------------------
+
+    public static class UseCashback extends FieldFrame {
+
+        private Sales salesPanel;
+
+        private DefaultTableModel data;
+        private CustomLabel title, text1, text2;
+        private CustomButton cancel, accept;
+
+        public UseCashback(Sales salesPanel, String name) {
+
+            this.salesPanel = salesPanel;
+            shadow = new Shadow(salesPanel.getMainFrame(), this);
+            setSize(322, 202);
+            setGeneralSettings(salesPanel.getMainFrame());
+            setLayout(new GridBagLayout());
+            data = salesPanel.getScroll().getModel();
+
+            // Busca la cantidad de cashback con el nombre dado
+            DefaultTableModel memberTable = salesPanel.getMainFrame().getMembers().getScroll().getModel();
+            double cashback = 0;
+            boolean found = false;
+
+            // Primero en los nombres de propietarios
+            for(int i = 0; i < memberTable.getRowCount(); i++) {
+
+                if (memberTable.getValueAt(i, 0).toString().equals(name)) {
+                    // asigna el cashback
+                    found = true;
+                    break;
+                }
+
+            }
+
+            // Si no lo encontro, busca en Add1
+            if (!found) {
+                for(int i = 0; i < memberTable.getRowCount(); i++) {
+
+                    if (memberTable.getValueAt(i, 5).toString().equals(name)) {
+                        // asigna el cashback
+                        found = true;
+                        break;
+                    }
+
+                }
+            }
+
+            // Si no lo encontro, busca en Add2
+            if (!found) {
+                for(int i = 0; i < memberTable.getRowCount(); i++) {
+
+                    if (memberTable.getValueAt(i, 6).toString().equals(name)) {
+                        // asigna el cashback
+                        found = true;
+                        break;
+                    }
+
+                }
+            }
+
+            title = new CustomLabel.Bold("Usar cashback", SwingConstants.CENTER, 20.0F);
+            title.setPreferredSize(new Dimension(200, 30));
+            text1 = new CustomLabel.Semi("¿Quiere usar sus $" + name, SwingConstants.CENTER, 16.0F);
+            text1.setPreferredSize(new Dimension(280, 30));
+            text1.setVerticalAlignment(SwingConstants.BOTTOM);
+            text2 = new CustomLabel.Semi("de cashback?", SwingConstants.CENTER, 16.0F);
+            text2.setPreferredSize(new Dimension(280, 30));
+            text2.setVerticalAlignment(SwingConstants.TOP);
+
+            cancel = new CustomButton.Decision(120, 40, "Cancelar");
+            cancel.addActionListener(new ActionListener() {
+                        
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    dispose();
+                    shadow.dispose();
+
+                }
+
+            });
+
+            accept = new CustomButton.Decision(120, 40, "Aceptar");
+            accept.addActionListener(new ActionListener() {
+                
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    dispose();
+                    shadow.dispose();
 
                 }
 

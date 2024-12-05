@@ -1,0 +1,5 @@
+Nombre,Tipo,Dirección,Teléfono,RFC,Adicional 1,Adicional 2,Fecha de Inicio,Fecha de Fin
+Pedro,NORMAL,San Claudio,222 947 4821,ABCDEFG,Luis,Marcos,04/12/2024,04/12/25
+Dulce,PREMIUM,Los Heroes,222 415 6367,XYZ,Elizabeth,,24/12/2023,24/12/24
+esf,PREMIUM,efs,esf,efs,pedritoSola,,12/10/2024,
+123,NORMAL,123,132,213,,,03/04/2023,03/04/24

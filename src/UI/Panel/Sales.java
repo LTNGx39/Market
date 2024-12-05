@@ -1,6 +1,7 @@
 package UI.Panel;
 
 import javax.swing.*;
+import javax.swing.event.AncestorListener;
 import javax.swing.table.DefaultTableModel;
 
 import Item.Item;
@@ -19,13 +20,14 @@ public class Sales extends javax.swing.JPanel {
     private CustomScroll scroll;
     private CustomCombo member, item;
     private CustomLabel text, total;
-    private CustomButton.Option reset, complete;
+    private CustomButton.Option reset, cashback, complete;
     private CustomButton.Decision delete, add;
 
     private double totalValue = 0;
     
     public Sales(MainFrame mainFrame) {
 
+        this.mainFrame = mainFrame;
         setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
         setLayout(new GridBagLayout());
         setOpaque(false);
@@ -58,6 +60,19 @@ public class Sales extends javax.swing.JPanel {
             }
 
         }); 
+
+        cashback = new CustomButton.Option(180, 50, "Usar cashback");
+        cashback.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String[] name = member.getBox().getSelectedItem().toString().split(" - ");
+                new FieldFrame.UseCashback(Sales.this, name[0]);
+
+            }
+
+        });
 
         complete = new CustomButton.Option(180, 50, "Completar venta");
         complete.addActionListener(new ActionListener() {
@@ -112,7 +127,7 @@ public class Sales extends javax.swing.JPanel {
             public void actionPerformed(ActionEvent e) {
 
                 // Extrae el id del item desde el checkbox y obtiene los detalles del mismo
-                String[] itemId = item.getBox().getSelectedItem().toString().replace(" - ", " ").split(" ");
+                String[] itemId = item.getBox().getSelectedItem().toString().replace(" ", "").split("-");
                 String[] itemData = Item.obtenerDetallesItem(itemId[1]);
 
                 // Modelos para verificaciones
@@ -179,7 +194,7 @@ public class Sales extends javax.swing.JPanel {
                 DefaultTableModel itemsModel = mainFrame.getAdmin().getScroll().getModel();
 
                 // Extrae el id del item desde el checkbox y obtiene los detalles del mismo
-                String[] itemId = item.getBox().getSelectedItem().toString().replace(" - ", " ").split(" ");
+                String[] itemId = item.getBox().getSelectedItem().toString().replace(" ", "").split("-");
                 String[] itemData = Item.obtenerDetallesItem(itemId[1]);
 
                 int cantidad = 0;
@@ -304,17 +319,21 @@ public class Sales extends javax.swing.JPanel {
         // En el panel
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth = 2;
+        gbc.gridwidth = 3;
         gbc.insets = new Insets(0, 0, 40, 0);
         add(container, gbc);
 
         gbc.gridy = 1;
         gbc.gridwidth = 1;
-        gbc.insets = new Insets(0, 165, 0, 15);
+        gbc.insets = new Insets(0, 60, 0, 0);
         add(reset, gbc);
 
         gbc.gridx = 1;
-        gbc.insets = new Insets(0, 15, 0, 165);
+        gbc.insets = new Insets(0, 30, 0, 30);
+        add(cashback, gbc);
+
+        gbc.gridx = 2;
+        gbc.insets = new Insets(0, 0, 0, 60);
         add(complete, gbc);
 
     }
@@ -338,6 +357,14 @@ public class Sales extends javax.swing.JPanel {
 
     public CustomCombo getItemBox() {
         return item;
+    }
+
+    public MainFrame getMainFrame() {
+        return mainFrame;
+    }
+
+    public CustomScroll getScroll() {
+        return scroll;
     }
 
 }
