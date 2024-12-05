@@ -37,7 +37,7 @@ public class Miembros {
                         String direccion = campos[1].trim();
                         String telefono = campos[2].trim();
                         String rfc = campos[3].trim();
-                        Socio.TipoMembresia tipoMembresia = Socio.TipoMembresia.valueOf(campos[4].toUpperCase().trim());
+                        Socio.TipoMembresia tipoMembresia = Socio.convertirAMembresia(campos[4]);
 
                         String adicional1 = campos.length > 5 ? campos[5].trim() : "";
                         String adicional2 = campos.length > 6 ? campos[6].trim() : "";
@@ -45,7 +45,11 @@ public class Miembros {
                                 ? LocalDate.parse(campos[7].trim(), formatter)
                                 : null;
 
-                        Socio socio = new Socio(nombre, direccion, telefono, rfc, tipoMembresia, adicional1, adicional2, fechaInicio);
+                        Socio socio = new Socio(nombre, direccion, telefono, rfc, tipoMembresia);
+                        socio.setUsuarioAdicional1(adicional1);
+                        socio.setUsuarioAdicional2(adicional2);
+                        socio.setFechaInicio(fechaInicio);
+
                         socios.add(socio);
                     } catch (Exception e) {
                         System.err.println("Error procesando línea: " + linea + " | " + e.getMessage());
