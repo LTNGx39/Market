@@ -3,17 +3,25 @@ package Item;
 import javax.swing.table.DefaultTableModel;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Miembros {
     private static final String RUTA_ARCHIVO = "src\\data\\DatosM.csv";
+    
+    // Método para calcular la fecha de vencimiento
+    public static String calcularFechaVencimiento(LocalDate fechaInicio) {
+        if (fechaInicio == null) {
+            return "";
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+        return fechaInicio.plusYears(1).format(formatter);
+    }
     
     // Convertir DefaultTableModel a lista de objetos Socio
     public static List<Socio> convertirTableModelASocios(DefaultTableModel tableModel) {
@@ -73,13 +81,8 @@ public class Miembros {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
         
         for (Socio socio : socios) {
-            
             LocalDate fechaInicio = socio.getFechaInicio();
-            String fechaFin = "";
-            
-            if (fechaInicio != null) {
-                fechaFin = fechaInicio.plusYears(1).format(formatter);
-            }
+            String fechaFin = calcularFechaVencimiento(fechaInicio);
             
             Object[] fila = {
                 socio.getNombre(),
@@ -102,34 +105,34 @@ public class Miembros {
     public static DefaultTableModel leerSociosDesdeArchivo(String rutaArchivo) {
         List<Socio> socios = new ArrayList<>();
     
-    try (BufferedReader lector = new BufferedReader(new FileReader(rutaArchivo))) {
-        String linea = lector.readLine(); // Leer encabezados
-        
-        while ((linea = lector.readLine()) != null) {
-            String[] campos = linea.split(",");
-            if (campos.length >= 7) {
-                try {
-                    String nombre = campos[0];
-                    String direccion = campos[1];
-                    String telefono = campos[2];
-                    String rfc = campos[3];
-                    Socio.TipoMembresia tipoMembresia = Socio.TipoMembresia.valueOf(campos[4].toUpperCase());
-                    
-                    Socio socio = new Socio(nombre, direccion, telefono, rfc, tipoMembresia);
-                    if (campos.length > 7) {
-                        socio.setCashback(Double.parseDouble(campos[7]));
+        try (BufferedReader lector = new BufferedReader(new FileReader(rutaArchivo))) {
+            String linea = lector.readLine(); // Leer encabezados
+            
+            while ((linea = lector.readLine()) != null) {
+                String[] campos = linea.split(",");
+                if (campos.length >= 7) {
+                    try {
+                        String nombre = campos[0];
+                        String direccion = campos[1];
+                        String telefono = campos[2];
+                        String rfc = campos[3];
+                        Socio.TipoMembresia tipoMembresia = Socio.TipoMembresia.valueOf(campos[4].toUpperCase());
+                        
+                        Socio socio = new Socio(nombre, direccion, telefono, rfc, tipoMembresia);
+                        if (campos.length > 7) {
+                            socio.setCashback(Double.parseDouble(campos[7]));
+                        }
+                        socios.add(socio);
+                    } catch (Exception e) {
+                        System.err.println("Error procesando línea: " + linea + " | " + e.getMessage());
                     }
-                    socios.add(socio);
-                } catch (Exception e) {
-                    System.err.println("Error procesando línea: " + linea + " | " + e.getMessage());
                 }
             }
+        } catch (IOException e) {
+            System.err.println("Error al leer el archivo: " + e.getMessage());
         }
-    } catch (IOException e) {
-        System.err.println("Error al leer el archivo: " + e.getMessage());
+        return convertirSociosATableModel(socios);
     }
-    return convertirSociosATableModel(socios);
-}
     
     // Guardar DefaultTableModel en un archivo CSV
     public static void guardarTableModelEnArchivo(String rutaArchivo, DefaultTableModel tableModel) {
@@ -152,12 +155,10 @@ public class Miembros {
                 escritor.newLine();
             }
         } catch (IOException e) {
-            // Manejo de la excepción: mostrar el error en la consola
             System.err.println("Error al guardar el archivo: " + e.getMessage());
             e.printStackTrace(); // Para ver la traza completa del error
         }
     }
-    
     
     // Buscar índice de columna
     private static int findColumnIndex(DefaultTableModel tableModel, String nombreColumna) {
